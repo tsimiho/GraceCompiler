@@ -28,7 +28,7 @@ int lineno = 1;
 L [A-Za-z]
 D [0-9]
 W [ \t\r]
-C [\0\\\'\"]
+E [\0\\\'\"]
 
 %x COMMENT
 
@@ -54,12 +54,13 @@ C [\0\\\'\"]
 "var"     { return T_var; }
 "while"   { return T_while; }
 
-[\=\+\-\*\/\%\(\)\#\<\>\[\]\{\}\,\;\:\-\\\"\'\0] { return yytext[0]; }
+[\=\+\-\*\(\)\#\<\>\[\]\{\}\,\;\:] { return yytext[0]; }
 
 
 {L}({L}|{D}|\_)*	{ return T_id; }
 {D}+	{ return T_const; }
-\'({L}|{D}|{W}|{C})\' { return T_const; }
+\x{D}{D} {return T_const; }
+\'({L}|{D}|{W}|{E})\' { return T_const; }
 \"(\\.|[^"\\])*\" { return T_const; }
 
 \n	{ ++lineno; }
