@@ -1,12 +1,5 @@
 {
-type token =
-  | T_eof | T_and | T_char | T_div | T_do | T_else | T_fun | T_if
-  | T_int | T_mod | T_not | T_nothing | T_or | T_ref | T_return
-  | T_then | T_var | T_while | T_id | T_const 
-  | T_eq | T_lparen | T_rparen | T_plus | T_minus | T_times
-  | T_less | T_more | T_lbrack | T_rbrack | T_lbrace | T_rbrace
-  | T_hash | T_comma | T_semicolon | T_colon
-
+open Parser
 
 let lines = ref 1
 
@@ -20,22 +13,22 @@ let escape = ['\\' '\'' '\"']
 
 rule lexer = parse
   | "and"	    { T_and }
-  | "char"	    { T_char }
+  | "char"	  { T_char }
   | "div"	    { T_div }
   | "do"	    { T_do }
-  | "else"	    { T_else }
+  | "else"	  { T_else }
   | "fun"	    { T_fun }
   | "if"	    { T_if }
   | "int"	    { T_int }
   | "mod"	    { T_mod }
-  | "not"           { T_not }
-  | "nothing"       { T_nothing }
-  | "or"            { T_or }
-  | "ref"           { T_ref }
-  | "return"        { T_return }
-  | "then"          { T_then }
-  | "var"           { T_var }
-  | "while"         { T_while }
+  | "not"     { T_not }
+  | "nothing" { T_nothing }
+  | "or"      { T_or }
+  | "ref"     { T_ref }
+  | "return"  { T_return }
+  | "then"    { T_then }
+  | "var"     { T_var }
+  | "while"   { T_while }
 
   | letter (letter|digit|'_')*  { T_id }
 

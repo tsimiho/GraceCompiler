@@ -39,4 +39,3 @@ clean:
 
 distclean: clean
 	$(RM) minibasic$(EXE) .depend
-
