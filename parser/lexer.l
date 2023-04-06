@@ -1,27 +1,10 @@
+%option noyywrap
+
 %{
-#define T_eof     0
-#define T_and     1000
-#define T_char    1001
-#define T_div     1002
-#define T_do      1003
-#define T_else    1004
-#define T_fun     1005
-#define T_if      1006
-#define T_int     1007
-#define T_mod     1008
-#define T_not     1009
-#define T_nothing 1010
-#define T_or      1011
-#define T_ref     1012
-#define T_return  1013
-#define T_then    1014
-#define T_var     1015
-#define T_while   1016
-#define T_prod    1017
-
-#define T_id      1018
-#define T_const   1019
-
+#include <cstdio>
+#include <cstdlib>
+#include "lexer.hpp"
+#include "parser.hpp"
 
 int lineno = 1;
 %}
@@ -32,8 +15,6 @@ W [ \t\r]
 E [\\\'\"]
 
 %x COMMENT
-
-%option noyywrap
 
 %%
 
