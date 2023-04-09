@@ -1,10 +1,11 @@
 %option noyywrap
-
 %{
 #include <cstdio>
 #include <cstdlib>
 #include "lexer.hpp"
 #include "parser.hpp"
+
+#define T_eof   0
 
 int lineno = 1;
 %}
@@ -35,16 +36,18 @@ E [\\\'\"]
 "then"    { return T_then; }
 "var"     { return T_var; }
 "while"   { return T_while; }
-"<-"      { return T_prod }
+"<-"      { return T_prod; }
+"<="      { return T_leq; }
+">="      { return T_geq; }
 
 [\=\+\-\*\(\)\#\<\>\[\]\{\}\,\;\:] { return yytext[0]; }
 
 
 {L}({L}|{D}|\_)*	{ return T_id; }
-{D}+	{ return T_const; }
-\x{D}{D} {return T_const; }
-\'({L}|{D}|{W}|{E}|(\\0)|(\\x{D}({D}|{L})))\' { return T_const; }
-\"({E}|(\\\0)|(\\x{D}({D}|{L}))|[^\'\"\\\n])*\" { return T_const; }
+{D}+	{ return T_int_const; }
+\x{D}{D} {return T_char_const; }
+\'({L}|{D}|{W}|{E}|(\\0)|(\\x{D}({D}|{L})))\' { return T_char_const; }
+\"({E}|(\\\0)|(\\x{D}({D}|{L}))|[^\'\"\\\n])*\" { return T_string_literal; }
 
 
 \n	{ ++lineno; }
@@ -59,11 +62,7 @@ E [\\\'\"]
 
 %%
 
-int main() {
-  int token;
-  do {
-    token = yylex();
-    printf("token = %d, lexeme = \"%s\"\n", token, yytext);
-  } while(token != T_eof);
-  return 0;
+void yyerror(const char *msg) {
+  fprintf(stderr, "%s\n", msg);
+  exit(1);
 }

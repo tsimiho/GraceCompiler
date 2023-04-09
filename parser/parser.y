@@ -1,3 +1,5 @@
+%define parse.error verbose
+
 %{
 #include <cstdio>
 #include "lexer.hpp"
@@ -20,12 +22,20 @@
 %token T_then    "then"
 %token T_var     "var"
 %token T_while   "while"
+%token T_leq     "<="
+%token T_geq     ">="
 %token T_prod    "<-"
 %token T_id
-%token T_const
+%token T_int_const
+%token T_char_const
+%token T_string_literal
 
-%left '+' '-'
+
+%left T_or
+%left T_and
+%nonassoc T_not
 %left '*' '/' T_div T_mod
+%left '+' '-'
 
 %expect 1
 
@@ -46,15 +56,17 @@ local-def-list:
 
 header:
   "fun" T_id '(' fpar-def semi-fpar-def-list ')' ':' ret-type
+| "fun" T_id '(' ')' ':' ret-type
 ;
 
 semi-fpar-def-list:
   /* nothing */
-| semi-fpar-def-list ';' fpar-def
+| ';' fpar-def semi-fpar-def-list
 ;
 
 fpar-def:
   "ref" T_id comma-id-list ':' fpar-type
+|  T_id comma-id-list ':' fpar-type
 ;
 
 comma-id-list:
@@ -69,7 +81,7 @@ data-type:
 
 bracket-int-const-list:
   /* nothing */
-| bracket-int-const-list '[' T_int ']'
+| '[' T_int_const ']' bracket-int-const-list
 ;
 
 ret-type:
@@ -78,9 +90,8 @@ ret-type:
 ;
 
 fpar-type:
-  data-type
-| '[' ']'
-| bracket-int-const-list
+  data-type '[' ']' bracket-int-const-list
+| data-type bracket-int-const-list
 ;
 
 type:
@@ -129,18 +140,18 @@ func-call:
 
 comma-expr-list:
   /* nothing */
-| comma-expr-list ';' expr
+| comma-expr-list ',' expr
 ;
 
 l-value:
   T_id
-| T_const
+| T_string_literal
 | l-value '[' expr ']'
 ;
 
 expr:
-  T_int
-| T_char
+  T_int_const
+| T_char_const
 | l-value
 | '(' expr ')'
 | func-call
@@ -162,8 +173,8 @@ cond:
 | expr '#' expr
 | expr '<' expr
 | expr '>' expr
-| expr ">=" expr
 | expr "<=" expr
+| expr ">=" expr
 ;
 
 %%

@@ -3,7 +3,7 @@
 CXX=c++
 CXXFLAGS=-Wall
 
-default: minibasic
+default: grace
 
 lexer.cpp: lexer.l
 	flex -s -o lexer.cpp lexer.l
@@ -15,8 +15,8 @@ parser.hpp parser.cpp: parser.y
 
 parser.o: parser.cpp lexer.hpp
 
-minibasic: lexer.o parser.o
-	$(CXX) $(CXXFLAGS) -o minibasic lexer.o parser.o
+grace: lexer.o parser.o
+	$(CXX) $(CXXFLAGS) -o grace lexer.o parser.o
 
 clean:
 	$(RM) lexer.cpp parser.cpp parser.hpp parser.output *.o
