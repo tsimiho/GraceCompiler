@@ -1,0 +1,31 @@
+fun n() : int
+fun d(c : int[10]) : nothing;
+fun n(ref main, a, g : int[][37]; ref i : char[]; ref k, d, m : char[]; ref k : char[]) : nothing
+fun i(f : int[5][25]; baz : char[]; y, baz, j : char[][13][29]; ref k, e, z : int[][36]) : nothing
+
+{
+  {
+
+};
+}
+
+
+{
+  z <- + 33;
+  foo <- + '7';
+}
+
+var h, bar : char[7][9];
+
+{
+  main();
+  while 15 > '\'' do i <- '\'';
+  {
+  y(+ (y()), (('7' - 'a')), boo);
+  y(- ((+ 34)), ((20)), (a()));
+  f(foo[+ 'a'], + "Name:\t\"DouglasAdams\"\nValue:\t42\n");
+  if '\n' = 'a' then ;
+  c(((+ 1) mod ((13 + 'a'))), - ((foo(('a' - 10), main(x)))));
+};
+  if 20 < '\'' then ;
+}
