@@ -1,0 +1,16 @@
+fun y(i, boo : int[]; baz, f, foo : char[11]; z, g, f : int[]; ref y : char[14]) : nothing
+
+{
+  return;
+  {
+  if 4 <= 28 then if 11 < '7' then {
+  ;
+  ;
+} else if 20 # '\n' then d <- '\''; else ;
+  ;
+  foo((i div (('a' - 23))), (f));
+};
+  {
+
+};
+}

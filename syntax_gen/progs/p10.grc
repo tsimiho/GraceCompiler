@@ -1,0 +1,114 @@
+fun foo(e : char[]; ref n, d : char[][33][28]; baz, main : int[]; ref j : int[]) : nothing
+fun i(foo, j : int[]; ref l, e : char[12][30]) : nothing
+fun h() : nothing
+fun b(y : int[]; ref n : char[][32]; ref f, main : int[]) : int
+fun x(ref main, n : int; l : char[][6][5]) : nothing
+fun baz(ref h, baz, f : int; ref foo : char; ref bar, foo : int[11]) : int
+
+{
+
+}
+
+fun e(ref n, k, e : char[]; ref a, m : int[][28]) : nothing;
+var i, x : char;
+
+{
+  return (9 - '7');
+  if '7' >= 36 then while 10 # '7' do while 'a' = 'a' do foo(11); else b <- 28;
+}
+
+fun main(a : int[]; b : int[]; i, foo, b : char[][15][11]; i : int[]) : char
+fun f(ref g : char[]) : nothing;
+var z : int;
+
+{
+  while 29 > 'a' do ;
+  ;
+  g();
+}
+
+fun g(ref j, bar : char[][40][7]; k : int[17]) : nothing
+var g, a : char[17];
+var bar, f, boo : int;
+
+{
+
+}
+
+
+{
+  if '\n' <= 18 then c <- 'a';
+  if 41 # 'a' then if 28 <= 35 then b(42, '\n'); else while '7' = 23 do if '7' >= 1 then if 37 = '\'' then a <- 11; else {
+  b();
+  while '7' = '\n' do while 26 # 31 do while 5 > 33 do return '\n';
+  while 'a' > 5 do {
+
+};
+  ;
+}; else while 'a' < 38 do {
+
+};
+}
+
+
+{
+  bar <- ('7' - 36);
+  while '\n' = 25 do m <- 33;
+  y <- baz();
+  b(+ m, - (((- '\'') * (- 23))));
+}
+
+fun b(i, j : char; j, a, h : int[]; z : int[]) : nothing;
+var z : char;
+
+{
+  z(- n, b(- (("Name:\t\"DouglasAdams\"\nValue:\t42\n")), - (+ ((1)))), f(main, g, (- '\'')));
+  return;
+  {
+
+};
+  while '7' = 32 do ;
+  if '\n' # 14 then return 22;
+}
+
+
+{
+  if '\'' > '\n' then m(z, ('7'), g); else foo(- 'a', baz);
+  if '\n' # 37 then if 8 = 'a' then while 38 = 'a' do while 28 < 27 do return 37; else {
+
+}; else bar(k, + 30, ('\n'));
+  {
+
+};
+  i <- "foo"[14];
+  {
+  {
+  if '\n' = 33 then return; else while '\'' >= 'a' do {
+  if 32 >= 37 then while '\'' > 31 do if 7 # '7' then {
+  boo(x);
+  c <- ('7');
+  ;
+  while 27 < '7' do ;
+}; else if 6 <= 33 then ; else return '7'; else i(- 29, + 'a');
+};
+  return (35);
+  ;
+  ;
+};
+  while '\'' < '\n' do if '\'' >= 'a' then ; else return;
+  j(+ (((42 + 4))), - (b(((- 14) * e), (+ '\''), y)), l());
+  "Name:\t\"DouglasAdams\"\nValue:\t42\n" <- (0);
+  {
+  y <- b;
+  while 'a' >= 26 do ;
+  while '7' <= 'a' do while 'a' = 28 do b <- '\n';
+  {
+  return;
+  if 14 > 26 then ;
+  ;
+  ;
+  k();
+};
+};
+};
+}

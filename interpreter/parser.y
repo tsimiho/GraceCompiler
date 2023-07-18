@@ -2,7 +2,13 @@
 
 %{
 #include <cstdio>
+#include <iostream>
+#include <string>
 #include "lexer.hpp"
+#include "ast.hpp"
+
+SymbolTable st;
+std::vector<int> rt_stack;
 %}
 
 %token T_and     "and"
@@ -39,10 +45,23 @@
 
 %expect 1
 
+%union {
+  Block *block;
+  Stmt *stmt;
+  Expr *expr;
+  std::string var;
+  int num;
+  char op;
+}
+
+/* %type<block> program stmt_list
+%type<stmt>  stmt
+%type<expr>  expr */
+
 %%
 
 program:
-  func-def
+  func-def /* { $1->run(); } */
 ;
 
 func-def:
@@ -113,15 +132,15 @@ var-def:
 ;
 
 stmt:
-  ';'
-| l-value "<-" expr ';'
+';'                                  { /* $$ = nullptr */ }
+| l-value "<-" expr ';'              { $$ = new Assign($1, $3); }
 | block
 | func-call ';'
-| "if" cond "then" stmt "else" stmt
-| "if" cond "then" stmt
-| "while" cond "do" stmt
-| "return" ';'
-| "return" expr ';'
+| "if" cond "then" stmt              { $$ = new If($2, $4); }
+| "if" cond "then" stmt "else" stmt  { $$ = new If($2, $4, $6); }
+| "while" cond "do" stmt             { $$ = new While($2, $4); }
+| "return" ';'                       { $$ = new Return(); }
+| "return" expr ';'                  { $$ = new Return($2); }
 ;
 
 block:
@@ -130,7 +149,7 @@ block:
 
 stmt-list:
   /* nothing */
-| stmt stmt-list 
+| stmt-list stmt
 ;
 
 func-call:
@@ -150,31 +169,31 @@ l-value:
 ;
 
 expr:
-  T_int_const
-| T_char_const
+  T_int_const     { $$ = new IntConst($1); }
+| T_char_const    { $$ = new CharConst($1); }
 | l-value
-| '(' expr ')'
+| '(' expr ')'    { $$ = $2; }
 | func-call
 | '+' expr
 | '-' expr
-| expr '+' expr
-| expr '-' expr
-| expr '*' expr
-| expr "div" expr
-| expr "mod" expr
+| expr '+' expr   { $$ = new BinOp($1, $2, $3); }
+| expr '-' expr   { $$ = new BinOp($1, $2, $3); }
+| expr '*' expr   { $$ = new BinOp($1, $2, $3); }
+| expr "div" expr { $$ = new BinOp($1, $2, $3); }
+| expr "mod" expr { $$ = new BinOp($1, $2, $3); }
 ;
 
 cond:
-  '(' cond ')'
+  '(' cond ')'     { $$ = $2 }
 | "not" cond
 | cond "and" cond
 | cond "or" cond
-| expr '=' expr
-| expr '#' expr
-| expr '<' expr
-| expr '>' expr
-| expr "<=" expr
-| expr ">=" expr
+| expr '=' expr    { $$ = new Cond($1, $2, $3); }
+| expr '#' expr    { $$ = new Cond($1, $2, $3); }
+| expr '<' expr    { $$ = new Cond($1, $2, $3); }
+| expr '>' expr    { $$ = new Cond($1, $2, $3); }
+| expr "<=" expr   { $$ = new Cond($1, $2, $3); }
+| expr ">=" expr   { $$ = new Cond($1, $2, $3); }
 ;
 
 %%

@@ -2,6 +2,7 @@
 %{
 #include <cstdio>
 #include <cstdlib>
+#include "ast.hpp"
 #include "lexer.hpp"
 #include "parser.hpp"
 
@@ -40,14 +41,14 @@ E [\\\'\"]
 "<="      { return T_leq; }
 ">="      { return T_geq; }
 
-[\=\+\-\*\(\)\#\<\>\[\]\{\}\,\;\:] { return yytext[0]; }
+[\=\+\-\*\(\)\#\<\>\[\]\{\}\,\;\:] { yylval.op = yytext[0]; return yytext[0]; }
 
 
-{L}({L}|{D}|\_)*	{ return T_id; }
-{D}+	{ return T_int_const; }
-\x{D}{D} {return T_char_const; }
-\'({L}|{D}|\\{W}|\\{E}|(\\0)|(\\n)|(\\x{D}({D}|{L})))\' { return T_char_const; }
-\"({E}|(\\\0)|(\\x{D}({D}|{L}))|[^\'\"\\\n])*\" { return T_string_literal; }
+{L}({L}|{D}|\_)*	{ yylval.var = yytext; return T_id; }
+{D}+	{ yylval.num = atoi(yytext); return T_int_const; }
+\x{D}{D} { yylval.var = yytext; return T_char_const; }
+\'({L}|{D}|\\{W}|\\{E}|(\\0)|(\\n)|(\\x{D}({D}|{L})))\' { yylval.var = yytext[0]; return T_char_const; }
+\"({E}|(\\\0)|(\\x{D}({D}|{L}))|[^\'\"\\\n])*\" { yylval.var = yytext; return T_string_literal; }
 
 
 \n	{ ++lineno; }
