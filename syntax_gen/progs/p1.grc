@@ -1,4 +1,39 @@
-fun a(f, c : char[32][26]; e, m, b : int; ref n : int[][13]; ref a, d : int; ref main, bar, x : int[][20][21]) : nothing
+fun f(ref baz : int[]; ref b, c, f : int; foo : char; c : int[]) : nothing
+fun main(y, n, c : char[8]; f, y, h : int[]; g, n : char[][6][11]; ref e : char; d : int[]) : nothing
+
+{
+  {
+  {
+  ;
+  {
+  "bar" <- (40);
+  {
+  b((((33 * 35)) - ((38))), y);
+  k <- (29 mod 7);
+}
+  {
+  while '7' # '\n' do ;
+  {
+  ;
+  {
+  if 22 > '7' then ; else return;
+  if 19 >= '\n' then a <- '7';
+}
+  ;
+}
+  i <- k();
+  return - '\n';
+}
+  ;
+}
+}
+}
+  if 11 = '\n' then ;
+  "foo" <- baz(- '\n');
+}
+
+fun j() : nothing;
+var z : int;
 
 {
 

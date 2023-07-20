@@ -1,16 +1,8 @@
-fun y(i, boo : int[]; baz, f, foo : char[11]; z, g, f : int[]; ref y : char[14]) : nothing
+fun f(main : int[][21]; ref n, y : int[][4]; ref g, m : char[]; m, foo : int[]) : nothing
 
 {
-  return;
-  {
-  if 4 <= 28 then if 11 < '7' then {
+  while 19 = '\'' do main();
+  if '7' < '\'' then j <- 14;
   ;
-  ;
-} else if 20 # '\n' then d <- '\''; else ;
-  ;
-  foo((i div (('a' - 23))), (f));
-};
-  {
-
-};
+  x[18] <- ('\n' * '7');
 }

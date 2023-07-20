@@ -1,69 +1,14 @@
-fun bar(j : int[][3]; boo, j : int[27][32]; h, m, main : int) : int
-fun main(ref foo, h, y : int[36]; bar : int; x, bar, boo : char[]) : int;
-fun k(j, x, g : char; l, h : int; ref y, h, bar : char; ref g, m : char[]) : nothing
-fun main(baz, j : int[]; ref boo, h, h : int[]; l, z, c : int; ref y, main : int[]) : nothing
-fun k(ref d, x : int[][41]; m, f : int[]; ref b, n, n : int[]; ref e, z, x : char[22]) : char;
-fun m(boo : char; x, main : int; ref a, baz, d : char[]) : char;
-fun m(g, n, g : int; a, g, z : int[]; j, bar, i : int) : nothing
-var z : char[19];
+fun i(z : char[]) : nothing
+fun boo(baz : int[][29]) : int
 
 {
-  return g();
+  if 19 < '7' then main <- 7;
+  return main();
 }
 
+var boo, h, d : int;
+var main, c : char[21];
 
 {
-  while '\n' <= 'a' do baz((29), ('\''));
-  x(((8)), "foo");
-  if '\n' <= 3 then ;
-  c(+ ((+ '7')), - (b()));
-  {
-  {
-  z(+ ((((40 mod 10)) div ((8)))), (('\n' - '\'')), ((('7' - 35)) + (+ 27)));
-  e((z - d), (f(- 14)));
-};
-};
-}
-
-
-{
-  while 'a' < 'a' do {
-  b((- '\n'), ((11 div 'a')), ((x(('\n' mod '7'), (37))) - bar));
-  g <- (39 - '7');
-  return ('\'' * 23);
-  m(- ((i div (bar(a, ('a'), l(c, e(z(- '\''), (13 mod '7'))))))), (d(k, ('\n' + '7'), (7))));
-  d <- (41 mod 22);
-};
-  return;
-  return;
-}
-
-
-{
-  if 'a' > 6 then ; else while '\n' >= '7' do k();
-  if 8 >= 11 then {
-  ;
-  return ('\'');
-}; else {
-  {
-  if '\'' = '\'' then ; else baz['7']['7'] <- 'a';
-  {
-  if 35 > 1 then return '\n';
-  {
-  f <- g;
-  {
-
-};
-};
-  if 24 > '\'' then ; else baz(+ 17);
-  if 'a' > '7' then if 'a' <= 29 then ; else {
-  ;
-  boo(boo(a, (- '7'), h));
-}; else n((10 * '\n'), ('a'));
-};
-};
-  while '7' < 'a' do l <- 'a';
-  h <- (3);
-};
-  m(- (- ((13 mod 21))), k(), (main + (('\''))));
+  while 9 <= '\'' do ;
 }

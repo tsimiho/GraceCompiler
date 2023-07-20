@@ -1,7 +1,6 @@
-fun x(ref boo, b : int[][0][8]) : int
-fun f(l, d, d : char[][22]) : char;
-var g, d, e : int;
+fun e() : int
 
 {
-
+  if 37 = 1 then main(baz); else return;
+  return (24);
 }

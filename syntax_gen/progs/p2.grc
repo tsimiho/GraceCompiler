@@ -1,31 +1,41 @@
-fun n() : int
-fun d(c : int[10]) : nothing;
-fun n(ref main, a, g : int[][37]; ref i : char[]; ref k, d, m : char[]; ref k : char[]) : nothing
-fun i(f : int[5][25]; baz : char[]; y, baz, j : char[][13][29]; ref k, e, z : int[][36]) : nothing
+fun k(ref c, baz, a : int; ref f, f : int) : char
+fun n(n : char[22]; c, j, a : char[29]; x, y : char[][31]) : int
 
 {
-  {
+  g();
+  baz <- c((6), m(), + 5);
+  while '\n' < '7' do {
+  ;
+}
+  m(- l, k());
+  while 29 # '\n' do ;
+}
 
-};
+fun y(ref z : int; bar, e : int[]; m : int[39]; ref bar, main : int[][36]) : nothing;
+fun boo(l, i : char; n, k, l : char[]; ref k : int[]) : char
+fun z(ref b, f : int[16]) : nothing
+
+{
+  if 'a' = '\'' then x((23 mod 38), h['a'], + 7);
+  return;
+}
+
+fun c(ref f : char[]; ref boo : char[][5][28]; main : int[][19]; ref baz, f, c : char[29][40]; ref main, x : char[][34]) : nothing
+
+{
+
 }
 
 
 {
-  z <- + 33;
-  foo <- + '7';
+  {
+  return + '\n';
+}
 }
 
-var h, bar : char[7][9];
 
 {
-  main();
-  while 15 > '\'' do i <- '\'';
-  {
-  y(+ (y()), (('7' - 'a')), boo);
-  y(- ((+ 34)), ((20)), (a()));
-  f(foo[+ 'a'], + "Name:\t\"DouglasAdams\"\nValue:\t42\n");
-  if '\n' = 'a' then ;
-  c(((+ 1) mod ((13 + 'a'))), - ((foo(('a' - 10), main(x)))));
-};
-  if 20 < '\'' then ;
+  n();
+  if '7' = 2 then return; else while '\'' >= 5 do return;
+  return e;
 }

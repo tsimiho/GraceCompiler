@@ -1,7 +1,36 @@
-fun y(e, d, b : char[]; ref main, c : char[][32]; e, i, e : int[][30]; c, g : char[]) : int
-var x : char[38];
-fun e() : nothing;
+fun y(ref foo : char[][38]; k, i : int; ref z : int) : nothing
+var a : char;
+var main, bar, boo : char;
+fun k() : int
+fun f(baz, main : int[]; l, c, j : int[4][23]; ref foo, y : int[][1]) : int;
+fun baz(ref k, h : char[12]; e : int[][23]; f, main : int[]) : char;
 
 {
+  {
+  ;
+  ;
+  ;
+  if '\n' = 31 then f[5] <- 27; else while 4 <= '\n' do {
+  ;
+  {
+  ;
+}
+}
+}
+  h();
+  ;
+  while 'a' <= 'a' do ;
+  if 'a' >= 5 then while 36 > 19 do {
+  while 10 <= '\'' do ;
+  c <- (7);
+  ;
+} else f <- 'a';
+}
 
+
+{
+  return;
+  bar(bar, bar);
+  boo((((34)) + ((41 * '7'))), bar());
+  ;
 }
