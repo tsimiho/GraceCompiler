@@ -1558,13 +1558,5 @@ and __ocaml_lex_comment_rec lexbuf __ocaml_lex_state =
       | T_const     -> "T_const"
 
 
-  let main =
-    let lexbuf = Lexing.from_channel stdin in
-    let rec loop () =
-      let token = lexer lexbuf in
-      Printf.printf "token = %s, lexeme = \"%s\"\n"
-        (string_of_token token) (Lexing.lexeme lexbuf);
-      if token <> T_eof then loop () in
-    loop ()
 
-# 1571 "Lexer.ml"
+# 1563 "Lexer.ml"

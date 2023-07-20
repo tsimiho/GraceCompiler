@@ -1,4 +1,5 @@
-fun a(f, c : char[32][26]; e, m, b : int; ref n : int[][13]; ref a, d : int; ref main, bar, x : int[][20][21]) : nothing
+fun x(ref k, y : char) : char
+fun e() : char;
 
 {
 

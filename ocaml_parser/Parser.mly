@@ -35,8 +35,11 @@
 %token T_semicolon
 %token T_colon
 
-%left T_plus T_minus
-%left T_times
+%left T_or
+%left T_and
+%nonassoc T_not
+%left '*' '/' T_div T_mod
+%left '+' '-'
 
 %start program
 %type <unit> program
@@ -46,20 +49,94 @@
 
 %%
 
-program: stmt_list T_eof { () }
+program: func-def
 
-stmt_list: /* nothing */ { () }
-          | stmt stmt_list { () }
+func-def: header local-def-list block
 
-stmt: T_print expr { () }
-      | T_let T_var T_eq expr { () }
-  	  | T_for expr T_do stmt { () }
-	  | T_begin stmt_list T_end { () }
-	  | T_if expr T_then stmt { () }
+local-def-list: /* nothing */
+                | local-def-list local-def
 
-expr: T_const { () }
-      | T_var { () }
-	  | T_lparen expr T_rparen { () }
-	  | expr T_plus expr { () }
-	  | expr T_minus expr { () }
-	  | expr T_times expr { () }
+header: "fun" T_id '(' fpar-def semi-fpar-def-list ')' ':' ret-type
+        | "fun" T_id '(' ')' ':' ret-type
+
+semi-fpar-def-list: /* nothing */
+                    | ';' fpar-def semi-fpar-def-list
+
+fpar-def: "ref" T_id comma-id-list ':' fpar-type
+          |  T_id comma-id-list ':' fpar-type
+
+
+comma-id-list: /* nothing */
+               | comma-id-list ',' T_id
+
+data-type: "int"
+           | "char"
+
+bracket-int-const-list: /* nothing */bin 
+                        | '[' T_int_const ']' bracket-int-const-list
+
+ret-type: data-type
+          | "nothing"
+
+fpar-type: data-type '[' ']' bracket-int-const-list
+           | data-type bracket-int-const-list
+
+type: data-type bracket-int-const-list
+
+local-def: func-def
+           | func-decl
+           | var-def
+
+func-decl: header ';'
+
+var-def: "var" T_id comma-id-list ':' type ';'
+
+stmt: ';'                                  { /* $$ = nullptr */ }
+      | l-value "<-" expr ';'              { $$ = new Assign($1, $3); }
+      | block
+      | func-call ';'
+      | "if" cond "then" stmt              { $$ = new If($2, $4); }
+      | "if" cond "then" stmt "else" stmt  { $$ = new If($2, $4, $6); }
+      | "while" cond "do" stmt             { $$ = new While($2, $4); }
+      | "return" ';'                       { $$ = new Return(); }
+      | "return" expr ';'                  { $$ = new Return($2); }
+
+
+block: '{' stmt-list '}'
+
+stmt-list: /* nothing */
+           | stmt-list stmt
+
+func-call: T_id '(' ')'
+           | T_id '(' expr comma-expr-list ')'
+
+comma-expr-list: /* nothing */
+                 | comma-expr-list ',' expr
+
+l-value: T_id
+         | T_string_literal
+         | l-value '[' expr ']'
+
+expr: T_int_const     { $$ = new IntConst($1); }
+      | T_char_const    { $$ = new CharConst($1); }
+      | l-value
+      | '(' expr ')'    { $$ = $2; }
+      | func-call
+      | '+' expr
+      | '-' expr
+      | expr '+' expr   { $$ = new BinOp($1, $2, $3); }
+      | expr '-' expr   { $$ = new BinOp($1, $2, $3); }
+      | expr '*' expr   { $$ = new BinOp($1, $2, $3); }
+      | expr "div" expr { $$ = new BinOp($1, $2, $3); }
+      | expr "mod" expr { $$ = new BinOp($1, $2, $3); }
+
+cond: '(' cond ')'     { $$ = $2 }
+      | "not" cond
+      | cond "and" cond
+      | cond "or" cond
+      | expr '=' expr    { $$ = new Cond($1, $2, $3); }
+      | expr '#' expr    { $$ = new Cond($1, $2, $3); }
+      | expr '<' expr    { $$ = new Cond($1, $2, $3); }
+      | expr '>' expr    { $$ = new Cond($1, $2, $3); }
+      | expr "<=" expr   { $$ = new Cond($1, $2, $3); }
+      | expr ">=" expr   { $$ = new Cond($1, $2, $3); }

@@ -9,10 +9,10 @@
 readonly ERL=/home/tsimiho/otp/bin/erl
 export ERL_LIBS=/home/tsimiho/proper
 
-${ERL}c -pa ${ERL_LIBS}/ebin +debug_info *.erl
+${ERL}c -pa ${ERL_LIBS}/ebin +debug_info ./*.erl
 
 mkdir -p progs
-for i in $(seq 1 $1)
+for i in $(seq 1 "$1")
 do
-  $ERL -noshell -noinput -s grace_pp p -s erlang halt > progs/p$i.grc
+  $ERL -noshell -noinput -s grace_pp p -s erlang halt > progs/p"$i".grc
 done
