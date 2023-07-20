@@ -20,15 +20,15 @@ E [\\\'\"]
 
 %%
 
-"and"	    { return T_and; }
+"and"     { return T_and; }
 "char"	  { return T_char; }
-"div"	    { return T_div; }
-"do"	    { return T_do; }
+"div"     { return T_div; }
+"do"      { return T_do; }
 "else"	  { return T_else; }
-"fun"	    { return T_fun; }
-"if"	    { return T_if; }
-"int"	    { return T_int; }
-"mod"	    { return T_mod; }
+"fun"     { return T_fun; }
+"if"      { return T_if; }
+"int"     { return T_int; }
+"mod"     { return T_mod; }
 "not"     { return T_not; }
 "nothing" { return T_nothing; }
 "or"      { return T_or; }
@@ -37,7 +37,7 @@ E [\\\'\"]
 "then"    { return T_then; }
 "var"     { return T_var; }
 "while"   { return T_while; }
-"<-"      { return T_prod; }
+"<-"      { return T_prod }
 "<="      { return T_leq; }
 ">="      { return T_geq; }
 
