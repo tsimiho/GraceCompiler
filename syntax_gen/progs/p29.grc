@@ -1,0 +1,20 @@
+fun l() : nothing
+var z, baz, k : int[12];
+fun x(baz : int[][1]; z : char[]; ref d, baz, boo : int; f : int[][24]; j, k : int) : nothing
+var l : char;
+fun baz(n : char[]) : nothing;
+var boo, k, e : int;
+
+{
+  ;
+  return;
+  ;
+  ;
+}
+
+fun d(y, baz, l : int; ref boo : char[]; ref a : char[][29]) : char;
+
+{
+  m(g());
+  ;
+}

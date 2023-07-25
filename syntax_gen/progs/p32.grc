@@ -1,0 +1,7 @@
+fun boo(ref l : int[][41]; g : char[]) : char
+
+{
+  {
+
+}
+}

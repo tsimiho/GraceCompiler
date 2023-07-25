@@ -1,0 +1,17 @@
+fun d(ref foo, bar : int[]; n, main, bar : int[]; ref a, d : char) : char
+fun baz(c, j : char[][6][20]; ref i, d : int[11]; baz : int[12]; ref d : int; m, x : int[14]) : nothing
+
+{
+
+}
+
+fun d() : nothing
+
+{
+  ;
+}
+
+
+{
+
+}

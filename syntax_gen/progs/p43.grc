@@ -1,0 +1,13 @@
+fun x(ref n, foo, n : char; ref j, z, k : char; ref x, boo : char) : nothing
+fun x(ref f, a : int[3]; baz, z, i : int[][5]; ref j, l, y : int[4]; ref y, j : int[40]; foo, m : int[]) : char
+
+{
+  ;
+  return baz;
+  f <- + 42;
+}
+
+
+{
+
+}

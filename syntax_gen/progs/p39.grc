@@ -1,0 +1,65 @@
+fun i(ref boo : char[][9]; ref c : int[][23]; a : char[][4][0]; i : char[]) : int
+fun e(bar, l, main : char[]; ref baz, c, l : char[]; ref n, x : int[]; ref z : int[]; c : char) : int
+fun h(ref e : int[]; y, y, k : int[]; f : int[]) : char
+fun m(ref k : char[]; z, main : char[7][33]) : char;
+fun l(ref b : int[]; x : char) : char
+fun a(i : int[7]; g, e : char[]; ref i, b, i : char[7][25]) : nothing;
+
+{
+  f <- h();
+}
+
+fun a(c, y, g : int; ref main : int[41]; b : char[]; ref c : int[][40][35]; bar, boo : char) : char
+fun baz(ref bar, foo : char) : nothing;
+fun b(ref k, z : char[][14][36]; ref f, h : int[28]; m, j, foo : int[]) : nothing
+
+{
+  e("Route66", - (((l[13]) - baz)), ((3 mod 13)));
+  {
+  return;
+  ;
+  ;
+  ;
+  bar <- d();
+}
+  {
+  h((((42)) mod (c(boo(('7' * '7'), ('7' div 2), (12 - 40)), - 35, ('7')))), g);
+}
+  return foo;
+}
+
+fun d() : nothing;
+
+{
+  while '\n' # '\'' do if '\'' > '\n' then ;
+}
+
+
+{
+  ;
+  baz(- (- ((20))), (((19)) - (l())));
+  ;
+}
+
+
+{
+  "Name:\t\"DouglasAdams\"\nValue:\t42\n" <- h(x(), - 15);
+  ;
+  {
+  g <- ('\'');
+  if 6 < 23 then while '\'' <= '\n' do if '\n' = '\n' then while '\'' < 'a' do return '\'';
+  if 30 <= '7' then while '\'' < 18 do return 31;
+}
+  {
+
+}
+  "bar" <- + 20;
+}
+
+
+{
+  if 12 <= '\'' then m(foo("Route66"), ('a'), ('\n' * '7')); else {
+
+}
+  while 42 >= 12 do while 42 >= 22 do while 25 < 37 do while 13 <= 'a' do while 1 < '\n' do "bar" <- 'a';
+}

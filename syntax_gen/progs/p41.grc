@@ -1,0 +1,11 @@
+fun x(ref z, y : int; ref a, n, l : char[]) : int
+
+{
+  if 21 # '\'' then {
+  f(boo(((26)), ((3)), c()));
+  foo();
+  {
+
+}
+}
+}

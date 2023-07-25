@@ -1,14 +1,18 @@
-fun i(z : char[]) : nothing
-fun boo(baz : int[][29]) : int
+fun g(ref bar, z : int[]; n, b : char; ref i : char[][32]; e, baz, m : char[]) : nothing
+fun boo() : nothing;
+fun n(l, e : int[][16]; b : char[][6][42]) : nothing
 
 {
-  if 19 < '7' then main <- 7;
-  return main();
+  if 30 # '\n' then h <- 18; else foo <- 11;
+  return;
+  return;
 }
 
-var boo, h, d : int;
-var main, c : char[21];
 
 {
-  while 9 <= '\'' do ;
+  i <- "foo"[34];
+  while 20 = '\n' do ;
+  c();
+  ;
+  f(- ((x mod (('a' * 8)))), ((26 - '\'')));
 }

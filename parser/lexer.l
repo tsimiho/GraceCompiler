@@ -36,7 +36,7 @@ E [\\\'\"]
 "then"    { return T_then; }
 "var"     { return T_var; }
 "while"   { return T_while; }
-"<-"      { return T_prod }
+"<-"      { return T_prod; }
 "<="      { return T_leq; }
 ">="      { return T_geq; }
 
@@ -46,8 +46,8 @@ E [\\\'\"]
 {L}({L}|{D}|\_)*	{ return T_id; }
 {D}+	{ return T_int_const; }
 \x{D}{D} {return T_char_const; }
-\'({L}|{D}|\\{W}|\\{E}|(\\0)|(\\n)|(\\x{D}({D}|{L})))\' { return T_char_const; }
-\"({E}|(\\\0)|(\\x{D}({D}|{L}))|[^\'\"\\\n])*\" { return T_string_literal; }
+\'({L}|{D}|{W}|{E}|(\\0)|(\\x{D}({D}|{L}))|(\\n)|(\\'))\' { return T_char_const; }
+\"({E}|(\\\0)|(\\.)|(\\x{D}({D}|{L}))|[^\'\"\\\n])*\" { return T_string_literal; }
 
 
 \n	{ ++lineno; }

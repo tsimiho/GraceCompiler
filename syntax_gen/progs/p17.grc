@@ -1,0 +1,50 @@
+fun f(x : char; ref j, b, bar : char; main, g : int[]) : int
+fun y(foo, m : int[4]; k, a : int[35]; baz, f, i : char; ref n, foo : int[]; ref n, foo : char[38]) : int
+fun e(y, b : char[30]; k, m, baz : int[]) : nothing;
+var k, m, b : int[34][22];
+fun m(h : int[22]; ref a, l : int; ref n : char[][21]) : nothing
+fun a() : int;
+var k, j : char;
+
+{
+
+}
+
+
+{
+  ;
+  y[20] <- baz;
+}
+
+fun b(main : int) : nothing;
+
+{
+  while 32 # '\'' do {
+
+}
+  {
+  while '\'' # 31 do return '\n';
+  "foo" <- (31);
+  ;
+}
+  while '7' <= '\'' do if 2 = 41 then if 37 # 3 then {
+  return;
+  if 'a' >= '\n' then d(b, - '\n', - 'a'); else ;
+  ;
+} else while 9 >= '\'' do {
+  ;
+  return;
+} else {
+  ;
+  ;
+  z(+ (h(c)), baz, "Name:\t\"DouglasAdams\"\nValue:\t42\n");
+  if 21 # 4 then if '\n' > '7' then {
+  ;
+  while 'a' >= '\'' do d((14 mod 36), - 38, "Route66"[15][38]);
+  ;
+  l <- n(foo(a, e), g((8), foo(('a')), (9)));
+  while '7' # '\'' do i <- 18;
+} else return;
+}
+  c();
+}

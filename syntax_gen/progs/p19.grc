@@ -1,0 +1,5 @@
+fun d(y, k : char; c : char[8]) : char
+
+{
+
+}

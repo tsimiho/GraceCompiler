@@ -1,0 +1,6 @@
+fun baz(ref a : char[]; a, d, b : char[]; l, j : char[39]) : nothing
+var y : int;
+
+{
+  while 'a' > '\'' do main((25));
+}

@@ -1,0 +1,11 @@
+fun k(ref f : int[11]; k : int) : char
+fun z(bar, foo : char[]; x : char[]) : char
+
+{
+
+}
+
+
+{
+  ;
+}

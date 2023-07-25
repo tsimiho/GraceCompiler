@@ -1,40 +1,61 @@
-fun f(ref baz : int[]; ref b, c, f : int; foo : char; c : int[]) : nothing
-fun main(y, n, c : char[8]; f, y, h : int[]; g, n : char[][6][11]; ref e : char; d : int[]) : nothing
+fun d(foo, c, boo : char[]; b : char[][30]) : int
+fun g(c, baz : char[]; ref i, i : char; ref main : char) : nothing
+var b, boo : int;
+var foo, l, bar : char;
+fun e(ref g : char[][9]; ref boo : char[]; g : int[][6]; ref b, z, foo : int[4][8]) : char
+fun j(ref baz : char[][5]; ref e, c : int) : nothing
+var f, bar, boo : int;
+fun i(f, l : int[]; g : char[37]) : int
+
+{
+  {
+  if 'a' = 29 then b <- 5;
+  h(y);
+  {
+  if '7' >= 'a' then while '7' # 7 do ;
+}
+}
+  {
+  boo[22] <- (41 + '\n');
+  while '7' < 32 do return '7';
+  ;
+  while 16 < '7' do return;
+}
+}
+
 
 {
   {
   {
   ;
-  {
-  "bar" <- (40);
-  {
-  b((((33 * 35)) - ((38))), y);
-  k <- (29 mod 7);
-}
-  {
-  while '7' # '\n' do ;
-  {
-  ;
-  {
-  if 22 > '7' then ; else return;
-  if 19 >= '\n' then a <- '7';
-}
-  ;
-}
-  i <- k();
-  return - '\n';
-}
-  ;
+  return;
 }
 }
-}
-  if 11 = '\n' then ;
-  "foo" <- baz(- '\n');
+  return;
 }
 
-fun j() : nothing;
-var z : int;
 
 {
 
+}
+
+
+{
+  while '\'' >= 2 do while '7' > '\'' do ;
+  return;
+  z(a(), - (b((h * ((39 + 21))))));
+  return;
+}
+
+
+{
+  return c;
+  {
+
+}
+  if '\'' <= 31 then {
+  bar <- l;
+}
+  if 2 <= 25 then ;
+  while 4 = 4 do ;
 }

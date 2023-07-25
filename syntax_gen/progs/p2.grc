@@ -1,41 +1,13 @@
-fun k(ref c, baz, a : int; ref f, f : int) : char
-fun n(n : char[22]; c, j, a : char[29]; x, y : char[][31]) : int
-
-{
-  g();
-  baz <- c((6), m(), + 5);
-  while '\n' < '7' do {
-  ;
-}
-  m(- l, k());
-  while 29 # '\n' do ;
-}
-
-fun y(ref z : int; bar, e : int[]; m : int[39]; ref bar, main : int[][36]) : nothing;
-fun boo(l, i : char; n, k, l : char[]; ref k : int[]) : char
-fun z(ref b, f : int[16]) : nothing
-
-{
-  if 'a' = '\'' then x((23 mod 38), h['a'], + 7);
-  return;
-}
-
-fun c(ref f : char[]; ref boo : char[][5][28]; main : int[][19]; ref baz, f, c : char[29][40]; ref main, x : char[][34]) : nothing
+fun x(ref h : char[]; g, z : char[]) : char
+fun bar(ref l, n, a : char[]; ref bar, f, b : int[]) : char
+fun n(ref d, c : int[3]) : nothing;
 
 {
 
 }
 
+var bar, l, x : int[1];
 
 {
-  {
-  return + '\n';
-}
-}
 
-
-{
-  n();
-  if '7' = 2 then return; else while '\'' >= 5 do return;
-  return e;
 }

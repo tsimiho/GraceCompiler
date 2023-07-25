@@ -1,0 +1,10 @@
+fun y(ref bar, z, l : int[]; bar, l, bar : int[][25][22]; e, i, d : int[][18]; ref b, z : char[]; a, k, c : int[][39]) : int
+
+{
+  f();
+  while 'a' > 33 do if 35 <= 16 then {
+  return;
+} else return;
+  foo[41] <- foo;
+  return l(- 38);
+}

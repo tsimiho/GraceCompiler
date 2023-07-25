@@ -1,0 +1,9 @@
+fun k(k, n, b : int; ref n, z : char[][7][27]; ref k, y : int[][9]; y : char; a : int[]) : int
+fun foo(j : char[]; y : int[]; i : int[6]; ref a : char[]) : char;
+
+{
+  return z;
+  ;
+  b(c);
+  ;
+}

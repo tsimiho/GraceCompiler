@@ -1,0 +1,5 @@
+fun z(ref f : int; m : int; ref b, main : char; ref foo : char[]; h, f, h : int) : nothing
+
+{
+
+}

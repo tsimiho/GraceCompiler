@@ -1,0 +1,14 @@
+fun m(ref f, a, m : char[][16][25]; ref m, d : int) : nothing
+fun z() : int
+
+{
+
+}
+
+fun h() : nothing;
+
+{
+  if '\n' # 8 then return 33; else while 36 >= 'a' do while 18 # 25 do if 'a' # 'a' then "Route66" <- 5; else if 'a' # '\n' then if 2 <= 27 then return;
+  if 'a' >= 29 then ; else while '\'' = 13 do if 28 < 'a' then "foo" <- 9;
+  if 1 >= 37 then ;
+}

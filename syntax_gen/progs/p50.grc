@@ -1,0 +1,52 @@
+fun i() : char
+fun l() : nothing
+var n, foo, c : int;
+
+{
+  x <- ('\n' mod '7');
+}
+
+fun x(f, j, d : int[]; k : int[42]; ref d, z, foo : char[][7]; ref z, e : char[]) : int
+fun c(ref i, baz, b : int; c : char[][19][29]; ref baz, f : char[]; ref n, d : char[][35]; baz, l : int[19][37]) : nothing
+var bar : char;
+var x, foo : char;
+
+{
+
+}
+
+
+{
+  return (37 + '7');
+  f(b);
+}
+
+fun c(boo : int[]; b, foo : char[17]; n, boo : char[][31][17]) : nothing
+fun main(ref h, a, e : int; ref foo : char[]; ref e, foo : char[2]; n, h : int[26]) : int
+
+{
+  ;
+  while 'a' < 30 do return 'a';
+  l <- + 20;
+  while 3 >= 41 do {
+  f <- ('7');
+  {
+  return;
+  return (20);
+  bar <- - 40;
+}
+}
+}
+
+
+{
+  if 17 # 'a' then if '\'' > '7' then z(19, '\'');
+  while '\'' = '\'' do ;
+  ;
+  a <- (16 mod 21);
+}
+
+
+{
+  m <- ('\'' + 40);
+}

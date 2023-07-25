@@ -1,0 +1,17 @@
+fun f(i, boo : char[8]; ref f : char[][13]; ref b, boo : int[][9]; ref foo, z : int[8][29]) : nothing
+
+{
+  foo <- + 29;
+  {
+
+}
+  {
+
+}
+  {
+  z();
+  return (15);
+  if '\n' # '\n' then ;
+}
+  return;
+}

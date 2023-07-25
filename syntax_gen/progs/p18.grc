@@ -1,0 +1,6 @@
+fun main(ref e : int[][18][34]; ref x, main : char) : char
+var j, n, k : char;
+
+{
+  l(f, "Name:\t\"DouglasAdams\"\nValue:\t42\n");
+}

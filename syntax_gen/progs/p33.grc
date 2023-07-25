@@ -1,0 +1,15 @@
+fun main(i : char) : nothing
+
+{
+  if '\n' < '\n' then m("bar", - 2, (16));
+  boo((k()));
+  if 10 > 32 then if 8 > 23 then {
+  while 21 <= 'a' do ;
+} else if '\'' = 15 then while 28 < '7' do while 27 = '\'' do {
+  ;
+  return;
+  ;
+  ;
+}
+  return ('\'' - 14);
+}

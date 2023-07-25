@@ -1,0 +1,9 @@
+fun f(i, z : char[][39]) : char
+
+{
+  {
+  while '7' < 4 do bar <- 31;
+  f <- l(+ 5, (32 mod 41));
+  while 'a' > 31 do boo <- 22;
+}
+}

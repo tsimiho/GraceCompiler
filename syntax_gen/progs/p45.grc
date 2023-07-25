@@ -1,0 +1,23 @@
+fun x(c, d, x : char[][6]; a, a : int) : nothing
+fun y(boo, main : int[]; n : char[][0]; ref g, n : int[]) : int
+var main, n, m : int;
+fun i(ref m, b, foo : char[][34]; ref b, n : int; ref y, x : char; ref e, f : char; e : int) : nothing;
+
+{
+  if 39 >= 12 then while 11 = '\n' do if 'a' < '\'' then while 'a' > 26 do if 1 >= 'a' then ; else {
+  i((c), (n));
+  if 41 <= '7' then if 'a' # 29 then c <- '7'; else if '7' # 'a' then g <- '\''; else if 9 > '\n' then d <- 29; else main('\'', 31, 12);
+  baz <- l;
+  baz();
+  "foo" <- (12);
+} else l <- 1;
+  if 42 <= 'a' then if 29 # 10 then while '7' = 15 do e(38, 3, 6);
+  return;
+}
+
+var a, h : char;
+var i, main, a : char;
+
+{
+
+}

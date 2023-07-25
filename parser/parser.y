@@ -114,7 +114,7 @@ var-def:
 
 stmt:
   ';'
-| l-value "<-" expr ';'
+| l-value T_prod expr ';'
 | block
 | func-call ';'
 | "if" cond "then" stmt "else" stmt
@@ -140,7 +140,7 @@ func-call:
 
 comma-expr-list:
   /* nothing */
-| comma-expr-list ',' expr
+| ',' expr comma-expr-list
 ;
 
 l-value:
@@ -152,8 +152,8 @@ l-value:
 expr:
   T_int_const
 | T_char_const
-| l-value
 | '(' expr ')'
+| l-value
 | func-call
 | '+' expr
 | '-' expr

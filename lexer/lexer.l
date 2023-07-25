@@ -20,7 +20,9 @@
 #define T_prod    1017
 
 #define T_id      1018
-#define T_const   1019
+#define T_char_const   1019
+#define T_string_literal   1020
+#define T_int_const   1021
 
 
 int lineno = 1;
@@ -29,7 +31,7 @@ int lineno = 1;
 L [A-Za-z]
 D [0-9]
 W [ \t\r]
-E [\\\'\"]
+E \\[\\\'\"]
 
 %x COMMENT
 
@@ -54,16 +56,16 @@ E [\\\'\"]
 "then"    { return T_then; }
 "var"     { return T_var; }
 "while"   { return T_while; }
-"<-"      { return T_prod }
+"<-"      { return T_prod; }
 
 [\=\+\-\*\(\)\#\<\>\[\]\{\}\,\;\:] { return yytext[0]; }
 
 
 {L}({L}|{D}|\_)*	{ return T_id; }
-{D}+	{ return T_const; }
-\x{D}{D} {return T_const; }
-\'({L}|{D}|{W}|{E}|(\\0)|(\\x{D}({D}|{L})))\' { return T_const; }
-\"({E}|(\\\0)|(\\x{D}({D}|{L}))|[^\'\"\\\n])*\" { return T_const; }
+{D}+	{ return T_int_const; }
+\x{D}{D} {return T_char_const; }
+\'({L}|{D}|{W}|{E}|(\\0)|(\\x{D}({D}|{L}))|(\\n)|(\\'))\' { return T_char_const; }
+\"({E}|(\\\0)|(\\.)|(\\x{D}({D}|{L}))|[^\'\"\\\n])*\" { return T_string_literal; }
 
 
 \n	{ ++lineno; }

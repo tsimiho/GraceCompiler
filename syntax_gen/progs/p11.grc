@@ -1,0 +1,33 @@
+fun l(k : int[]; ref boo : int[][30]; ref j, n : int[][38]; ref d, main, k : int[20]) : nothing
+fun n(ref l : char[]; f : int; a : char[24]) : char
+fun z() : char
+
+{
+  if 40 < 'a' then while '\'' > 4 do if 'a' < 9 then boo <- 3;
+  while 26 <= '\n' do ;
+}
+
+
+{
+  ;
+  ;
+  {
+  k <- l;
+  i((m), (((8)) - (z['a'])));
+  if 3 # 15 then ; else l(e, i(k(+ 34, ('7' div 32)), j));
+  while 11 <= 41 do if 'a' > '7' then d('7', 6, 3);
+  if 4 = 30 then ; else baz();
+}
+  if 41 # 17 then if 7 # 2 then return; else f <- 6;
+  b();
+}
+
+
+{
+  while 28 < '\n' do {
+  ;
+  if '7' < 13 then return 15;
+  while 'a' >= 10 do f((37));
+  main['a']['\n'] <- f(g, ('\n' div 1));
+}
+}

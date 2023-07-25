@@ -1,8 +1,32 @@
-fun f(main : int[][21]; ref n, y : int[][4]; ref g, m : char[]; m, foo : int[]) : nothing
+fun bar(ref g, b, c : int; ref foo, l : int; c : char[][30]; z, x : char[][39]; ref k : char[36]) : nothing
+fun c(baz, main : int[13][1]; b, e, j : int) : int
+fun bar(main, boo, l : char[]; a, j : int[][3][18]; i, n : int; j : int[][22]; ref g : int) : char
 
 {
-  while 19 = '\'' do main();
-  if '7' < '\'' then j <- 14;
+
+}
+
+
+{
+  return;
+  baz <- ('\n' mod 'a');
+  if 1 >= 'a' then return;
   ;
-  x[18] <- ('\n' * '7');
+  while '\n' = 'a' do ;
+}
+
+
+{
+  while '\n' > 'a' do while 'a' # 'a' do ;
+  {
+  {
+  return ('\n');
+  g['a'] <- a;
+}
+  if 34 # '\n' then {
+  l['\'']['7'] <- n();
+  m['7'] <- (25);
+} else if '\n' # 12 then if 6 = 28 then g <- '7'; else boo <- '\n';
+  return;
+}
 }

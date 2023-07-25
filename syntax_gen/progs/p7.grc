@@ -1,9 +1,18 @@
-fun y(ref e : char; ref j, c : char[16]; m, n : int[]; j : char[]; b : int[][26]) : int
-fun j(ref c, bar : int[][6]; main : int[]; main, main, e : int[][5]) : int;
-var f : int;
-fun d(foo, boo : char; ref i, c, c : char[]) : nothing;
+fun z(k, a : int[]; x, n, y : char) : nothing
+var a, b : char;
+var h, baz : int;
+fun z(h, d, g : int; ref a : char[][1][1]; l : char[][42]) : nothing
 
 {
-  while 11 >= '\'' do ;
-  d <- d(z, g);
+  {
+  while '7' # 41 do while 'a' < '\'' do y <- 15;
+}
+}
+
+
+{
+  {
+
+}
+  h();
 }

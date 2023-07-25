@@ -1,6 +1,45 @@
-fun e() : int
+fun g(foo, b : char[][37][31]; ref baz : char[]; n : int[][39][40]; ref d : char[][37]; k : char[34][0]) : nothing
+fun baz(b : char[][23]) : nothing
+fun x(h, f, bar : char[]; l : int[]; j : int[12]; ref g : int[]) : char
+var bar, g : char;
+fun i(k, y : char[29]; ref f : char[34][19]; h, y : char[][33]; ref d : char[][6][14]; e, baz, x : int[]) : nothing
 
 {
-  if 37 = 1 then main(baz); else return;
-  return (24);
+  "bar"[32] <- (21 mod '\'');
+  return;
+  bar <- + 'a';
+  ;
+}
+
+
+{
+  if 41 = '7' then return; else return 'a';
+}
+
+
+{
+  if 13 >= 8 then m(); else {
+  foo(((c(bar, g(+ '\n', (27 + 29)), m("Name:\t\"DouglasAdams\"\nValue:\t42\n"))) div ((25))), ((i((25), (3 + '\''))) - ((7))), (n(j)));
+  if 29 < '\n' then ; else "Name:\t\"DouglasAdams\"\nValue:\t42\n" <- '\n';
+  ;
+}
+  while 35 >= 39 do while '\n' > 'a' do {
+
+}
+  {
+  while 5 = '\n' do d("bar"[34], + 'a');
+}
+  if 24 <= 27 then while 32 < 'a' do {
+  {
+
+}
+  ;
+}
+}
+
+fun b(e, foo, l : int; ref baz, n : char; ref c, k, y : int[2]; ref m, h : int[][42]) : int;
+
+{
+  while 12 >= '7' do g <- 9;
+  "Route66" <- (8 - '\'');
 }

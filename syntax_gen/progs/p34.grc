@@ -1,0 +1,22 @@
+fun a(ref b, a, f : char[]) : nothing
+fun m() : nothing
+fun y(ref z : char) : nothing;
+
+{
+  if 3 <= '\n' then if 9 <= '7' then {
+
+} else if 40 >= '\'' then return '7';
+}
+
+
+{
+  k['\''] <- (23);
+  while '7' >= 9 do while '\n' > '7' do while 38 <= 8 do ;
+  if 0 < 37 then h <- 14; else while 'a' < 41 do if 0 < 'a' then {
+  foo <- main(+ 14, (30 div 20), (2 - '\''));
+  k <- n();
+  baz();
+}
+  return - 7;
+  z <- (40);
+}

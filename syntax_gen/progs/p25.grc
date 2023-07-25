@@ -1,0 +1,40 @@
+fun g(ref c, f, y : char; m, g, n : char; ref foo, x, j : char; a : char[]) : nothing
+fun e(e, g : char[][6]; a : int; ref foo, d, main : char; d, f, bar : char[42][27]; foo : char) : nothing
+fun z(foo, d : char; ref k : char; boo : char; e, n : char[]; ref k, d : char[]) : char
+fun l() : int
+var f, c, baz : char[27];
+
+{
+
+}
+
+
+{
+  c(d(), + ((a[8])));
+  {
+  while '7' # '\'' do return;
+  m();
+}
+  return i;
+}
+
+fun main() : nothing;
+
+{
+  ;
+  boo <- - 'a';
+}
+
+fun i(n, k, m : int[12]; m : int[9][42]; ref boo, x : int; e, m, l : int[]; b : int[]) : nothing
+
+{
+  while 'a' < 21 do if 36 = 'a' then foo('a', '7');
+  while 17 < 29 do return '\'';
+  if '\'' = 6 then c <- 'a';
+  l(boo());
+}
+
+
+{
+
+}

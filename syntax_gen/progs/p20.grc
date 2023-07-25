@@ -1,0 +1,124 @@
+fun d(h, x : int[][17][22]; ref e, e : char) : nothing
+fun boo(ref b, d, g : char[]; foo : int[]) : char
+fun i(ref bar, j, j : int[]; f, g, k : int[][38][14]; y, z, a : int[]; g, x : char[13]) : nothing
+fun y(ref c, d : int[13][20]; ref c, j, i : int; foo, i : int[]) : char
+fun main(x, e : char; ref b : char[31]; ref k, baz : int[]; ref k, a, b : char[]; bar : char) : nothing
+var b, z : int;
+var a, c, x : int[14];
+
+{
+
+}
+
+fun n(e, baz : char[10]; h : char[]) : int
+fun z(d, foo : int[][21][24]) : nothing
+fun main(ref b, h, b : char[]) : char
+var g, e, baz : char;
+
+{
+  if 26 > 4 then return; else b <- 15;
+  ;
+  "foo" <- (11 div 30);
+  ;
+  return (10);
+}
+
+
+{
+  ;
+  while 33 < 21 do while 15 <= 27 do return;
+  if 13 >= 16 then {
+  while 14 > 42 do {
+  ;
+  g <- foo[17];
+  while 23 # '7' do ;
+}
+  if '\n' <= 'a' then while 24 > 4 do {
+  {
+  return baz(a(b, (29 - '7')), y, (40 * '7'));
+  c <- (32 + '7');
+}
+  if '7' <= 'a' then foo[26]['7'] <- 11; else ;
+  return;
+  while 1 # '7' do while 'a' <= 32 do c <- '7';
+} else while 27 < 'a' do main <- 5;
+  while 12 = 42 do z <- 4;
+} else if 37 >= 31 then n <- '7';
+  while 39 <= 27 do a(+ 4, (5 * '7'), y(m((40 mod '7')), l(), c));
+}
+
+fun x() : char
+
+{
+
+}
+
+
+{
+
+}
+
+
+{
+  if 'a' = 'a' then {
+  while '7' > 9 do return;
+  a();
+  return ('\'');
+  while 1 # 35 do while 21 < 15 do c(16);
+} else while 18 < 32 do if 3 <= '\n' then n <- '7';
+  if '7' > '\n' then {
+  while '\'' >= '\'' do ;
+  m <- (34 * 38);
+} else {
+
+}
+}
+
+
+{
+  {
+  if 8 <= 11 then {
+  c <- (25);
+  {
+  k(((14)), + f, ((- 'a') + (+ 6)));
+  return;
+  z <- (12);
+}
+} else while 24 > '\n' do d('a', 'a');
+}
+}
+
+fun z() : int
+var x, boo, bar : char[17];
+fun n() : char;
+
+{
+  {
+
+}
+  ;
+  return + 22;
+  d("foo", g((bar())), ((+ 21) mod (- '\'')));
+}
+
+
+{
+  ;
+  {
+  while '\n' <= 38 do ;
+}
+  boo(boo);
+  while '\n' < 11 do while 9 <= '7' do i['\''] <- 7;
+}
+
+fun boo(main, e, baz : int[22]; ref x : char[]; n, j : int) : nothing
+fun n(ref i, x : int; ref baz : int[15][23]; z, baz : char) : char;
+
+{
+  return;
+}
+
+
+{
+
+}

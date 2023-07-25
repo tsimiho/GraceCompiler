@@ -1,0 +1,6 @@
+fun n() : nothing
+fun d(ref l, f, g : char[]; ref b, k : char; a : char; b : char[5][33]; ref a : char[]) : int;
+
+{
+  ;
+}
