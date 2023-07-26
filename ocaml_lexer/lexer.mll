@@ -5,7 +5,7 @@ type token =
   | T_then | T_var | T_while | T_id | T_int_const | T_char_const | T_string_literal
   | T_eq | T_lparen | T_rparen | T_plus | T_minus | T_times
   | T_less | T_more | T_lbrack | T_rbrack | T_lbrace | T_rbrace
-  | T_hash | T_comma | T_semicolon | T_colon
+  | T_hash | T_comma | T_semicolon | T_colon | T_leq | T_geq | T_prod
 
 
 let lines = ref 1
@@ -37,18 +37,17 @@ rule lexer = parse
   | "then"      { T_then }
   | "var"       { T_var }
   | "while"     { T_while }
+  | "<="        { T_leq }
+  | ">="        { T_geq }
+  | "<-"        { T_prod }
 
   | letter (letter|digit|'_')*  { T_id }
 
 
   | '\n'     { incr lines; lexer lexbuf }
   | digit+   { T_int_const }
-  (* | '\\' '0' { T_char_const } *)
-  (* | '\\' 'x' digit (digit|letter) { T_char_const }  *)
-  (* | '\'' (letter|digit|white|escape|('\\' '0')|('\\' 'x' digit (digit|letter))) '\'' { T_char_const } *)
-  (* | '\"' ((escape)|('\\' '0')|('\\' 'x' digit (digit|letter))|[^ '\'' '\"' '\\' '\n'] )* '\"' { T_string_literal } *)
-  | '\'' (letter | digit | white | escape | '\\' '0' | '\\' 'x' hex_digit hex_digit?) '\'' { T_char_const }
-  | '\"' (letter | digit | white | (escape | ('\\' '0') | ('\\' 'x' hex_digit hex_digit?)))* '\"' { T_string_literal }
+  | '\'' (letter | digit | white | ('\\' escape) | ('\\' '0') | ('\\' 'x' hex_digit hex_digit?)) '\'' { T_char_const }
+  | '\"' (letter | digit | white | (('\\' escape) | ('\\' '0') | ('\\' 'x' hex_digit hex_digit?)))* '\"' { T_string_literal }
 
   | '='       { T_eq }
   | '('       { T_lparen }
@@ -73,7 +72,7 @@ rule lexer = parse
  
 
   |  eof          { T_eof }
-  |  _ as chr     { Printf.eprintf "Invalid character: '%c' (ascii: %d) on line %d"
+  |  _ as chr     { Printf.eprintf "Invalid character: '%c' (ascii: %d) on line %d \n"
                     chr (Char.code chr) !lines;
                     lexer lexbuf }
 
@@ -125,6 +124,9 @@ and comment = parse
       | T_int_const      -> "T_int_const"
       | T_string_literal -> "T_string_literal"
       | T_char_const     -> "T_char_const"
+      | T_leq            -> "T_leq"
+      | T_geq            -> "T_geq"
+      | T_prod           -> "T_prod"
 
 
   let main =
