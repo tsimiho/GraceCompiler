@@ -5,40 +5,45 @@ let lines = ref 1
 
 }
 
-
 let digit  = ['0'-'9']
 let letter = ['A'-'Z' 'a'-'z']
 let white  = [' ' '\t' '\r' '\n']
-let escape = ['\\' '\'' '\"'] 
+let escape = ['\\' '\n' '\t' '\r' '\000' '\'' '\"']
+let hex_digit = ['0'-'9' 'a'-'f' 'A'-'F']
 
 rule lexer = parse
   | "and"	    { T_and }
-  | "char"	  { T_char }
+  | "char"	    { T_char }
   | "div"	    { T_div }
   | "do"	    { T_do }
-  | "else"	  { T_else }
+  | "else"	    { T_else }
   | "fun"	    { T_fun }
   | "if"	    { T_if }
   | "int"	    { T_int }
   | "mod"	    { T_mod }
-  | "not"     { T_not }
-  | "nothing" { T_nothing }
-  | "or"      { T_or }
-  | "ref"     { T_ref }
-  | "return"  { T_return }
-  | "then"    { T_then }
-  | "var"     { T_var }
-  | "while"   { T_while }
+  | "not"       { T_not }
+  | "nothing"   { T_nothing }
+  | "or"        { T_or }
+  | "ref"       { T_ref }
+  | "return"    { T_return }
+  | "then"      { T_then }
+  | "var"       { T_var }
+  | "while"     { T_while }
+  | "<="        { T_leq }
+  | ">="        { T_geq }
+  | "<-"        { T_prod }
 
   | letter (letter|digit|'_')*  { T_id }
 
 
   | '\n'     { incr lines; lexer lexbuf }
-  | digit+   { T_const }
-  | '\\' '0' { T_const }
-  | '\\' 'x' digit (digit|letter) { T_const } 
-  | '\'' (letter|digit|white|escape|('\\' '0')|('\\' 'x' digit (digit|letter))) '\'' { T_const }
-  | '\"' ((escape)|('\\' '0')|('\\' 'x' digit (digit|letter))|[^ '\'' '\"' '\\' '\n'] )* '\"' { T_const }
+  | digit+   { T_int_const }
+  (* | '\\' '0' { T_char_const } *)
+  (* | '\\' 'x' digit (digit|letter) { T_char_const }  *)
+  (* | '\'' (letter|digit|white|escape|('\\' '0')|('\\' 'x' digit (digit|letter))) '\'' { T_char_const } *)
+  (* | '\"' ((escape)|('\\' '0')|('\\' 'x' digit (digit|letter))|[^ '\'' '\"' '\\' '\n'] )* '\"' { T_string_literal } *)
+  | '\'' (letter | digit | white | escape | '\\' '0' | '\\' 'x' hex_digit hex_digit?) '\'' { T_char_const }
+  | '\"' (letter | digit | white | (escape | ('\\' '0') | ('\\' 'x' hex_digit hex_digit?)))* '\"' { T_string_literal }
 
   | '='       { T_eq }
   | '('       { T_lparen }
@@ -57,14 +62,14 @@ rule lexer = parse
   | ';'       { T_semicolon }
   | ':'       { T_colon } 
 
-  | white+  { lexer lexbuf }
+  | white+             { lexer lexbuf }
   | '$' [^ '\n' '$']*  { lexer lexbuf } 
   | "$$"               { comment lexbuf }
  
 
   |  eof          { T_eof }
   |  _ as chr     { Printf.eprintf "Invalid character: '%c' (ascii: %d) on line %d"
-                      chr (Char.code chr) !lines;
+                    chr (Char.code chr) !lines;
                     lexer lexbuf }
 
 and comment = parse
@@ -111,8 +116,12 @@ and comment = parse
       | T_semicolon -> "T_semicolon"
       | T_colon     -> "T_colon"
 
-      | T_id        -> "T_id"
-      | T_const     -> "T_const"
-
+      | T_id             -> "T_id"
+      | T_int_const      -> "T_int_const"
+      | T_string_literal -> "T_string_literal"
+      | T_char_const     -> "T_char_const"
+      | T_leq            -> "T_leq"
+      | T_geq            -> "T_geq"
+      | T_prod           -> "T_prod"
 
 }
