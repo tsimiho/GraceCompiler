@@ -41,141 +41,113 @@
 
 %%
 
-program:
-  func-def
-;
+program: func_def; 
 
-func-def:
-  header local-def-list block
-;
+func_def: header local_def_list block;
 
-local-def-list:
-  /* nothing */
-| local-def-list local-def
-;
+local_def_list: /* nothing */ 
+                | local_def_list local_def 
+                ;
 
-header:
-  "fun" T_id '(' fpar-def semi-fpar-def-list ')' ':' ret-type
-| "fun" T_id '(' ')' ':' ret-type
-;
+header: T_fun T_id '(' fpar_def semi_fpar_def_list ')' ':' ret_type 
+        | T_fun T_id '(' ')' ':' ret_type 
+        ;
 
-semi-fpar-def-list:
-  /* nothing */
-| ';' fpar-def semi-fpar-def-list
-;
+semi_fpar_def_list: /* nothing */ 
+                    | ';' fpar_def semi_fpar_def_list 
+                    ;
 
-fpar-def:
-  "ref" T_id comma-id-list ':' fpar-type
-|  T_id comma-id-list ':' fpar-type
-;
+fpar_def: T_ref T_id comma_id_list ':' fpar_type 
+          |  T_id comma_id_list ':' fpar_type 
+          ;
 
-comma-id-list:
-  /* nothing */
-| comma-id-list ',' T_id
-;
+comma_id_list: /* nothing */ 
+               | ',' T_id comma_id_list
+               ;
 
-data-type:
-  "int"
-| "char"
-;
+data_type: T_int 
+           | T_char 
+           ;
 
-bracket-int-const-list:
-  /* nothing */
-| '[' T_int_const ']' bracket-int-const-list
-;
+bracket_int_const_list: /* nothing */ 
+                        | '[' T_int_const ']' bracket_int_const_list
+                        ;
 
-ret-type:
-  data-type
-| "nothing"
-;
+ret_type: data_type 
+          | T_nothing
+          ;
 
-fpar-type:
-  data-type '[' ']' bracket-int-const-list
-| data-type bracket-int-const-list
-;
+fpar_type: data_type '[' ']' bracket_int_const_list 
+           | data_type bracket_int_const_list
+           ;
 
-type:
-  data-type bracket-int-const-list
-;
+grace_type: data_type bracket_int_const_list; 
 
-local-def:
-  func-def
-| func-decl
-| var-def
-;
+local_def: func_def 
+           | func_decl 
+           | var_def
+           ;
 
-func-decl:
-  header ';'
-;
+func_decl: header ';'; 
 
-var-def:
-  "var" T_id comma-id-list ':' type ';'
-;
+var_def: T_var T_id comma_id_list ':' grace_type ';';
 
-stmt:
-  ';'
-| l-value T_prod expr ';'
-| block
-| func-call ';'
-| "if" cond "then" stmt "else" stmt
-| "if" cond "then" stmt
-| "while" cond "do" stmt
-| "return" ';'
-| "return" expr ';'
-;
+stmt: ';'                                  
+      | l_value T_prod expr ';'              
+      | block                              
+      | func_call ';'                      
+      | T_if cond T_then stmt              
+      | T_if cond T_then stmt T_else stmt  
+      | T_while cond T_do stmt             
+      | T_return ';'                       
+      | T_return expr ';'
+      ;
 
-block:
-  '{' stmt-list '}'
-;
 
-stmt-list:
-  /* nothing */
-| stmt stmt-list 
-;
+block: '{' stmt_list '}'; 
 
-func-call:
-  T_id '(' ')'
-| T_id '(' expr comma-expr-list ')'
-;
+stmt_list: /* nothing */ 
+           | stmt stmt_list
+           ;
 
-comma-expr-list:
-  /* nothing */
-| ',' expr comma-expr-list
-;
+func_call: T_id '(' ')' 
+           | T_id '(' expr comma_expr_list ')'
+           ;
 
-l-value:
-  T_id
-| T_string_literal
-| l-value '[' expr ']'
-;
+comma_expr_list: /* nothing */ 
+                 | ',' expr comma_expr_list
+                 ;
 
-expr:
-  T_int_const
-| T_char_const
-| '(' expr ')'
-| l-value
-| func-call
-| '+' expr
-| '-' expr
-| expr '+' expr
-| expr '-' expr
-| expr '*' expr
-| expr "div" expr
-| expr "mod" expr
-;
+l_value: T_id 
+         | T_string_literal 
+         | l_value '[' expr ']'
+         ;
 
-cond:
-  '(' cond ')'
-| "not" cond
-| cond "and" cond
-| cond "or" cond
-| expr '=' expr
-| expr '#' expr
-| expr '<' expr
-| expr '>' expr
-| expr "<=" expr
-| expr ">=" expr
-;
+expr: T_int_const     
+      | T_char_const    
+      | l_value 
+      | '(' expr ')'    
+      | func_call 
+      | '+' expr 
+      | '-' expr 
+      | expr '+' expr   
+      | expr '-' expr   
+      | expr '*' expr   
+      | expr T_div expr 
+      | expr T_mod expr
+      ;
+
+cond: '(' cond ')'     
+      | T_not cond 
+      | cond T_and cond 
+      | cond T_or cond 
+      | expr '=' expr    
+      | expr '#' expr    
+      | expr '<' expr    
+      | expr '>' expr    
+      | expr T_leq expr   
+      | expr T_geq expr
+      ;
 
 %%
 

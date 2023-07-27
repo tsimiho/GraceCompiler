@@ -3,84 +3,84 @@ Terminals unused in grammar
     '/'
 
 
-State 120 conflicts: 1 shift/reduce
+State 121 conflicts: 1 shift/reduce
 
 
 Grammar
 
     0 $accept: program $end
 
-    1 program: func-def
+    1 program: func_def
 
-    2 func-def: header local-def-list block
+    2 func_def: header local_def_list block
 
-    3 local-def-list: ε
-    4               | local-def-list local-def
+    3 local_def_list: ε
+    4               | local_def_list local_def
 
-    5 header: "fun" T_id '(' fpar-def semi-fpar-def-list ')' ':' ret-type
-    6       | "fun" T_id '(' ')' ':' ret-type
+    5 header: "fun" T_id '(' fpar_def semi_fpar_def_list ')' ':' ret_type
+    6       | "fun" T_id '(' ')' ':' ret_type
 
-    7 semi-fpar-def-list: ε
-    8                   | ';' fpar-def semi-fpar-def-list
+    7 semi_fpar_def_list: ε
+    8                   | ';' fpar_def semi_fpar_def_list
 
-    9 fpar-def: "ref" T_id comma-id-list ':' fpar-type
-   10         | T_id comma-id-list ':' fpar-type
+    9 fpar_def: "ref" T_id comma_id_list ':' fpar_type
+   10         | T_id comma_id_list ':' fpar_type
 
-   11 comma-id-list: ε
-   12              | comma-id-list ',' T_id
+   11 comma_id_list: ε
+   12              | ',' T_id comma_id_list
 
-   13 data-type: "int"
+   13 data_type: "int"
    14          | "char"
 
-   15 bracket-int-const-list: ε
-   16                       | '[' T_int_const ']' bracket-int-const-list
+   15 bracket_int_const_list: ε
+   16                       | '[' T_int_const ']' bracket_int_const_list
 
-   17 ret-type: data-type
+   17 ret_type: data_type
    18         | "nothing"
 
-   19 fpar-type: data-type '[' ']' bracket-int-const-list
-   20          | data-type bracket-int-const-list
+   19 fpar_type: data_type '[' ']' bracket_int_const_list
+   20          | data_type bracket_int_const_list
 
-   21 type: data-type bracket-int-const-list
+   21 grace_type: data_type bracket_int_const_list
 
-   22 local-def: func-def
-   23          | func-decl
-   24          | var-def
+   22 local_def: func_def
+   23          | func_decl
+   24          | var_def
 
-   25 func-decl: header ';'
+   25 func_decl: header ';'
 
-   26 var-def: "var" T_id comma-id-list ':' type ';'
+   26 var_def: "var" T_id comma_id_list ':' grace_type ';'
 
    27 stmt: ';'
-   28     | l-value "<-" expr ';'
+   28     | l_value "<-" expr ';'
    29     | block
-   30     | func-call ';'
-   31     | "if" cond "then" stmt "else" stmt
-   32     | "if" cond "then" stmt
+   30     | func_call ';'
+   31     | "if" cond "then" stmt
+   32     | "if" cond "then" stmt "else" stmt
    33     | "while" cond "do" stmt
    34     | "return" ';'
    35     | "return" expr ';'
 
-   36 block: '{' stmt-list '}'
+   36 block: '{' stmt_list '}'
 
-   37 stmt-list: ε
-   38          | stmt stmt-list
+   37 stmt_list: ε
+   38          | stmt stmt_list
 
-   39 func-call: T_id '(' ')'
-   40          | T_id '(' expr comma-expr-list ')'
+   39 func_call: T_id '(' ')'
+   40          | T_id '(' expr comma_expr_list ')'
 
-   41 comma-expr-list: ε
-   42                | ',' expr comma-expr-list
+   41 comma_expr_list: ε
+   42                | ',' expr comma_expr_list
 
-   43 l-value: T_id
+   43 l_value: T_id
    44        | T_string_literal
-   45        | l-value '[' expr ']'
+   45        | l_value '[' expr ']'
 
    46 expr: T_int_const
    47     | T_char_const
-   48     | '(' expr ')'
-   49     | l-value
-   50     | func-call
+   48     | l_value
+   49     | '(' expr ')'
+   50     | func_call
    51     | '+' expr
    52     | '-' expr
    53     | expr '+' expr
@@ -105,8 +105,8 @@ Terminals, with rules where they appear
 
     $end (0) 0
     '#' (35) 63
-    '(' (40) 5 6 39 40 48 58
-    ')' (41) 5 6 39 40 48 58
+    '(' (40) 5 6 39 40 49 58
+    ')' (41) 5 6 39 40 49 58
     '*' (42) 55
     '+' (43) 51 53
     ',' (44) 12 42
@@ -126,7 +126,7 @@ Terminals, with rules where they appear
     "char" (259) 14
     "div" (260) 56
     "do" (261) 33
-    "else" (262) 31
+    "else" (262) 32
     "fun" (263) 5 6
     "if" (264) 31 32
     "int" (265) 13
@@ -155,46 +155,46 @@ Nonterminals, with rules where they appear
     program (45)
         on left: 1
         on right: 0
-    func-def (46)
+    func_def (46)
         on left: 2
         on right: 1 22
-    local-def-list (47)
+    local_def_list (47)
         on left: 3 4
         on right: 2 4
     header (48)
         on left: 5 6
         on right: 2 25
-    semi-fpar-def-list (49)
+    semi_fpar_def_list (49)
         on left: 7 8
         on right: 5 8
-    fpar-def (50)
+    fpar_def (50)
         on left: 9 10
         on right: 5 8
-    comma-id-list (51)
+    comma_id_list (51)
         on left: 11 12
         on right: 9 10 12 26
-    data-type (52)
+    data_type (52)
         on left: 13 14
         on right: 17 19 20 21
-    bracket-int-const-list (53)
+    bracket_int_const_list (53)
         on left: 15 16
         on right: 16 19 20 21
-    ret-type (54)
+    ret_type (54)
         on left: 17 18
         on right: 5 6
-    fpar-type (55)
+    fpar_type (55)
         on left: 19 20
         on right: 9 10
-    type (56)
+    grace_type (56)
         on left: 21
         on right: 26
-    local-def (57)
+    local_def (57)
         on left: 22 23 24
         on right: 4
-    func-decl (58)
+    func_decl (58)
         on left: 25
         on right: 23
-    var-def (59)
+    var_def (59)
         on left: 26
         on right: 24
     stmt (60)
@@ -203,21 +203,21 @@ Nonterminals, with rules where they appear
     block (61)
         on left: 36
         on right: 2 29
-    stmt-list (62)
+    stmt_list (62)
         on left: 37 38
         on right: 36 38
-    func-call (63)
+    func_call (63)
         on left: 39 40
         on right: 30 50
-    comma-expr-list (64)
+    comma_expr_list (64)
         on left: 41 42
         on right: 40 42
-    l-value (65)
+    l_value (65)
         on left: 43 44 45
-        on right: 28 45 49
+        on right: 28 45 48
     expr (66)
         on left: 46 47 48 49 50 51 52 53 54 55 56 57
-        on right: 28 35 40 42 45 48 51 52 53 54 55 56 57 62 63 64 65 66 67
+        on right: 28 35 40 42 45 49 51 52 53 54 55 56 57 62 63 64 65 66 67
     cond (67)
         on left: 58 59 60 61 62 63 64 65 66 67
         on right: 31 32 33 58 59 60 61
@@ -230,14 +230,14 @@ State 0
     "fun"  shift, and go to state 1
 
     program   go to state 2
-    func-def  go to state 3
+    func_def  go to state 3
     header    go to state 4
 
 
 State 1
 
-    5 header: "fun" • T_id '(' fpar-def semi-fpar-def-list ')' ':' ret-type
-    6       | "fun" • T_id '(' ')' ':' ret-type
+    5 header: "fun" • T_id '(' fpar_def semi_fpar_def_list ')' ':' ret_type
+    6       | "fun" • T_id '(' ')' ':' ret_type
 
     T_id  shift, and go to state 5
 
@@ -251,24 +251,24 @@ State 2
 
 State 3
 
-    1 program: func-def •
+    1 program: func_def •
 
     $default  reduce using rule 1 (program)
 
 
 State 4
 
-    2 func-def: header • local-def-list block
+    2 func_def: header • local_def_list block
 
-    $default  reduce using rule 3 (local-def-list)
+    $default  reduce using rule 3 (local_def_list)
 
-    local-def-list  go to state 7
+    local_def_list  go to state 7
 
 
 State 5
 
-    5 header: "fun" T_id • '(' fpar-def semi-fpar-def-list ')' ':' ret-type
-    6       | "fun" T_id • '(' ')' ':' ret-type
+    5 header: "fun" T_id • '(' fpar_def semi_fpar_def_list ')' ':' ret_type
+    6       | "fun" T_id • '(' ')' ':' ret_type
 
     '('  shift, and go to state 8
 
@@ -282,43 +282,43 @@ State 6
 
 State 7
 
-    2 func-def: header local-def-list • block
-    4 local-def-list: local-def-list • local-def
+    2 func_def: header local_def_list • block
+    4 local_def_list: local_def_list • local_def
 
     "fun"  shift, and go to state 1
     "var"  shift, and go to state 9
     '{'    shift, and go to state 10
 
-    func-def   go to state 11
+    func_def   go to state 11
     header     go to state 12
-    local-def  go to state 13
-    func-decl  go to state 14
-    var-def    go to state 15
+    local_def  go to state 13
+    func_decl  go to state 14
+    var_def    go to state 15
     block      go to state 16
 
 
 State 8
 
-    5 header: "fun" T_id '(' • fpar-def semi-fpar-def-list ')' ':' ret-type
-    6       | "fun" T_id '(' • ')' ':' ret-type
+    5 header: "fun" T_id '(' • fpar_def semi_fpar_def_list ')' ':' ret_type
+    6       | "fun" T_id '(' • ')' ':' ret_type
 
     "ref"  shift, and go to state 17
     T_id   shift, and go to state 18
     ')'    shift, and go to state 19
 
-    fpar-def  go to state 20
+    fpar_def  go to state 20
 
 
 State 9
 
-   26 var-def: "var" • T_id comma-id-list ':' type ';'
+   26 var_def: "var" • T_id comma_id_list ':' grace_type ';'
 
     T_id  shift, and go to state 21
 
 
 State 10
 
-   36 block: '{' • stmt-list '}'
+   36 block: '{' • stmt_list '}'
 
     "if"              shift, and go to state 22
     "return"          shift, and go to state 23
@@ -328,123 +328,127 @@ State 10
     ';'               shift, and go to state 27
     '{'               shift, and go to state 10
 
-    $default  reduce using rule 37 (stmt-list)
+    $default  reduce using rule 37 (stmt_list)
 
     stmt       go to state 28
     block      go to state 29
-    stmt-list  go to state 30
-    func-call  go to state 31
-    l-value    go to state 32
+    stmt_list  go to state 30
+    func_call  go to state 31
+    l_value    go to state 32
 
 
 State 11
 
-   22 local-def: func-def •
+   22 local_def: func_def •
 
-    $default  reduce using rule 22 (local-def)
+    $default  reduce using rule 22 (local_def)
 
 
 State 12
 
-    2 func-def: header • local-def-list block
-   25 func-decl: header • ';'
+    2 func_def: header • local_def_list block
+   25 func_decl: header • ';'
 
     ';'  shift, and go to state 33
 
-    $default  reduce using rule 3 (local-def-list)
+    $default  reduce using rule 3 (local_def_list)
 
-    local-def-list  go to state 7
+    local_def_list  go to state 7
 
 
 State 13
 
-    4 local-def-list: local-def-list local-def •
+    4 local_def_list: local_def_list local_def •
 
-    $default  reduce using rule 4 (local-def-list)
+    $default  reduce using rule 4 (local_def_list)
 
 
 State 14
 
-   23 local-def: func-decl •
+   23 local_def: func_decl •
 
-    $default  reduce using rule 23 (local-def)
+    $default  reduce using rule 23 (local_def)
 
 
 State 15
 
-   24 local-def: var-def •
+   24 local_def: var_def •
 
-    $default  reduce using rule 24 (local-def)
+    $default  reduce using rule 24 (local_def)
 
 
 State 16
 
-    2 func-def: header local-def-list block •
+    2 func_def: header local_def_list block •
 
-    $default  reduce using rule 2 (func-def)
+    $default  reduce using rule 2 (func_def)
 
 
 State 17
 
-    9 fpar-def: "ref" • T_id comma-id-list ':' fpar-type
+    9 fpar_def: "ref" • T_id comma_id_list ':' fpar_type
 
     T_id  shift, and go to state 34
 
 
 State 18
 
-   10 fpar-def: T_id • comma-id-list ':' fpar-type
+   10 fpar_def: T_id • comma_id_list ':' fpar_type
 
-    $default  reduce using rule 11 (comma-id-list)
+    ','  shift, and go to state 35
 
-    comma-id-list  go to state 35
+    $default  reduce using rule 11 (comma_id_list)
+
+    comma_id_list  go to state 36
 
 
 State 19
 
-    6 header: "fun" T_id '(' ')' • ':' ret-type
+    6 header: "fun" T_id '(' ')' • ':' ret_type
 
-    ':'  shift, and go to state 36
+    ':'  shift, and go to state 37
 
 
 State 20
 
-    5 header: "fun" T_id '(' fpar-def • semi-fpar-def-list ')' ':' ret-type
+    5 header: "fun" T_id '(' fpar_def • semi_fpar_def_list ')' ':' ret_type
 
-    ';'  shift, and go to state 37
+    ';'  shift, and go to state 38
 
-    $default  reduce using rule 7 (semi-fpar-def-list)
+    $default  reduce using rule 7 (semi_fpar_def_list)
 
-    semi-fpar-def-list  go to state 38
+    semi_fpar_def_list  go to state 39
 
 
 State 21
 
-   26 var-def: "var" T_id • comma-id-list ':' type ';'
+   26 var_def: "var" T_id • comma_id_list ':' grace_type ';'
 
-    $default  reduce using rule 11 (comma-id-list)
+    ','  shift, and go to state 35
 
-    comma-id-list  go to state 39
+    $default  reduce using rule 11 (comma_id_list)
+
+    comma_id_list  go to state 40
 
 
 State 22
 
-   31 stmt: "if" • cond "then" stmt "else" stmt
-   32     | "if" • cond "then" stmt
+   31 stmt: "if" • cond "then" stmt
+   32     | "if" • cond "then" stmt "else" stmt
 
-    "not"             shift, and go to state 40
+    "not"             shift, and go to state 41
     T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
     T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 45
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 46
 
-    func-call  go to state 46
-    l-value    go to state 47
-    expr       go to state 48
-    cond       go to state 49
+    func_call  go to state 47
+    l_value    go to state 48
+    expr       go to state 49
+    cond       go to state 50
 
 
 State 23
@@ -453,54 +457,54 @@ State 23
    35     | "return" • expr ';'
 
     T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
     T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 50
-    ';'               shift, and go to state 51
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 51
+    ';'               shift, and go to state 52
 
-    func-call  go to state 46
-    l-value    go to state 47
-    expr       go to state 52
+    func_call  go to state 47
+    l_value    go to state 48
+    expr       go to state 53
 
 
 State 24
 
    33 stmt: "while" • cond "do" stmt
 
-    "not"             shift, and go to state 40
+    "not"             shift, and go to state 41
     T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
     T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 45
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 46
 
-    func-call  go to state 46
-    l-value    go to state 47
-    expr       go to state 48
-    cond       go to state 53
+    func_call  go to state 47
+    l_value    go to state 48
+    expr       go to state 49
+    cond       go to state 54
 
 
 State 25
 
-   39 func-call: T_id • '(' ')'
-   40          | T_id • '(' expr comma-expr-list ')'
-   43 l-value: T_id •
+   39 func_call: T_id • '(' ')'
+   40          | T_id • '(' expr comma_expr_list ')'
+   43 l_value: T_id •
 
-    '('  shift, and go to state 54
+    '('  shift, and go to state 55
 
-    $default  reduce using rule 43 (l-value)
+    $default  reduce using rule 43 (l_value)
 
 
 State 26
 
-   44 l-value: T_string_literal •
+   44 l_value: T_string_literal •
 
-    $default  reduce using rule 44 (l-value)
+    $default  reduce using rule 44 (l_value)
 
 
 State 27
@@ -512,7 +516,7 @@ State 27
 
 State 28
 
-   38 stmt-list: stmt • stmt-list
+   38 stmt_list: stmt • stmt_list
 
     "if"              shift, and go to state 22
     "return"          shift, and go to state 23
@@ -522,13 +526,13 @@ State 28
     ';'               shift, and go to state 27
     '{'               shift, and go to state 10
 
-    $default  reduce using rule 37 (stmt-list)
+    $default  reduce using rule 37 (stmt_list)
 
     stmt       go to state 28
     block      go to state 29
-    stmt-list  go to state 55
-    func-call  go to state 31
-    l-value    go to state 32
+    stmt_list  go to state 56
+    func_call  go to state 31
+    l_value    go to state 32
 
 
 State 29
@@ -540,195 +544,200 @@ State 29
 
 State 30
 
-   36 block: '{' stmt-list • '}'
+   36 block: '{' stmt_list • '}'
 
-    '}'  shift, and go to state 56
+    '}'  shift, and go to state 57
 
 
 State 31
 
-   30 stmt: func-call • ';'
+   30 stmt: func_call • ';'
 
-    ';'  shift, and go to state 57
+    ';'  shift, and go to state 58
 
 
 State 32
 
-   28 stmt: l-value • "<-" expr ';'
-   45 l-value: l-value • '[' expr ']'
+   28 stmt: l_value • "<-" expr ';'
+   45 l_value: l_value • '[' expr ']'
 
-    "<-"  shift, and go to state 58
-    '['   shift, and go to state 59
+    "<-"  shift, and go to state 59
+    '['   shift, and go to state 60
 
 
 State 33
 
-   25 func-decl: header ';' •
+   25 func_decl: header ';' •
 
-    $default  reduce using rule 25 (func-decl)
+    $default  reduce using rule 25 (func_decl)
 
 
 State 34
 
-    9 fpar-def: "ref" T_id • comma-id-list ':' fpar-type
+    9 fpar_def: "ref" T_id • comma_id_list ':' fpar_type
 
-    $default  reduce using rule 11 (comma-id-list)
+    ','  shift, and go to state 35
 
-    comma-id-list  go to state 60
+    $default  reduce using rule 11 (comma_id_list)
+
+    comma_id_list  go to state 61
 
 
 State 35
 
-   10 fpar-def: T_id comma-id-list • ':' fpar-type
-   12 comma-id-list: comma-id-list • ',' T_id
+   12 comma_id_list: ',' • T_id comma_id_list
 
-    ':'  shift, and go to state 61
-    ','  shift, and go to state 62
+    T_id  shift, and go to state 62
 
 
 State 36
 
-    6 header: "fun" T_id '(' ')' ':' • ret-type
+   10 fpar_def: T_id comma_id_list • ':' fpar_type
 
-    "char"     shift, and go to state 63
-    "int"      shift, and go to state 64
-    "nothing"  shift, and go to state 65
-
-    data-type  go to state 66
-    ret-type   go to state 67
+    ':'  shift, and go to state 63
 
 
 State 37
 
-    8 semi-fpar-def-list: ';' • fpar-def semi-fpar-def-list
+    6 header: "fun" T_id '(' ')' ':' • ret_type
 
-    "ref"  shift, and go to state 17
-    T_id   shift, and go to state 18
+    "char"     shift, and go to state 64
+    "int"      shift, and go to state 65
+    "nothing"  shift, and go to state 66
 
-    fpar-def  go to state 68
+    data_type  go to state 67
+    ret_type   go to state 68
 
 
 State 38
 
-    5 header: "fun" T_id '(' fpar-def semi-fpar-def-list • ')' ':' ret-type
+    8 semi_fpar_def_list: ';' • fpar_def semi_fpar_def_list
 
-    ')'  shift, and go to state 69
+    "ref"  shift, and go to state 17
+    T_id   shift, and go to state 18
+
+    fpar_def  go to state 69
 
 
 State 39
 
-   12 comma-id-list: comma-id-list • ',' T_id
-   26 var-def: "var" T_id comma-id-list • ':' type ';'
+    5 header: "fun" T_id '(' fpar_def semi_fpar_def_list • ')' ':' ret_type
 
-    ':'  shift, and go to state 70
-    ','  shift, and go to state 62
+    ')'  shift, and go to state 70
 
 
 State 40
 
-   59 cond: "not" • cond
+   26 var_def: "var" T_id comma_id_list • ':' grace_type ';'
 
-    "not"             shift, and go to state 40
-    T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
-    T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 45
-
-    func-call  go to state 46
-    l-value    go to state 47
-    expr       go to state 48
-    cond       go to state 71
+    ':'  shift, and go to state 71
 
 
 State 41
+
+   59 cond: "not" • cond
+
+    "not"             shift, and go to state 41
+    T_id              shift, and go to state 25
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
+    T_string_literal  shift, and go to state 26
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 46
+
+    func_call  go to state 47
+    l_value    go to state 48
+    expr       go to state 49
+    cond       go to state 72
+
+
+State 42
 
    46 expr: T_int_const •
 
     $default  reduce using rule 46 (expr)
 
 
-State 42
+State 43
 
    47 expr: T_char_const •
 
     $default  reduce using rule 47 (expr)
 
 
-State 43
+State 44
 
    51 expr: '+' • expr
 
     T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
     T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 50
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 51
 
-    func-call  go to state 46
-    l-value    go to state 47
-    expr       go to state 72
-
-
-State 44
-
-   52 expr: '-' • expr
-
-    T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
-    T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 50
-
-    func-call  go to state 46
-    l-value    go to state 47
+    func_call  go to state 47
+    l_value    go to state 48
     expr       go to state 73
 
 
 State 45
 
-   48 expr: '(' • expr ')'
-   58 cond: '(' • cond ')'
+   52 expr: '-' • expr
 
-    "not"             shift, and go to state 40
     T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
     T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 45
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 51
 
-    func-call  go to state 46
-    l-value    go to state 47
+    func_call  go to state 47
+    l_value    go to state 48
     expr       go to state 74
-    cond       go to state 75
 
 
 State 46
 
-   50 expr: func-call •
+   49 expr: '(' • expr ')'
+   58 cond: '(' • cond ')'
 
-    $default  reduce using rule 50 (expr)
+    "not"             shift, and go to state 41
+    T_id              shift, and go to state 25
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
+    T_string_literal  shift, and go to state 26
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 46
+
+    func_call  go to state 47
+    l_value    go to state 48
+    expr       go to state 75
+    cond       go to state 76
 
 
 State 47
 
-   45 l-value: l-value • '[' expr ']'
-   49 expr: l-value •
+   50 expr: func_call •
 
-    '['  shift, and go to state 59
-
-    $default  reduce using rule 49 (expr)
+    $default  reduce using rule 50 (expr)
 
 
 State 48
+
+   45 l_value: l_value • '[' expr ']'
+   48 expr: l_value •
+
+    '['  shift, and go to state 60
+
+    $default  reduce using rule 48 (expr)
+
+
+State 49
 
    53 expr: expr • '+' expr
    54     | expr • '-' expr
@@ -742,56 +751,56 @@ State 48
    66     | expr • "<=" expr
    67     | expr • ">=" expr
 
-    "div"  shift, and go to state 76
-    "mod"  shift, and go to state 77
-    "<="   shift, and go to state 78
-    ">="   shift, and go to state 79
-    '*'    shift, and go to state 80
-    '+'    shift, and go to state 81
-    '-'    shift, and go to state 82
-    '='    shift, and go to state 83
-    '#'    shift, and go to state 84
-    '<'    shift, and go to state 85
-    '>'    shift, and go to state 86
-
-
-State 49
-
-   31 stmt: "if" cond • "then" stmt "else" stmt
-   32     | "if" cond • "then" stmt
-   60 cond: cond • "and" cond
-   61     | cond • "or" cond
-
-    "and"   shift, and go to state 87
-    "or"    shift, and go to state 88
-    "then"  shift, and go to state 89
+    "div"  shift, and go to state 77
+    "mod"  shift, and go to state 78
+    "<="   shift, and go to state 79
+    ">="   shift, and go to state 80
+    '*'    shift, and go to state 81
+    '+'    shift, and go to state 82
+    '-'    shift, and go to state 83
+    '='    shift, and go to state 84
+    '#'    shift, and go to state 85
+    '<'    shift, and go to state 86
+    '>'    shift, and go to state 87
 
 
 State 50
 
-   48 expr: '(' • expr ')'
+   31 stmt: "if" cond • "then" stmt
+   32     | "if" cond • "then" stmt "else" stmt
+   60 cond: cond • "and" cond
+   61     | cond • "or" cond
 
-    T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
-    T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 50
-
-    func-call  go to state 46
-    l-value    go to state 47
-    expr       go to state 90
+    "and"   shift, and go to state 88
+    "or"    shift, and go to state 89
+    "then"  shift, and go to state 90
 
 
 State 51
+
+   49 expr: '(' • expr ')'
+
+    T_id              shift, and go to state 25
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
+    T_string_literal  shift, and go to state 26
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 51
+
+    func_call  go to state 47
+    l_value    go to state 48
+    expr       go to state 91
+
+
+State 52
 
    34 stmt: "return" ';' •
 
     $default  reduce using rule 34 (stmt)
 
 
-State 52
+State 53
 
    35 stmt: "return" expr • ';'
    53 expr: expr • '+' expr
@@ -800,191 +809,193 @@ State 52
    56     | expr • "div" expr
    57     | expr • "mod" expr
 
-    "div"  shift, and go to state 76
-    "mod"  shift, and go to state 77
-    '*'    shift, and go to state 80
-    '+'    shift, and go to state 81
-    '-'    shift, and go to state 82
-    ';'    shift, and go to state 91
+    "div"  shift, and go to state 77
+    "mod"  shift, and go to state 78
+    '*'    shift, and go to state 81
+    '+'    shift, and go to state 82
+    '-'    shift, and go to state 83
+    ';'    shift, and go to state 92
 
 
-State 53
+State 54
 
    33 stmt: "while" cond • "do" stmt
    60 cond: cond • "and" cond
    61     | cond • "or" cond
 
-    "and"  shift, and go to state 87
-    "do"   shift, and go to state 92
-    "or"   shift, and go to state 88
-
-
-State 54
-
-   39 func-call: T_id '(' • ')'
-   40          | T_id '(' • expr comma-expr-list ')'
-
-    T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
-    T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 50
-    ')'               shift, and go to state 93
-
-    func-call  go to state 46
-    l-value    go to state 47
-    expr       go to state 94
+    "and"  shift, and go to state 88
+    "do"   shift, and go to state 93
+    "or"   shift, and go to state 89
 
 
 State 55
 
-   38 stmt-list: stmt stmt-list •
+   39 func_call: T_id '(' • ')'
+   40          | T_id '(' • expr comma_expr_list ')'
 
-    $default  reduce using rule 38 (stmt-list)
+    T_id              shift, and go to state 25
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
+    T_string_literal  shift, and go to state 26
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 51
+    ')'               shift, and go to state 94
+
+    func_call  go to state 47
+    l_value    go to state 48
+    expr       go to state 95
 
 
 State 56
 
-   36 block: '{' stmt-list '}' •
+   38 stmt_list: stmt stmt_list •
 
-    $default  reduce using rule 36 (block)
+    $default  reduce using rule 38 (stmt_list)
 
 
 State 57
 
-   30 stmt: func-call ';' •
+   36 block: '{' stmt_list '}' •
 
-    $default  reduce using rule 30 (stmt)
+    $default  reduce using rule 36 (block)
 
 
 State 58
 
-   28 stmt: l-value "<-" • expr ';'
+   30 stmt: func_call ';' •
 
-    T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
-    T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 50
-
-    func-call  go to state 46
-    l-value    go to state 47
-    expr       go to state 95
+    $default  reduce using rule 30 (stmt)
 
 
 State 59
 
-   45 l-value: l-value '[' • expr ']'
+   28 stmt: l_value "<-" • expr ';'
 
     T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
     T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 50
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 51
 
-    func-call  go to state 46
-    l-value    go to state 47
+    func_call  go to state 47
+    l_value    go to state 48
     expr       go to state 96
 
 
 State 60
 
-    9 fpar-def: "ref" T_id comma-id-list • ':' fpar-type
-   12 comma-id-list: comma-id-list • ',' T_id
+   45 l_value: l_value '[' • expr ']'
 
-    ':'  shift, and go to state 97
-    ','  shift, and go to state 62
+    T_id              shift, and go to state 25
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
+    T_string_literal  shift, and go to state 26
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 51
+
+    func_call  go to state 47
+    l_value    go to state 48
+    expr       go to state 97
 
 
 State 61
 
-   10 fpar-def: T_id comma-id-list ':' • fpar-type
+    9 fpar_def: "ref" T_id comma_id_list • ':' fpar_type
 
-    "char"  shift, and go to state 63
-    "int"   shift, and go to state 64
-
-    data-type  go to state 98
-    fpar-type  go to state 99
+    ':'  shift, and go to state 98
 
 
 State 62
 
-   12 comma-id-list: comma-id-list ',' • T_id
+   12 comma_id_list: ',' T_id • comma_id_list
 
-    T_id  shift, and go to state 100
+    ','  shift, and go to state 35
+
+    $default  reduce using rule 11 (comma_id_list)
+
+    comma_id_list  go to state 99
 
 
 State 63
 
-   14 data-type: "char" •
+   10 fpar_def: T_id comma_id_list ':' • fpar_type
 
-    $default  reduce using rule 14 (data-type)
+    "char"  shift, and go to state 64
+    "int"   shift, and go to state 65
+
+    data_type  go to state 100
+    fpar_type  go to state 101
 
 
 State 64
 
-   13 data-type: "int" •
+   14 data_type: "char" •
 
-    $default  reduce using rule 13 (data-type)
+    $default  reduce using rule 14 (data_type)
 
 
 State 65
 
-   18 ret-type: "nothing" •
+   13 data_type: "int" •
 
-    $default  reduce using rule 18 (ret-type)
+    $default  reduce using rule 13 (data_type)
 
 
 State 66
 
-   17 ret-type: data-type •
+   18 ret_type: "nothing" •
 
-    $default  reduce using rule 17 (ret-type)
+    $default  reduce using rule 18 (ret_type)
 
 
 State 67
 
-    6 header: "fun" T_id '(' ')' ':' ret-type •
+   17 ret_type: data_type •
 
-    $default  reduce using rule 6 (header)
+    $default  reduce using rule 17 (ret_type)
 
 
 State 68
 
-    8 semi-fpar-def-list: ';' fpar-def • semi-fpar-def-list
+    6 header: "fun" T_id '(' ')' ':' ret_type •
 
-    ';'  shift, and go to state 37
-
-    $default  reduce using rule 7 (semi-fpar-def-list)
-
-    semi-fpar-def-list  go to state 101
+    $default  reduce using rule 6 (header)
 
 
 State 69
 
-    5 header: "fun" T_id '(' fpar-def semi-fpar-def-list ')' • ':' ret-type
+    8 semi_fpar_def_list: ';' fpar_def • semi_fpar_def_list
 
-    ':'  shift, and go to state 102
+    ';'  shift, and go to state 38
+
+    $default  reduce using rule 7 (semi_fpar_def_list)
+
+    semi_fpar_def_list  go to state 102
 
 
 State 70
 
-   26 var-def: "var" T_id comma-id-list ':' • type ';'
+    5 header: "fun" T_id '(' fpar_def semi_fpar_def_list ')' • ':' ret_type
 
-    "char"  shift, and go to state 63
-    "int"   shift, and go to state 64
-
-    data-type  go to state 103
-    type       go to state 104
+    ':'  shift, and go to state 103
 
 
 State 71
+
+   26 var_def: "var" T_id comma_id_list ':' • grace_type ';'
+
+    "char"  shift, and go to state 64
+    "int"   shift, and go to state 65
+
+    data_type   go to state 104
+    grace_type  go to state 105
+
+
+State 72
 
    59 cond: "not" cond •
    60     | cond • "and" cond
@@ -993,7 +1004,7 @@ State 71
     $default  reduce using rule 59 (cond)
 
 
-State 72
+State 73
 
    51 expr: '+' expr •
    53     | expr • '+' expr
@@ -1005,7 +1016,7 @@ State 72
     $default  reduce using rule 51 (expr)
 
 
-State 73
+State 74
 
    52 expr: '-' expr •
    53     | expr • '+' expr
@@ -1017,9 +1028,9 @@ State 73
     $default  reduce using rule 52 (expr)
 
 
-State 74
+State 75
 
-   48 expr: '(' expr • ')'
+   49 expr: '(' expr • ')'
    53     | expr • '+' expr
    54     | expr • '-' expr
    55     | expr • '*' expr
@@ -1032,302 +1043,260 @@ State 74
    66     | expr • "<=" expr
    67     | expr • ">=" expr
 
-    "div"  shift, and go to state 76
-    "mod"  shift, and go to state 77
-    "<="   shift, and go to state 78
-    ">="   shift, and go to state 79
-    '*'    shift, and go to state 80
-    '+'    shift, and go to state 81
-    '-'    shift, and go to state 82
-    ')'    shift, and go to state 105
-    '='    shift, and go to state 83
-    '#'    shift, and go to state 84
-    '<'    shift, and go to state 85
-    '>'    shift, and go to state 86
+    "div"  shift, and go to state 77
+    "mod"  shift, and go to state 78
+    "<="   shift, and go to state 79
+    ">="   shift, and go to state 80
+    '*'    shift, and go to state 81
+    '+'    shift, and go to state 82
+    '-'    shift, and go to state 83
+    ')'    shift, and go to state 106
+    '='    shift, and go to state 84
+    '#'    shift, and go to state 85
+    '<'    shift, and go to state 86
+    '>'    shift, and go to state 87
 
 
-State 75
+State 76
 
    58 cond: '(' cond • ')'
    60     | cond • "and" cond
    61     | cond • "or" cond
 
-    "and"  shift, and go to state 87
-    "or"   shift, and go to state 88
-    ')'    shift, and go to state 106
-
-
-State 76
-
-   56 expr: expr "div" • expr
-
-    T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
-    T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 50
-
-    func-call  go to state 46
-    l-value    go to state 47
-    expr       go to state 107
+    "and"  shift, and go to state 88
+    "or"   shift, and go to state 89
+    ')'    shift, and go to state 107
 
 
 State 77
 
-   57 expr: expr "mod" • expr
+   56 expr: expr "div" • expr
 
     T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
     T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 50
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 51
 
-    func-call  go to state 46
-    l-value    go to state 47
+    func_call  go to state 47
+    l_value    go to state 48
     expr       go to state 108
 
 
 State 78
 
-   66 cond: expr "<=" • expr
+   57 expr: expr "mod" • expr
 
     T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
     T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 50
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 51
 
-    func-call  go to state 46
-    l-value    go to state 47
+    func_call  go to state 47
+    l_value    go to state 48
     expr       go to state 109
 
 
 State 79
 
-   67 cond: expr ">=" • expr
+   66 cond: expr "<=" • expr
 
     T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
     T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 50
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 51
 
-    func-call  go to state 46
-    l-value    go to state 47
+    func_call  go to state 47
+    l_value    go to state 48
     expr       go to state 110
 
 
 State 80
 
-   55 expr: expr '*' • expr
+   67 cond: expr ">=" • expr
 
     T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
     T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 50
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 51
 
-    func-call  go to state 46
-    l-value    go to state 47
+    func_call  go to state 47
+    l_value    go to state 48
     expr       go to state 111
 
 
 State 81
 
-   53 expr: expr '+' • expr
+   55 expr: expr '*' • expr
 
     T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
     T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 50
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 51
 
-    func-call  go to state 46
-    l-value    go to state 47
+    func_call  go to state 47
+    l_value    go to state 48
     expr       go to state 112
 
 
 State 82
 
-   54 expr: expr '-' • expr
+   53 expr: expr '+' • expr
 
     T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
     T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 50
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 51
 
-    func-call  go to state 46
-    l-value    go to state 47
+    func_call  go to state 47
+    l_value    go to state 48
     expr       go to state 113
 
 
 State 83
 
-   62 cond: expr '=' • expr
+   54 expr: expr '-' • expr
 
     T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
     T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 50
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 51
 
-    func-call  go to state 46
-    l-value    go to state 47
+    func_call  go to state 47
+    l_value    go to state 48
     expr       go to state 114
 
 
 State 84
 
-   63 cond: expr '#' • expr
+   62 cond: expr '=' • expr
 
     T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
     T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 50
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 51
 
-    func-call  go to state 46
-    l-value    go to state 47
+    func_call  go to state 47
+    l_value    go to state 48
     expr       go to state 115
 
 
 State 85
 
-   64 cond: expr '<' • expr
+   63 cond: expr '#' • expr
 
     T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
     T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 50
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 51
 
-    func-call  go to state 46
-    l-value    go to state 47
+    func_call  go to state 47
+    l_value    go to state 48
     expr       go to state 116
 
 
 State 86
 
-   65 cond: expr '>' • expr
+   64 cond: expr '<' • expr
 
     T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
     T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 50
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 51
 
-    func-call  go to state 46
-    l-value    go to state 47
+    func_call  go to state 47
+    l_value    go to state 48
     expr       go to state 117
 
 
 State 87
 
-   60 cond: cond "and" • cond
+   65 cond: expr '>' • expr
 
-    "not"             shift, and go to state 40
     T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
     T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 45
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 51
 
-    func-call  go to state 46
-    l-value    go to state 47
-    expr       go to state 48
-    cond       go to state 118
+    func_call  go to state 47
+    l_value    go to state 48
+    expr       go to state 118
 
 
 State 88
 
-   61 cond: cond "or" • cond
+   60 cond: cond "and" • cond
 
-    "not"             shift, and go to state 40
+    "not"             shift, and go to state 41
     T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
     T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 45
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 46
 
-    func-call  go to state 46
-    l-value    go to state 47
-    expr       go to state 48
+    func_call  go to state 47
+    l_value    go to state 48
+    expr       go to state 49
     cond       go to state 119
 
 
 State 89
 
-   31 stmt: "if" cond "then" • stmt "else" stmt
-   32     | "if" cond "then" • stmt
+   61 cond: cond "or" • cond
 
-    "if"              shift, and go to state 22
-    "return"          shift, and go to state 23
-    "while"           shift, and go to state 24
+    "not"             shift, and go to state 41
     T_id              shift, and go to state 25
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
     T_string_literal  shift, and go to state 26
-    ';'               shift, and go to state 27
-    '{'               shift, and go to state 10
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 46
 
-    stmt       go to state 120
-    block      go to state 29
-    func-call  go to state 31
-    l-value    go to state 32
+    func_call  go to state 47
+    l_value    go to state 48
+    expr       go to state 49
+    cond       go to state 120
 
 
 State 90
 
-   48 expr: '(' expr • ')'
-   53     | expr • '+' expr
-   54     | expr • '-' expr
-   55     | expr • '*' expr
-   56     | expr • "div" expr
-   57     | expr • "mod" expr
-
-    "div"  shift, and go to state 76
-    "mod"  shift, and go to state 77
-    '*'    shift, and go to state 80
-    '+'    shift, and go to state 81
-    '-'    shift, and go to state 82
-    ')'    shift, and go to state 105
-
-
-State 91
-
-   35 stmt: "return" expr ';' •
-
-    $default  reduce using rule 35 (stmt)
-
-
-State 92
-
-   33 stmt: "while" cond "do" • stmt
+   31 stmt: "if" cond "then" • stmt
+   32     | "if" cond "then" • stmt "else" stmt
 
     "if"              shift, and go to state 22
     "return"          shift, and go to state 23
@@ -1339,173 +1308,200 @@ State 92
 
     stmt       go to state 121
     block      go to state 29
-    func-call  go to state 31
-    l-value    go to state 32
+    func_call  go to state 31
+    l_value    go to state 32
+
+
+State 91
+
+   49 expr: '(' expr • ')'
+   53     | expr • '+' expr
+   54     | expr • '-' expr
+   55     | expr • '*' expr
+   56     | expr • "div" expr
+   57     | expr • "mod" expr
+
+    "div"  shift, and go to state 77
+    "mod"  shift, and go to state 78
+    '*'    shift, and go to state 81
+    '+'    shift, and go to state 82
+    '-'    shift, and go to state 83
+    ')'    shift, and go to state 106
+
+
+State 92
+
+   35 stmt: "return" expr ';' •
+
+    $default  reduce using rule 35 (stmt)
 
 
 State 93
 
-   39 func-call: T_id '(' ')' •
+   33 stmt: "while" cond "do" • stmt
 
-    $default  reduce using rule 39 (func-call)
+    "if"              shift, and go to state 22
+    "return"          shift, and go to state 23
+    "while"           shift, and go to state 24
+    T_id              shift, and go to state 25
+    T_string_literal  shift, and go to state 26
+    ';'               shift, and go to state 27
+    '{'               shift, and go to state 10
+
+    stmt       go to state 122
+    block      go to state 29
+    func_call  go to state 31
+    l_value    go to state 32
 
 
 State 94
 
-   40 func-call: T_id '(' expr • comma-expr-list ')'
-   53 expr: expr • '+' expr
-   54     | expr • '-' expr
-   55     | expr • '*' expr
-   56     | expr • "div" expr
-   57     | expr • "mod" expr
+   39 func_call: T_id '(' ')' •
 
-    "div"  shift, and go to state 76
-    "mod"  shift, and go to state 77
-    '*'    shift, and go to state 80
-    '+'    shift, and go to state 81
-    '-'    shift, and go to state 82
-    ','    shift, and go to state 122
-
-    $default  reduce using rule 41 (comma-expr-list)
-
-    comma-expr-list  go to state 123
+    $default  reduce using rule 39 (func_call)
 
 
 State 95
 
-   28 stmt: l-value "<-" expr • ';'
+   40 func_call: T_id '(' expr • comma_expr_list ')'
    53 expr: expr • '+' expr
    54     | expr • '-' expr
    55     | expr • '*' expr
    56     | expr • "div" expr
    57     | expr • "mod" expr
 
-    "div"  shift, and go to state 76
-    "mod"  shift, and go to state 77
-    '*'    shift, and go to state 80
-    '+'    shift, and go to state 81
-    '-'    shift, and go to state 82
-    ';'    shift, and go to state 124
+    "div"  shift, and go to state 77
+    "mod"  shift, and go to state 78
+    '*'    shift, and go to state 81
+    '+'    shift, and go to state 82
+    '-'    shift, and go to state 83
+    ','    shift, and go to state 123
+
+    $default  reduce using rule 41 (comma_expr_list)
+
+    comma_expr_list  go to state 124
 
 
 State 96
 
-   45 l-value: l-value '[' expr • ']'
+   28 stmt: l_value "<-" expr • ';'
    53 expr: expr • '+' expr
    54     | expr • '-' expr
    55     | expr • '*' expr
    56     | expr • "div" expr
    57     | expr • "mod" expr
 
-    "div"  shift, and go to state 76
-    "mod"  shift, and go to state 77
-    '*'    shift, and go to state 80
-    '+'    shift, and go to state 81
-    '-'    shift, and go to state 82
-    ']'    shift, and go to state 125
+    "div"  shift, and go to state 77
+    "mod"  shift, and go to state 78
+    '*'    shift, and go to state 81
+    '+'    shift, and go to state 82
+    '-'    shift, and go to state 83
+    ';'    shift, and go to state 125
 
 
 State 97
 
-    9 fpar-def: "ref" T_id comma-id-list ':' • fpar-type
-
-    "char"  shift, and go to state 63
-    "int"   shift, and go to state 64
-
-    data-type  go to state 98
-    fpar-type  go to state 126
-
-
-State 98
-
-   19 fpar-type: data-type • '[' ']' bracket-int-const-list
-   20          | data-type • bracket-int-const-list
-
-    '['  shift, and go to state 127
-
-    $default  reduce using rule 15 (bracket-int-const-list)
-
-    bracket-int-const-list  go to state 128
-
-
-State 99
-
-   10 fpar-def: T_id comma-id-list ':' fpar-type •
-
-    $default  reduce using rule 10 (fpar-def)
-
-
-State 100
-
-   12 comma-id-list: comma-id-list ',' T_id •
-
-    $default  reduce using rule 12 (comma-id-list)
-
-
-State 101
-
-    8 semi-fpar-def-list: ';' fpar-def semi-fpar-def-list •
-
-    $default  reduce using rule 8 (semi-fpar-def-list)
-
-
-State 102
-
-    5 header: "fun" T_id '(' fpar-def semi-fpar-def-list ')' ':' • ret-type
-
-    "char"     shift, and go to state 63
-    "int"      shift, and go to state 64
-    "nothing"  shift, and go to state 65
-
-    data-type  go to state 66
-    ret-type   go to state 129
-
-
-State 103
-
-   21 type: data-type • bracket-int-const-list
-
-    '['  shift, and go to state 130
-
-    $default  reduce using rule 15 (bracket-int-const-list)
-
-    bracket-int-const-list  go to state 131
-
-
-State 104
-
-   26 var-def: "var" T_id comma-id-list ':' type • ';'
-
-    ';'  shift, and go to state 132
-
-
-State 105
-
-   48 expr: '(' expr ')' •
-
-    $default  reduce using rule 48 (expr)
-
-
-State 106
-
-   58 cond: '(' cond ')' •
-
-    $default  reduce using rule 58 (cond)
-
-
-State 107
-
+   45 l_value: l_value '[' expr • ']'
    53 expr: expr • '+' expr
    54     | expr • '-' expr
    55     | expr • '*' expr
    56     | expr • "div" expr
-   56     | expr "div" expr •
    57     | expr • "mod" expr
 
-    '+'  shift, and go to state 81
-    '-'  shift, and go to state 82
+    "div"  shift, and go to state 77
+    "mod"  shift, and go to state 78
+    '*'    shift, and go to state 81
+    '+'    shift, and go to state 82
+    '-'    shift, and go to state 83
+    ']'    shift, and go to state 126
 
-    $default  reduce using rule 56 (expr)
+
+State 98
+
+    9 fpar_def: "ref" T_id comma_id_list ':' • fpar_type
+
+    "char"  shift, and go to state 64
+    "int"   shift, and go to state 65
+
+    data_type  go to state 100
+    fpar_type  go to state 127
+
+
+State 99
+
+   12 comma_id_list: ',' T_id comma_id_list •
+
+    $default  reduce using rule 12 (comma_id_list)
+
+
+State 100
+
+   19 fpar_type: data_type • '[' ']' bracket_int_const_list
+   20          | data_type • bracket_int_const_list
+
+    '['  shift, and go to state 128
+
+    $default  reduce using rule 15 (bracket_int_const_list)
+
+    bracket_int_const_list  go to state 129
+
+
+State 101
+
+   10 fpar_def: T_id comma_id_list ':' fpar_type •
+
+    $default  reduce using rule 10 (fpar_def)
+
+
+State 102
+
+    8 semi_fpar_def_list: ';' fpar_def semi_fpar_def_list •
+
+    $default  reduce using rule 8 (semi_fpar_def_list)
+
+
+State 103
+
+    5 header: "fun" T_id '(' fpar_def semi_fpar_def_list ')' ':' • ret_type
+
+    "char"     shift, and go to state 64
+    "int"      shift, and go to state 65
+    "nothing"  shift, and go to state 66
+
+    data_type  go to state 67
+    ret_type   go to state 130
+
+
+State 104
+
+   21 grace_type: data_type • bracket_int_const_list
+
+    '['  shift, and go to state 131
+
+    $default  reduce using rule 15 (bracket_int_const_list)
+
+    bracket_int_const_list  go to state 132
+
+
+State 105
+
+   26 var_def: "var" T_id comma_id_list ':' grace_type • ';'
+
+    ';'  shift, and go to state 133
+
+
+State 106
+
+   49 expr: '(' expr ')' •
+
+    $default  reduce using rule 49 (expr)
+
+
+State 107
+
+   58 cond: '(' cond ')' •
+
+    $default  reduce using rule 58 (cond)
 
 
 State 108
@@ -1514,13 +1510,13 @@ State 108
    54     | expr • '-' expr
    55     | expr • '*' expr
    56     | expr • "div" expr
+   56     | expr "div" expr •
    57     | expr • "mod" expr
-   57     | expr "mod" expr •
 
-    '+'  shift, and go to state 81
-    '-'  shift, and go to state 82
+    '+'  shift, and go to state 82
+    '-'  shift, and go to state 83
 
-    $default  reduce using rule 57 (expr)
+    $default  reduce using rule 56 (expr)
 
 
 State 109
@@ -1530,15 +1526,12 @@ State 109
    55     | expr • '*' expr
    56     | expr • "div" expr
    57     | expr • "mod" expr
-   66 cond: expr "<=" expr •
+   57     | expr "mod" expr •
 
-    "div"  shift, and go to state 76
-    "mod"  shift, and go to state 77
-    '*'    shift, and go to state 80
-    '+'    shift, and go to state 81
-    '-'    shift, and go to state 82
+    '+'  shift, and go to state 82
+    '-'  shift, and go to state 83
 
-    $default  reduce using rule 66 (cond)
+    $default  reduce using rule 57 (expr)
 
 
 State 110
@@ -1548,18 +1541,36 @@ State 110
    55     | expr • '*' expr
    56     | expr • "div" expr
    57     | expr • "mod" expr
+   66 cond: expr "<=" expr •
+
+    "div"  shift, and go to state 77
+    "mod"  shift, and go to state 78
+    '*'    shift, and go to state 81
+    '+'    shift, and go to state 82
+    '-'    shift, and go to state 83
+
+    $default  reduce using rule 66 (cond)
+
+
+State 111
+
+   53 expr: expr • '+' expr
+   54     | expr • '-' expr
+   55     | expr • '*' expr
+   56     | expr • "div" expr
+   57     | expr • "mod" expr
    67 cond: expr ">=" expr •
 
-    "div"  shift, and go to state 76
-    "mod"  shift, and go to state 77
-    '*'    shift, and go to state 80
-    '+'    shift, and go to state 81
-    '-'    shift, and go to state 82
+    "div"  shift, and go to state 77
+    "mod"  shift, and go to state 78
+    '*'    shift, and go to state 81
+    '+'    shift, and go to state 82
+    '-'    shift, and go to state 83
 
     $default  reduce using rule 67 (cond)
 
 
-State 111
+State 112
 
    53 expr: expr • '+' expr
    54     | expr • '-' expr
@@ -1568,13 +1579,13 @@ State 111
    56     | expr • "div" expr
    57     | expr • "mod" expr
 
-    '+'  shift, and go to state 81
-    '-'  shift, and go to state 82
+    '+'  shift, and go to state 82
+    '-'  shift, and go to state 83
 
     $default  reduce using rule 55 (expr)
 
 
-State 112
+State 113
 
    53 expr: expr • '+' expr
    53     | expr '+' expr •
@@ -1586,7 +1597,7 @@ State 112
     $default  reduce using rule 53 (expr)
 
 
-State 113
+State 114
 
    53 expr: expr • '+' expr
    54     | expr • '-' expr
@@ -1598,7 +1609,7 @@ State 113
     $default  reduce using rule 54 (expr)
 
 
-State 114
+State 115
 
    53 expr: expr • '+' expr
    54     | expr • '-' expr
@@ -1607,31 +1618,13 @@ State 114
    57     | expr • "mod" expr
    62 cond: expr '=' expr •
 
-    "div"  shift, and go to state 76
-    "mod"  shift, and go to state 77
-    '*'    shift, and go to state 80
-    '+'    shift, and go to state 81
-    '-'    shift, and go to state 82
+    "div"  shift, and go to state 77
+    "mod"  shift, and go to state 78
+    '*'    shift, and go to state 81
+    '+'    shift, and go to state 82
+    '-'    shift, and go to state 83
 
     $default  reduce using rule 62 (cond)
-
-
-State 115
-
-   53 expr: expr • '+' expr
-   54     | expr • '-' expr
-   55     | expr • '*' expr
-   56     | expr • "div" expr
-   57     | expr • "mod" expr
-   63 cond: expr '#' expr •
-
-    "div"  shift, and go to state 76
-    "mod"  shift, and go to state 77
-    '*'    shift, and go to state 80
-    '+'    shift, and go to state 81
-    '-'    shift, and go to state 82
-
-    $default  reduce using rule 63 (cond)
 
 
 State 116
@@ -1641,15 +1634,15 @@ State 116
    55     | expr • '*' expr
    56     | expr • "div" expr
    57     | expr • "mod" expr
-   64 cond: expr '<' expr •
+   63 cond: expr '#' expr •
 
-    "div"  shift, and go to state 76
-    "mod"  shift, and go to state 77
-    '*'    shift, and go to state 80
-    '+'    shift, and go to state 81
-    '-'    shift, and go to state 82
+    "div"  shift, and go to state 77
+    "mod"  shift, and go to state 78
+    '*'    shift, and go to state 81
+    '+'    shift, and go to state 82
+    '-'    shift, and go to state 83
 
-    $default  reduce using rule 64 (cond)
+    $default  reduce using rule 63 (cond)
 
 
 State 117
@@ -1659,18 +1652,36 @@ State 117
    55     | expr • '*' expr
    56     | expr • "div" expr
    57     | expr • "mod" expr
+   64 cond: expr '<' expr •
+
+    "div"  shift, and go to state 77
+    "mod"  shift, and go to state 78
+    '*'    shift, and go to state 81
+    '+'    shift, and go to state 82
+    '-'    shift, and go to state 83
+
+    $default  reduce using rule 64 (cond)
+
+
+State 118
+
+   53 expr: expr • '+' expr
+   54     | expr • '-' expr
+   55     | expr • '*' expr
+   56     | expr • "div" expr
+   57     | expr • "mod" expr
    65 cond: expr '>' expr •
 
-    "div"  shift, and go to state 76
-    "mod"  shift, and go to state 77
-    '*'    shift, and go to state 80
-    '+'    shift, and go to state 81
-    '-'    shift, and go to state 82
+    "div"  shift, and go to state 77
+    "mod"  shift, and go to state 78
+    '*'    shift, and go to state 81
+    '+'    shift, and go to state 82
+    '-'    shift, and go to state 83
 
     $default  reduce using rule 65 (cond)
 
 
-State 118
+State 119
 
    60 cond: cond • "and" cond
    60     | cond "and" cond •
@@ -1679,127 +1690,127 @@ State 118
     $default  reduce using rule 60 (cond)
 
 
-State 119
+State 120
 
    60 cond: cond • "and" cond
    61     | cond • "or" cond
    61     | cond "or" cond •
 
-    "and"  shift, and go to state 87
+    "and"  shift, and go to state 88
 
     $default  reduce using rule 61 (cond)
 
 
-State 120
-
-   31 stmt: "if" cond "then" stmt • "else" stmt
-   32     | "if" cond "then" stmt •
-
-    "else"  shift, and go to state 133
-
-    "else"    [reduce using rule 32 (stmt)]
-    $default  reduce using rule 32 (stmt)
-
-
 State 121
+
+   31 stmt: "if" cond "then" stmt •
+   32     | "if" cond "then" stmt • "else" stmt
+
+    "else"  shift, and go to state 134
+
+    "else"    [reduce using rule 31 (stmt)]
+    $default  reduce using rule 31 (stmt)
+
+
+State 122
 
    33 stmt: "while" cond "do" stmt •
 
     $default  reduce using rule 33 (stmt)
 
 
-State 122
-
-   42 comma-expr-list: ',' • expr comma-expr-list
-
-    T_id              shift, and go to state 25
-    T_int_const       shift, and go to state 41
-    T_char_const      shift, and go to state 42
-    T_string_literal  shift, and go to state 26
-    '+'               shift, and go to state 43
-    '-'               shift, and go to state 44
-    '('               shift, and go to state 50
-
-    func-call  go to state 46
-    l-value    go to state 47
-    expr       go to state 134
-
-
 State 123
 
-   40 func-call: T_id '(' expr comma-expr-list • ')'
+   42 comma_expr_list: ',' • expr comma_expr_list
 
-    ')'  shift, and go to state 135
+    T_id              shift, and go to state 25
+    T_int_const       shift, and go to state 42
+    T_char_const      shift, and go to state 43
+    T_string_literal  shift, and go to state 26
+    '+'               shift, and go to state 44
+    '-'               shift, and go to state 45
+    '('               shift, and go to state 51
+
+    func_call  go to state 47
+    l_value    go to state 48
+    expr       go to state 135
 
 
 State 124
 
-   28 stmt: l-value "<-" expr ';' •
+   40 func_call: T_id '(' expr comma_expr_list • ')'
 
-    $default  reduce using rule 28 (stmt)
+    ')'  shift, and go to state 136
 
 
 State 125
 
-   45 l-value: l-value '[' expr ']' •
+   28 stmt: l_value "<-" expr ';' •
 
-    $default  reduce using rule 45 (l-value)
+    $default  reduce using rule 28 (stmt)
 
 
 State 126
 
-    9 fpar-def: "ref" T_id comma-id-list ':' fpar-type •
+   45 l_value: l_value '[' expr ']' •
 
-    $default  reduce using rule 9 (fpar-def)
+    $default  reduce using rule 45 (l_value)
 
 
 State 127
 
-   16 bracket-int-const-list: '[' • T_int_const ']' bracket-int-const-list
-   19 fpar-type: data-type '[' • ']' bracket-int-const-list
+    9 fpar_def: "ref" T_id comma_id_list ':' fpar_type •
 
-    T_int_const  shift, and go to state 136
-    ']'          shift, and go to state 137
+    $default  reduce using rule 9 (fpar_def)
 
 
 State 128
 
-   20 fpar-type: data-type bracket-int-const-list •
+   16 bracket_int_const_list: '[' • T_int_const ']' bracket_int_const_list
+   19 fpar_type: data_type '[' • ']' bracket_int_const_list
 
-    $default  reduce using rule 20 (fpar-type)
+    T_int_const  shift, and go to state 137
+    ']'          shift, and go to state 138
 
 
 State 129
 
-    5 header: "fun" T_id '(' fpar-def semi-fpar-def-list ')' ':' ret-type •
+   20 fpar_type: data_type bracket_int_const_list •
 
-    $default  reduce using rule 5 (header)
+    $default  reduce using rule 20 (fpar_type)
 
 
 State 130
 
-   16 bracket-int-const-list: '[' • T_int_const ']' bracket-int-const-list
+    5 header: "fun" T_id '(' fpar_def semi_fpar_def_list ')' ':' ret_type •
 
-    T_int_const  shift, and go to state 136
+    $default  reduce using rule 5 (header)
 
 
 State 131
 
-   21 type: data-type bracket-int-const-list •
+   16 bracket_int_const_list: '[' • T_int_const ']' bracket_int_const_list
 
-    $default  reduce using rule 21 (type)
+    T_int_const  shift, and go to state 137
 
 
 State 132
 
-   26 var-def: "var" T_id comma-id-list ':' type ';' •
+   21 grace_type: data_type bracket_int_const_list •
 
-    $default  reduce using rule 26 (var-def)
+    $default  reduce using rule 21 (grace_type)
 
 
 State 133
 
-   31 stmt: "if" cond "then" stmt "else" • stmt
+   26 var_def: "var" T_id comma_id_list ':' grace_type ';' •
+
+    $default  reduce using rule 26 (var_def)
+
+
+State 134
+
+   32 stmt: "if" cond "then" stmt "else" • stmt
 
     "if"              shift, and go to state 22
     "return"          shift, and go to state 23
@@ -1809,92 +1820,92 @@ State 133
     ';'               shift, and go to state 27
     '{'               shift, and go to state 10
 
-    stmt       go to state 138
+    stmt       go to state 139
     block      go to state 29
-    func-call  go to state 31
-    l-value    go to state 32
+    func_call  go to state 31
+    l_value    go to state 32
 
 
-State 134
+State 135
 
-   42 comma-expr-list: ',' expr • comma-expr-list
+   42 comma_expr_list: ',' expr • comma_expr_list
    53 expr: expr • '+' expr
    54     | expr • '-' expr
    55     | expr • '*' expr
    56     | expr • "div" expr
    57     | expr • "mod" expr
 
-    "div"  shift, and go to state 76
-    "mod"  shift, and go to state 77
-    '*'    shift, and go to state 80
-    '+'    shift, and go to state 81
-    '-'    shift, and go to state 82
-    ','    shift, and go to state 122
+    "div"  shift, and go to state 77
+    "mod"  shift, and go to state 78
+    '*'    shift, and go to state 81
+    '+'    shift, and go to state 82
+    '-'    shift, and go to state 83
+    ','    shift, and go to state 123
 
-    $default  reduce using rule 41 (comma-expr-list)
+    $default  reduce using rule 41 (comma_expr_list)
 
-    comma-expr-list  go to state 139
-
-
-State 135
-
-   40 func-call: T_id '(' expr comma-expr-list ')' •
-
-    $default  reduce using rule 40 (func-call)
+    comma_expr_list  go to state 140
 
 
 State 136
 
-   16 bracket-int-const-list: '[' T_int_const • ']' bracket-int-const-list
+   40 func_call: T_id '(' expr comma_expr_list ')' •
 
-    ']'  shift, and go to state 140
+    $default  reduce using rule 40 (func_call)
 
 
 State 137
 
-   19 fpar-type: data-type '[' ']' • bracket-int-const-list
+   16 bracket_int_const_list: '[' T_int_const • ']' bracket_int_const_list
 
-    '['  shift, and go to state 130
-
-    $default  reduce using rule 15 (bracket-int-const-list)
-
-    bracket-int-const-list  go to state 141
+    ']'  shift, and go to state 141
 
 
 State 138
 
-   31 stmt: "if" cond "then" stmt "else" stmt •
+   19 fpar_type: data_type '[' ']' • bracket_int_const_list
 
-    $default  reduce using rule 31 (stmt)
+    '['  shift, and go to state 131
+
+    $default  reduce using rule 15 (bracket_int_const_list)
+
+    bracket_int_const_list  go to state 142
 
 
 State 139
 
-   42 comma-expr-list: ',' expr comma-expr-list •
+   32 stmt: "if" cond "then" stmt "else" stmt •
 
-    $default  reduce using rule 42 (comma-expr-list)
+    $default  reduce using rule 32 (stmt)
 
 
 State 140
 
-   16 bracket-int-const-list: '[' T_int_const ']' • bracket-int-const-list
+   42 comma_expr_list: ',' expr comma_expr_list •
 
-    '['  shift, and go to state 130
-
-    $default  reduce using rule 15 (bracket-int-const-list)
-
-    bracket-int-const-list  go to state 142
+    $default  reduce using rule 42 (comma_expr_list)
 
 
 State 141
 
-   19 fpar-type: data-type '[' ']' bracket-int-const-list •
+   16 bracket_int_const_list: '[' T_int_const ']' • bracket_int_const_list
 
-    $default  reduce using rule 19 (fpar-type)
+    '['  shift, and go to state 131
+
+    $default  reduce using rule 15 (bracket_int_const_list)
+
+    bracket_int_const_list  go to state 143
 
 
 State 142
 
-   16 bracket-int-const-list: '[' T_int_const ']' bracket-int-const-list •
+   19 fpar_type: data_type '[' ']' bracket_int_const_list •
 
-    $default  reduce using rule 16 (bracket-int-const-list)
+    $default  reduce using rule 19 (fpar_type)
+
+
+State 143
+
+   16 bracket_int_const_list: '[' T_int_const ']' bracket_int_const_list •
+
+    $default  reduce using rule 16 (bracket_int_const_list)
