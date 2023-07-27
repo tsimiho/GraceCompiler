@@ -1,0 +1,4 @@
+fun main () : nothing
+{
+    "Route66" <- h("foo", (28 * '\n'));
+}

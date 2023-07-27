@@ -46,7 +46,7 @@ program: func_def;
 func_def: header local_def_list block;
 
 local_def_list: /* nothing */ 
-                | local_def_list local_def 
+                | local_def local_def_list
                 ;
 
 header: T_fun T_id '(' fpar_def semi_fpar_def_list ')' ':' ret_type 

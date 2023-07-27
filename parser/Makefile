@@ -22,4 +22,4 @@ clean:
 	$(RM) lexer.cpp parser.cpp parser.hpp parser.output *.o
 
 distclean: clean
-	$(RM) minibasic
+	$(RM) grace
