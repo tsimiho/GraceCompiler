@@ -8,7 +8,7 @@ type token =
   | T_hash | T_comma | T_semicolon | T_colon | T_leq | T_geq | T_prod
 
 
-let lines = ref 1
+let lines = ref 0
 
 }
 
@@ -16,8 +16,9 @@ let lines = ref 1
 let digit  = ['0'-'9']
 let letter = ['A'-'Z' 'a'-'z']
 let white  = [' ' '\t' '\r' '\n']
-let escape = ['\\' '\n' '\t' '\r' '\000' '\'' '\"']
-let hex_digit = ['0'-'9' 'a'-'f' 'A'-'F']
+let common = [^ '\'' '"' '\\' '\n']
+let hex = ['0'-'9' 'a'-'f' 'A'-'F']
+let escape = '\\' (['n' 't' 'r' '0' '\\' '\'' '"'] | ('x' hex hex ))
 
 rule lexer = parse
   | "and"	    { T_and }
@@ -46,8 +47,8 @@ rule lexer = parse
 
   | '\n'     { incr lines; lexer lexbuf }
   | digit+   { T_int_const }
-  | '\'' (letter | digit | white | ('\\' escape) | ('\\' '0') | ('\\' 'x' hex_digit hex_digit?)) '\'' { T_char_const }
-  | '\"' (letter | digit | white | (('\\' escape) | ('\\' '0') | ('\\' 'x' hex_digit hex_digit?)))* '\"' { T_string_literal }
+  | '\'' (letter | digit | common | escape ) '\'' { T_char_const }
+  | '\"' (letter | digit | common | escape )* '\"' { T_string_literal }
 
   | '='       { T_eq }
   | '('       { T_lparen }
@@ -78,7 +79,7 @@ rule lexer = parse
 
 and comment = parse
   | "$$" { lexer lexbuf }
-  | '\n' { incr lines; lexer lexbuf }
+  | '\n' { incr lines; comment lexbuf }
   | ([^ '$' '\n']|('$' [^ '$' '\n']))* {comment lexbuf} 
 
 {
@@ -133,8 +134,8 @@ and comment = parse
     let lexbuf = Lexing.from_channel stdin in
     let rec loop () =
       let token = lexer lexbuf in
-      Printf.printf "token = %s, lexeme = \"%s\"\n"
-        (string_of_token token) (Lexing.lexeme lexbuf);
+      Printf.printf "token = %s, lexeme = \"%s\"%d\n"
+        (string_of_token token) (Lexing.lexeme lexbuf) (!lines);
       if token <> T_eof then loop () in
     loop ()
 }

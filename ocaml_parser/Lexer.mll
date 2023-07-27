@@ -5,11 +5,13 @@ let lines = ref 1
 
 }
 
+
 let digit  = ['0'-'9']
 let letter = ['A'-'Z' 'a'-'z']
 let white  = [' ' '\t' '\r' '\n']
-let escape = ['\\' '\n' '\t' '\r' '\000' '\'' '\"']
-let hex_digit = ['0'-'9' 'a'-'f' 'A'-'F']
+let common = [^ '\'' '"' '\\' '\n']
+let hex = ['0'-'9' 'a'-'f' 'A'-'F']
+let escape = '\\' (['n' 't' 'r' '0' '\\' '\'' '"'] | ('x' hex hex ))
 
 rule lexer = parse
   | "and"	    { T_and }
@@ -38,12 +40,8 @@ rule lexer = parse
 
   | '\n'     { incr lines; lexer lexbuf }
   | digit+   { T_int_const }
-  (* | '\\' '0' { T_char_const } *)
-  (* | '\\' 'x' digit (digit|letter) { T_char_const }  *)
-  (* | '\'' (letter|digit|white|escape|('\\' '0')|('\\' 'x' digit (digit|letter))) '\'' { T_char_const } *)
-  (* | '\"' ((escape)|('\\' '0')|('\\' 'x' digit (digit|letter))|[^ '\'' '\"' '\\' '\n'] )* '\"' { T_string_literal } *)
-  | '\'' (letter | digit | white | escape | '\\' '0' | '\\' 'x' hex_digit hex_digit?) '\'' { T_char_const }
-  | '\"' (letter | digit | white | (escape | ('\\' '0') | ('\\' 'x' hex_digit hex_digit?)))* '\"' { T_string_literal }
+  | '\'' (letter | digit | common | escape ) '\'' { T_char_const }
+  | '\"' (letter | digit | common | escape )* '\"' { T_string_literal }
 
   | '='       { T_eq }
   | '('       { T_lparen }
@@ -68,7 +66,7 @@ rule lexer = parse
  
 
   |  eof          { T_eof }
-  |  _ as chr     { Printf.eprintf "Invalid character: '%c' (ascii: %d) on line %d"
+  |  _ as chr     { Printf.eprintf "Invalid character: '%c' (ascii: %d) on line %d \n"
                     chr (Char.code chr) !lines;
                     lexer lexbuf }
 
