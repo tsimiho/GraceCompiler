@@ -9,6 +9,7 @@ fun i(f, l : int[]; g : char[37]) : int
 
 {
   {
+  "Route66" <- h("foo", (28 * '\n'));
   if 'a' = 29 then b <- 5;
   h(y);
   {
