@@ -2,7 +2,7 @@ fun main(ref main : int[]; ref bar, n, y : char; ref l : int; n : char) : nothin
 fun f(k, k : char; ref d, z : char[4]; foo, l : int[][3]) : nothing
 fun k(ref baz : int[]; f : int[][29]; ref z, m : int; a, main, l : int[]; ref z : char[][22][9]) : nothing
 fun x(m : int; b, n : char[31][1]; y, i, y : int[8][16]; ref b, k, n : int[][14]; y : char[][11]) : nothing;
-fun x() : nothing;
+fun x()  nothing;
 
 {
   return;

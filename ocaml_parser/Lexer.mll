@@ -1,14 +1,14 @@
 {
 open Parser
 
-let lines = ref 1
+let lines = ref 0
 
 }
 
 
 let digit  = ['0'-'9']
 let letter = ['A'-'Z' 'a'-'z']
-let white  = [' ' '\t' '\r' '\n']
+let white  = [' ' '\t' '\r']
 let common = [^ '\'' '"' '\\' '\n']
 let hex = ['0'-'9' 'a'-'f' 'A'-'F']
 let escape = '\\' (['n' 't' 'r' '0' '\\' '\'' '"'] | ('x' hex hex ))

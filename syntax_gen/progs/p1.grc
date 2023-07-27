@@ -2,5 +2,5 @@ fun x(ref k, y : char) : char
 fun e() : char;
 
 {
-
+    "Route66" <- h("foo", (28 * '\n'));
 }
