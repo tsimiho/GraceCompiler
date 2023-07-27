@@ -52,12 +52,12 @@
 
 %%
 
-program: func_def { () }
+program: func_def T_eof { () }
 
 func_def: header local_def_list block { () }
 
 local_def_list: /* nothing */ { () }
-                | local_def_list local_def { () }
+                | local_def local_def_list { () }
 
 header: T_fun T_id T_lparen fpar_def semi_fpar_def_list T_rparen T_colon ret_type { () }
         | T_fun T_id T_lparen T_rparen T_colon ret_type { () }
