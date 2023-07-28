@@ -1,4 +1,5 @@
 {
+    
 type token =
   | T_eof | T_and | T_char | T_div | T_do | T_else | T_fun | T_if
   | T_int | T_mod | T_not | T_nothing | T_or | T_ref | T_return
@@ -45,7 +46,7 @@ rule lexer = parse
   | letter (letter|digit|'_')*  { T_id }
 
 
-  | '\n'     { incr lines; lexer lexbuf }
+    | '\n'   { Lexing.new_line; lexer lexbuf }
   | digit+   { T_int_const }
   | '\'' (letter | digit | common | escape ) '\'' { T_char_const }
   | '\"' (letter | digit | common | escape )* '\"' { T_string_literal }
@@ -79,7 +80,7 @@ rule lexer = parse
 
 and comment = parse
   | "$$" { lexer lexbuf }
-  | '\n' { incr lines; comment lexbuf }
+  | '\n' { Lexing.new_line; comment lexbuf }
   | ([^ '$' '\n']|('$' [^ '$' '\n']))* {comment lexbuf} 
 
 {
@@ -134,8 +135,8 @@ and comment = parse
     let lexbuf = Lexing.from_channel stdin in
     let rec loop () =
       let token = lexer lexbuf in
-      Printf.printf "token = %s, lexeme = \"%s\"%d\n"
-        (string_of_token token) (Lexing.lexeme lexbuf) (!lines);
+      Printf.printf "token = %s, lexeme = \"%s\"\n"
+        (string_of_token token) (Lexing.lexeme lexbuf);
       if token <> T_eof then loop () in
     loop ()
 }

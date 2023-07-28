@@ -121,7 +121,7 @@ l_value: T_id { () }
 
 expr: T_int_const     { () }
       | T_char_const    { () }
-    | l_value { () }
+      | l_value { () }
       | T_lparen expr T_rparen    { () }
       | func_call { () }
       | T_plus expr { () }

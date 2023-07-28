@@ -1322,7 +1322,7 @@ and __ocaml_lex_lexer_rec lexbuf __ocaml_lex_state =
 
   | 21 ->
 # 41 "Lexer.mll"
-             ( incr lines; lexer lexbuf )
+             ( Lexing.new_line lexbuf; lexer lexbuf )
 # 1327 "Lexer.ml"
 
   | 22 ->
@@ -1466,7 +1466,7 @@ and __ocaml_lex_comment_rec lexbuf __ocaml_lex_state =
 
   | 1 ->
 # 75 "Lexer.mll"
-         ( incr lines; lexer lexbuf )
+         ( Lexing.new_line lexbuf; lexer lexbuf )
 # 1471 "Lexer.ml"
 
   | 2 ->

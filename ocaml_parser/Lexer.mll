@@ -38,7 +38,7 @@ rule lexer = parse
   | letter (letter|digit|'_')*  { T_id }
 
 
-  | '\n'     { incr lines; lexer lexbuf }
+  | '\n'     { Lexing.new_line lexbuf; lexer lexbuf }
   | digit+   { T_int_const }
   | '\'' (letter | digit | common | escape ) '\'' { T_char_const }
   | '\"' (letter | digit | common | escape )* '\"' { T_string_literal }
@@ -72,7 +72,7 @@ rule lexer = parse
 
 and comment = parse
   | "$$" { lexer lexbuf }
-  | '\n' { incr lines; lexer lexbuf }
+  | '\n' { Lexing.new_line lexbuf; lexer lexbuf }
   | ([^ '$' '\n']|('$' [^ '$' '\n']))* {comment lexbuf} 
 
 {
