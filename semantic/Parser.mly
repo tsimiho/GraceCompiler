@@ -47,9 +47,9 @@
 %left T_or
 %left T_and
 %nonassoc T_not
-%left T_times T_div T_mod
+%nonassoc T_eq T_hash T_less T_more T_geq T_leq
 %left T_plus T_minus
-
+%left T_times T_div T_mod
 
 %start program
 %type <unit -> unit> program
@@ -60,7 +60,7 @@ program: func_def T_eof { $1 }
 
 func_def: header local_def_list block {  }
 
-local_def_list: /* nothing */ { fun _ -> () }
+local_def_list: /* nothing */              { fun _ -> () }
                 | local_def local_def_list { fun _ -> begin $1 (); $2 () end }
 
 header: T_fun T_id T_lparen fpar_def semi_fpar_def_list T_rparen T_colon ret_type {  }
@@ -78,20 +78,20 @@ comma_id_list: /* nothing */                {  }
 data_type: T_int    { TY_int }
            | T_char { TY_char }
 
-bracket_int_const_list: /* nothing */ {  }
+bracket_int_const_list: /* nothing */                                          {  }
                         | T_lbrack T_int_const T_rbrack bracket_int_const_list {  }
 
-ret_type: data_type {  }
+ret_type: data_type   {  }
           | T_nothing {  }
 
 fpar_type: data_type T_lbrack T_rbrack bracket_int_const_list {  }
-           | data_type bracket_int_const_list {  }
+           | data_type bracket_int_const_list                 {  }
 
 grace_type: data_type bracket_int_const_list {  }
 
-local_def: func_def {  }
+local_def: func_def    {  }
            | func_decl {  }
-           | var_def {  }
+           | var_def   {  }
 
 func_decl: header T_semicolon {  }
 
@@ -110,10 +110,10 @@ stmt: T_semicolon                          {  }
 
 block: T_lbrace stmt_list T_rbrace { fun _ -> $2 () }
 
-stmt_list: /* nothing */ { fun _ -> () }
+stmt_list: /* nothing */    { fun _ -> () }
            | stmt stmt_list { fun _ -> begin $1 (); $2 () end }
 
-func_call: T_id T_lparen T_rparen {  }
+func_call: T_id T_lparen T_rparen                        {  }
            | T_id T_lparen expr comma_expr_list T_rparen {  }
 
 comma_expr_list: /* nothing */ {  }

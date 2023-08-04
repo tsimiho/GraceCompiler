@@ -43,9 +43,9 @@
 %left T_or
 %left T_and
 %nonassoc T_not
-%left T_times T_div T_mod
+%nonassoc T_eq T_hash T_less T_more T_geq T_leq
 %left T_plus T_minus
-
+%left T_times T_div T_mod
 
 %start program
 %type <unit> program
