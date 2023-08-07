@@ -37,7 +37,7 @@ symbtest$(EXE): $(filter-out Lexer.cmo Parser.cmo,$(CMOFILES))
 all: $(EXEFILE)
 
 extend.cmo: extend.ml
-	$(OCAMLC) -pp "camlp5o pa_extend.cmo q_MLast.cmo" -I +camlp5 -c $<
+	$(OCAMLC) -pp "camlp5o pa_extend.cmo q_MLast.cmo" -I `camlp5 -where` -c $<
 
 %.cmo: %.ml %.mli extend.cmo
 	$(OCAMLC) $(CAMLP5_FLAGS) -c $<

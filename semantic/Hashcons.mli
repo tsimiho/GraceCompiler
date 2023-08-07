@@ -6,21 +6,22 @@ type 'a hash_consed
 val hash_value : 'a hash_consed -> 'a
 val hash_tag : 'a hash_consed -> int
 
-module type Comp =
-  sig
-    type t
-    val equal : t -> t -> bool
-    val hash : t -> int
-  end
+module type Comp = sig
+  type t
 
-module type S =
-  sig
-    type t
-    val f : unit -> t -> t hash_consed
-  end
+  val equal : t -> t -> bool
+  val hash : t -> int
+end
 
-module Make (X : Comp) : (S with type t = X.t)
+module type S = sig
+  type t
+
+  val f : unit -> t -> t hash_consed
+end
+
+module Make (X : Comp) : S with type t = X.t
 
 val init : unit -> unit
-val register_hcons : (unit -> 'a -> 'a hash_consed) ->
-                     (unit -> 'a -> 'a hash_consed)
+
+val register_hcons :
+  (unit -> 'a -> 'a hash_consed) -> unit -> 'a -> 'a hash_consed
