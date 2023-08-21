@@ -72,7 +72,7 @@ header: T_fun T_id T_lparen fpar_def semi_fpar_def_list T_rparen T_colon ret_typ
 fpar_def: T_ref T_id comma_id_list T_colon fpar_type {  }
           |  T_id comma_id_list T_colon fpar_type    {  }
 
-  comma_id_list: /* nothing */              { fun _ -> [] }
+comma_id_list: /* nothing */                { fun _ -> [] }
                | T_comma T_id comma_id_list { fun _ -> $2 () :: $3 () }
 
 data_type: T_int    { TY_int }
@@ -97,10 +97,10 @@ func_decl: header T_semicolon {  }
 
 var_def: T_var T_id comma_id_list T_colon grace_type T_semicolon {  }
 
-stmt: T_semicolon                          {  }
+stmt: T_semicolon                          { fun _ -> () }
       | l_value T_prod expr T_semicolon    {  }
-      | block                              {  }
-      | func_call T_semicolon              {  }
+      | block                              { $1 }
+      | func_call T_semicolon              { $1 }
       | T_if cond T_then stmt              { fun _ -> if $2 () <> 0 then $4 () }
       | T_if cond T_then stmt T_else stmt  { fun _ -> if $2 () <> 0 then $4 () else $6 () }
       | T_while cond T_do stmt             { fun _ -> while $2 () do $4 () done }
@@ -116,11 +116,11 @@ stmt_list: /* nothing */    { fun _ -> () }
 func_call: T_id T_lparen T_rparen                        {  }
            | T_id T_lparen expr comma_expr_list T_rparen {  }
 
-comma_expr_list: /* nothing */ {  }
-                 | T_comma expr comma_expr_list {  }
+comma_expr_list: /* nothing */                  { fun _ -> [] }
+                 | T_comma expr comma_expr_list { fun _ -> $2 () :: $3 () }
 
-l_value: T_id {  }
-         | T_string_literal {  }
+l_value: T_id                             {  }
+         | T_string_literal               {  }
          | l_value T_lbrack expr T_rbrack {  }
 
 expr: T_int_const               { fun _ -> $1 }
