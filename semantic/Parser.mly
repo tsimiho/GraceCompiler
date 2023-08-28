@@ -66,20 +66,20 @@ local_def_list: /* nothing */              { fun _ -> () }
 header: T_fun T_id T_lparen fpar_def semi_fpar_def_list T_rparen T_colon ret_type {  }
         | T_fun T_id T_lparen T_rparen T_colon ret_type                           {  }
 
-  semi_fpar_def_list: /* nothing */                           { fun _ -> [] }
+semi_fpar_def_list: /* nothing */                             { fun _ -> [] }
                     | T_semicolon fpar_def semi_fpar_def_list { fun _ -> $2 () :: $3 () }
 
 fpar_def: T_ref T_id comma_id_list T_colon fpar_type {  }
-          |  T_id comma_id_list T_colon fpar_type    {  }
+          | T_id comma_id_list T_colon fpar_type     {  }
 
 comma_id_list: /* nothing */                { fun _ -> [] }
                | T_comma T_id comma_id_list { fun _ -> $2 () :: $3 () }
 
-data_type: T_int    { TY_int }
-           | T_char { TY_char }
+data_type: T_int    { fun _ -> TY_int }
+           | T_char { fun _ -> TY_char }
 
-bracket_int_const_list: /* nothing */                                          {  }
-                        | T_lbrack T_int_const T_rbrack bracket_int_const_list {  }
+bracket_int_const_list: /* nothing */                                          { fun _ -> [] }
+                        | T_lbrack T_int_const T_rbrack bracket_int_const_list { fun _ -> $2 () :: $4 () }
 
 ret_type: data_type   { $1 }
           | T_nothing { $1 }
@@ -89,11 +89,11 @@ fpar_type: data_type T_lbrack T_rbrack bracket_int_const_list {  }
 
 grace_type: data_type bracket_int_const_list {  }
 
-local_def: func_def    {  }
-           | func_decl {  }
-           | var_def   {  }
+local_def: func_def    { $1 }
+           | func_decl { $1 }
+           | var_def   { $1 }
 
-func_decl: header T_semicolon {  }
+func_decl: header T_semicolon { $1 }
 
 var_def: T_var T_id comma_id_list T_colon grace_type T_semicolon {  }
 
@@ -108,7 +108,7 @@ stmt: T_semicolon                          { fun _ -> () }
       | T_return expr T_semicolon          {  }
 
 
-block: T_lbrace stmt_list T_rbrace { fun _ -> $2 () }
+block: T_lbrace stmt_list T_rbrace { $2 }
 
 stmt_list: /* nothing */    { fun _ -> () }
            | stmt stmt_list { fun _ -> begin $1 (); $2 () end }
@@ -119,8 +119,8 @@ func_call: T_id T_lparen T_rparen                        {  }
 comma_expr_list: /* nothing */                  { fun _ -> [] }
                  | T_comma expr comma_expr_list { fun _ -> $2 () :: $3 () }
 
-l_value: T_id                             {  }
-         | T_string_literal               {  }
+l_value: T_id                             { fun _ -> $1 }
+         | T_string_literal               { fun _ -> $1 }
          | l_value T_lbrack expr T_rbrack {  }
 
 expr: T_int_const               { fun _ -> $1 }
@@ -137,7 +137,7 @@ expr: T_int_const               { fun _ -> $1 }
       | expr T_mod expr         { fun _ -> $1 () mod $2 () }
 
 cond: T_lparen cond T_rparen    { $2 }
-      | T_not cond              { fun _ -> not $2 }
+      | T_not cond              { fun _ -> not $2 () }
       | cond T_and cond         { fun _ -> $1 () && $3 () }
       | cond T_or cond          { fun _ -> $1 () || $3 () }
       | expr T_eq expr          { fun _ -> $1 () = $3 () }
