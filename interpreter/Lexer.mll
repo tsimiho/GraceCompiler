@@ -72,6 +72,6 @@ rule lexer = parse
 
 and comment = parse
   | "$$" { lexer lexbuf }
-  | '\n' { Lexing.new_line lexbuf; lexer lexbuf }
+  | '\n' { Lexing.new_line lexbuf; comment lexbuf }
   | ([^ '$' '\n']|('$' [^ '$' '\n']))* {comment lexbuf} 
 

@@ -1,0 +1,1875 @@
+   0  $accept : %entry% $end
+
+   1  program : func_def T_eof
+
+   2  func_def : header local_def_list block
+
+   3  local_def_list :
+   4                 | local_def local_def_list
+
+   5  header : T_fun T_id T_lparen fpar_def semi_fpar_def_list T_rparen T_colon ret_type
+   6         | T_fun T_id T_lparen T_rparen T_colon ret_type
+
+   7  semi_fpar_def_list :
+   8                     | T_semicolon fpar_def semi_fpar_def_list
+
+   9  fpar_def : T_ref T_id comma_id_list T_colon fpar_type
+  10           | T_id comma_id_list T_colon fpar_type
+
+  11  comma_id_list :
+  12                | T_comma T_id comma_id_list
+
+  13  data_type : T_int
+  14            | T_char
+
+  15  bracket_int_const_list :
+  16                         | T_lbrack T_int_const T_rbrack bracket_int_const_list
+
+  17  ret_type : data_type
+  18           | T_nothing
+
+  19  fpar_type : data_type T_lbrack T_rbrack bracket_int_const_list
+  20            | data_type bracket_int_const_list
+
+  21  grace_type : data_type bracket_int_const_list
+
+  22  local_def : func_def
+  23            | func_decl
+  24            | var_def
+
+  25  func_decl : header T_semicolon
+
+  26  var_def : T_var T_id comma_id_list T_colon grace_type T_semicolon
+
+  27  stmt : T_semicolon
+  28       | l_value T_prod expr T_semicolon
+  29       | block
+  30       | func_call T_semicolon
+  31       | T_if cond T_then stmt
+  32       | T_if cond T_then stmt T_else stmt
+  33       | T_while cond T_do stmt
+  34       | T_return T_semicolon
+  35       | T_return expr T_semicolon
+
+  36  block : T_lbrace stmt_list T_rbrace
+
+  37  stmt_list :
+  38            | stmt stmt_list
+
+  39  func_call : T_id T_lparen T_rparen
+  40            | T_id T_lparen expr comma_expr_list T_rparen
+
+  41  comma_expr_list :
+  42                  | T_comma expr comma_expr_list
+
+  43  l_value : T_id
+  44          | T_string_literal
+  45          | l_value T_lbrack expr T_rbrack
+
+  46  expr : T_int_const
+  47       | T_char_const
+  48       | l_value
+  49       | T_lparen expr T_rparen
+  50       | func_call
+  51       | T_plus expr
+  52       | T_minus expr
+  53       | expr T_plus expr
+  54       | expr T_minus expr
+  55       | expr T_times expr
+  56       | expr T_div expr
+  57       | expr T_mod expr
+
+  58  cond : T_lparen cond T_rparen
+  59       | T_not cond
+  60       | cond T_and cond
+  61       | cond T_or cond
+  62       | expr T_eq expr
+  63       | expr T_hash expr
+  64       | expr T_less expr
+  65       | expr T_more expr
+  66       | expr T_leq expr
+  67       | expr T_geq expr
+
+  68  %entry% : '\001' program
+
+state 0
+	$accept : . %entry% $end  (0)
+
+	'\001'  shift 1
+	.  error
+
+	%entry%  goto 2
+
+
+state 1
+	%entry% : '\001' . program  (68)
+
+	T_fun  shift 3
+	.  error
+
+	program  goto 4
+	func_def  goto 5
+	header  goto 6
+
+
+state 2
+	$accept : %entry% . $end  (0)
+
+	$end  accept
+
+
+state 3
+	header : T_fun . T_id T_lparen fpar_def semi_fpar_def_list T_rparen T_colon ret_type  (5)
+	header : T_fun . T_id T_lparen T_rparen T_colon ret_type  (6)
+
+	T_id  shift 7
+	.  error
+
+
+state 4
+	%entry% : '\001' program .  (68)
+
+	.  reduce 68
+
+
+state 5
+	program : func_def . T_eof  (1)
+
+	T_eof  shift 8
+	.  error
+
+
+state 6
+	func_def : header . local_def_list block  (2)
+	local_def_list : .  (3)
+
+	T_fun  shift 3
+	T_var  shift 9
+	T_lbrace  reduce 3
+
+	func_def  goto 10
+	header  goto 11
+	local_def_list  goto 12
+	local_def  goto 13
+	func_decl  goto 14
+	var_def  goto 15
+
+
+state 7
+	header : T_fun T_id . T_lparen fpar_def semi_fpar_def_list T_rparen T_colon ret_type  (5)
+	header : T_fun T_id . T_lparen T_rparen T_colon ret_type  (6)
+
+	T_lparen  shift 16
+	.  error
+
+
+state 8
+	program : func_def T_eof .  (1)
+
+	.  reduce 1
+
+
+state 9
+	var_def : T_var . T_id comma_id_list T_colon grace_type T_semicolon  (26)
+
+	T_id  shift 17
+	.  error
+
+
+state 10
+	local_def : func_def .  (22)
+
+	.  reduce 22
+
+
+state 11
+	func_def : header . local_def_list block  (2)
+	func_decl : header . T_semicolon  (25)
+	local_def_list : .  (3)
+
+	T_fun  shift 3
+	T_var  shift 9
+	T_semicolon  shift 18
+	T_lbrace  reduce 3
+
+	func_def  goto 10
+	header  goto 11
+	local_def_list  goto 12
+	local_def  goto 13
+	func_decl  goto 14
+	var_def  goto 15
+
+
+state 12
+	func_def : header local_def_list . block  (2)
+
+	T_lbrace  shift 19
+	.  error
+
+	block  goto 20
+
+
+state 13
+	local_def_list : local_def . local_def_list  (4)
+	local_def_list : .  (3)
+
+	T_fun  shift 3
+	T_var  shift 9
+	T_lbrace  reduce 3
+
+	func_def  goto 10
+	header  goto 11
+	local_def_list  goto 21
+	local_def  goto 13
+	func_decl  goto 14
+	var_def  goto 15
+
+
+state 14
+	local_def : func_decl .  (23)
+
+	.  reduce 23
+
+
+state 15
+	local_def : var_def .  (24)
+
+	.  reduce 24
+
+
+state 16
+	header : T_fun T_id T_lparen . fpar_def semi_fpar_def_list T_rparen T_colon ret_type  (5)
+	header : T_fun T_id T_lparen . T_rparen T_colon ret_type  (6)
+
+	T_ref  shift 22
+	T_id  shift 23
+	T_rparen  shift 24
+	.  error
+
+	fpar_def  goto 25
+
+
+state 17
+	var_def : T_var T_id . comma_id_list T_colon grace_type T_semicolon  (26)
+	comma_id_list : .  (11)
+
+	T_comma  shift 26
+	T_colon  reduce 11
+
+	comma_id_list  goto 27
+
+
+state 18
+	func_decl : header T_semicolon .  (25)
+
+	.  reduce 25
+
+
+state 19
+	block : T_lbrace . stmt_list T_rbrace  (36)
+	stmt_list : .  (37)
+
+	T_if  shift 28
+	T_return  shift 29
+	T_while  shift 30
+	T_id  shift 31
+	T_string_literal  shift 32
+	T_lbrace  shift 19
+	T_semicolon  shift 33
+	T_rbrace  reduce 37
+
+	block  goto 34
+	stmt  goto 35
+	l_value  goto 36
+	func_call  goto 37
+	stmt_list  goto 38
+
+
+state 20
+	func_def : header local_def_list block .  (2)
+
+	.  reduce 2
+
+
+state 21
+	local_def_list : local_def local_def_list .  (4)
+
+	.  reduce 4
+
+
+state 22
+	fpar_def : T_ref . T_id comma_id_list T_colon fpar_type  (9)
+
+	T_id  shift 39
+	.  error
+
+
+state 23
+	fpar_def : T_id . comma_id_list T_colon fpar_type  (10)
+	comma_id_list : .  (11)
+
+	T_comma  shift 26
+	T_colon  reduce 11
+
+	comma_id_list  goto 40
+
+
+state 24
+	header : T_fun T_id T_lparen T_rparen . T_colon ret_type  (6)
+
+	T_colon  shift 41
+	.  error
+
+
+state 25
+	header : T_fun T_id T_lparen fpar_def . semi_fpar_def_list T_rparen T_colon ret_type  (5)
+	semi_fpar_def_list : .  (7)
+
+	T_semicolon  shift 42
+	T_rparen  reduce 7
+
+	semi_fpar_def_list  goto 43
+
+
+state 26
+	comma_id_list : T_comma . T_id comma_id_list  (12)
+
+	T_id  shift 44
+	.  error
+
+
+state 27
+	var_def : T_var T_id comma_id_list . T_colon grace_type T_semicolon  (26)
+
+	T_colon  shift 45
+	.  error
+
+
+state 28
+	stmt : T_if . cond T_then stmt  (31)
+	stmt : T_if . cond T_then stmt T_else stmt  (32)
+
+	T_not  shift 46
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 49
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 53
+	func_call  goto 54
+	cond  goto 55
+
+
+state 29
+	stmt : T_return . T_semicolon  (34)
+	stmt : T_return . expr T_semicolon  (35)
+
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 56
+	T_plus  shift 50
+	T_minus  shift 51
+	T_semicolon  shift 57
+	.  error
+
+	l_value  goto 52
+	expr  goto 58
+	func_call  goto 54
+
+
+state 30
+	stmt : T_while . cond T_do stmt  (33)
+
+	T_not  shift 46
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 49
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 53
+	func_call  goto 54
+	cond  goto 59
+
+
+state 31
+	func_call : T_id . T_lparen T_rparen  (39)
+	func_call : T_id . T_lparen expr comma_expr_list T_rparen  (40)
+	l_value : T_id .  (43)
+
+	T_lparen  shift 60
+	T_and  reduce 43
+	T_div  reduce 43
+	T_do  reduce 43
+	T_mod  reduce 43
+	T_or  reduce 43
+	T_then  reduce 43
+	T_eq  reduce 43
+	T_rparen  reduce 43
+	T_plus  reduce 43
+	T_minus  reduce 43
+	T_times  reduce 43
+	T_less  reduce 43
+	T_more  reduce 43
+	T_lbrack  reduce 43
+	T_rbrack  reduce 43
+	T_hash  reduce 43
+	T_comma  reduce 43
+	T_semicolon  reduce 43
+	T_leq  reduce 43
+	T_geq  reduce 43
+	T_prod  reduce 43
+
+
+state 32
+	l_value : T_string_literal .  (44)
+
+	.  reduce 44
+
+
+state 33
+	stmt : T_semicolon .  (27)
+
+	.  reduce 27
+
+
+state 34
+	stmt : block .  (29)
+
+	.  reduce 29
+
+
+state 35
+	stmt_list : stmt . stmt_list  (38)
+	stmt_list : .  (37)
+
+	T_if  shift 28
+	T_return  shift 29
+	T_while  shift 30
+	T_id  shift 31
+	T_string_literal  shift 32
+	T_lbrace  shift 19
+	T_semicolon  shift 33
+	T_rbrace  reduce 37
+
+	block  goto 34
+	stmt  goto 35
+	l_value  goto 36
+	func_call  goto 37
+	stmt_list  goto 61
+
+
+state 36
+	stmt : l_value . T_prod expr T_semicolon  (28)
+	l_value : l_value . T_lbrack expr T_rbrack  (45)
+
+	T_lbrack  shift 62
+	T_prod  shift 63
+	.  error
+
+
+state 37
+	stmt : func_call . T_semicolon  (30)
+
+	T_semicolon  shift 64
+	.  error
+
+
+state 38
+	block : T_lbrace stmt_list . T_rbrace  (36)
+
+	T_rbrace  shift 65
+	.  error
+
+
+state 39
+	fpar_def : T_ref T_id . comma_id_list T_colon fpar_type  (9)
+	comma_id_list : .  (11)
+
+	T_comma  shift 26
+	T_colon  reduce 11
+
+	comma_id_list  goto 66
+
+
+state 40
+	fpar_def : T_id comma_id_list . T_colon fpar_type  (10)
+
+	T_colon  shift 67
+	.  error
+
+
+state 41
+	header : T_fun T_id T_lparen T_rparen T_colon . ret_type  (6)
+
+	T_char  shift 68
+	T_int  shift 69
+	T_nothing  shift 70
+	.  error
+
+	ret_type  goto 71
+	data_type  goto 72
+
+
+state 42
+	semi_fpar_def_list : T_semicolon . fpar_def semi_fpar_def_list  (8)
+
+	T_ref  shift 22
+	T_id  shift 23
+	.  error
+
+	fpar_def  goto 73
+
+
+state 43
+	header : T_fun T_id T_lparen fpar_def semi_fpar_def_list . T_rparen T_colon ret_type  (5)
+
+	T_rparen  shift 74
+	.  error
+
+
+state 44
+	comma_id_list : T_comma T_id . comma_id_list  (12)
+	comma_id_list : .  (11)
+
+	T_comma  shift 26
+	T_colon  reduce 11
+
+	comma_id_list  goto 75
+
+
+state 45
+	var_def : T_var T_id comma_id_list T_colon . grace_type T_semicolon  (26)
+
+	T_char  shift 68
+	T_int  shift 69
+	.  error
+
+	data_type  goto 76
+	grace_type  goto 77
+
+
+state 46
+	cond : T_not . cond  (59)
+
+	T_not  shift 46
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 49
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 53
+	func_call  goto 54
+	cond  goto 78
+
+
+state 47
+	expr : T_int_const .  (46)
+
+	.  reduce 46
+
+
+state 48
+	expr : T_char_const .  (47)
+
+	.  reduce 47
+
+
+state 49
+	expr : T_lparen . expr T_rparen  (49)
+	cond : T_lparen . cond T_rparen  (58)
+
+	T_not  shift 46
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 49
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 79
+	func_call  goto 54
+	cond  goto 80
+
+
+state 50
+	expr : T_plus . expr  (51)
+
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 56
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 81
+	func_call  goto 54
+
+
+state 51
+	expr : T_minus . expr  (52)
+
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 56
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 82
+	func_call  goto 54
+
+
+state 52
+	l_value : l_value . T_lbrack expr T_rbrack  (45)
+	expr : l_value .  (48)
+
+	T_lbrack  shift 62
+	T_and  reduce 48
+	T_div  reduce 48
+	T_do  reduce 48
+	T_mod  reduce 48
+	T_or  reduce 48
+	T_then  reduce 48
+	T_eq  reduce 48
+	T_rparen  reduce 48
+	T_plus  reduce 48
+	T_minus  reduce 48
+	T_times  reduce 48
+	T_less  reduce 48
+	T_more  reduce 48
+	T_rbrack  reduce 48
+	T_hash  reduce 48
+	T_comma  reduce 48
+	T_semicolon  reduce 48
+	T_leq  reduce 48
+	T_geq  reduce 48
+
+
+state 53
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+	cond : expr . T_eq expr  (62)
+	cond : expr . T_hash expr  (63)
+	cond : expr . T_less expr  (64)
+	cond : expr . T_more expr  (65)
+	cond : expr . T_leq expr  (66)
+	cond : expr . T_geq expr  (67)
+
+	T_div  shift 83
+	T_mod  shift 84
+	T_eq  shift 85
+	T_plus  shift 86
+	T_minus  shift 87
+	T_times  shift 88
+	T_less  shift 89
+	T_more  shift 90
+	T_hash  shift 91
+	T_leq  shift 92
+	T_geq  shift 93
+	.  error
+
+
+state 54
+	expr : func_call .  (50)
+
+	.  reduce 50
+
+
+state 55
+	stmt : T_if cond . T_then stmt  (31)
+	stmt : T_if cond . T_then stmt T_else stmt  (32)
+	cond : cond . T_and cond  (60)
+	cond : cond . T_or cond  (61)
+
+	T_and  shift 94
+	T_or  shift 95
+	T_then  shift 96
+	.  error
+
+
+state 56
+	expr : T_lparen . expr T_rparen  (49)
+
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 56
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 97
+	func_call  goto 54
+
+
+state 57
+	stmt : T_return T_semicolon .  (34)
+
+	.  reduce 34
+
+
+state 58
+	stmt : T_return expr . T_semicolon  (35)
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+
+	T_div  shift 83
+	T_mod  shift 84
+	T_plus  shift 86
+	T_minus  shift 87
+	T_times  shift 88
+	T_semicolon  shift 98
+	.  error
+
+
+state 59
+	stmt : T_while cond . T_do stmt  (33)
+	cond : cond . T_and cond  (60)
+	cond : cond . T_or cond  (61)
+
+	T_and  shift 94
+	T_do  shift 99
+	T_or  shift 95
+	.  error
+
+
+state 60
+	func_call : T_id T_lparen . T_rparen  (39)
+	func_call : T_id T_lparen . expr comma_expr_list T_rparen  (40)
+
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 56
+	T_rparen  shift 100
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 101
+	func_call  goto 54
+
+
+state 61
+	stmt_list : stmt stmt_list .  (38)
+
+	.  reduce 38
+
+
+state 62
+	l_value : l_value T_lbrack . expr T_rbrack  (45)
+
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 56
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 102
+	func_call  goto 54
+
+
+state 63
+	stmt : l_value T_prod . expr T_semicolon  (28)
+
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 56
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 103
+	func_call  goto 54
+
+
+state 64
+	stmt : func_call T_semicolon .  (30)
+
+	.  reduce 30
+
+
+state 65
+	block : T_lbrace stmt_list T_rbrace .  (36)
+
+	.  reduce 36
+
+
+state 66
+	fpar_def : T_ref T_id comma_id_list . T_colon fpar_type  (9)
+
+	T_colon  shift 104
+	.  error
+
+
+state 67
+	fpar_def : T_id comma_id_list T_colon . fpar_type  (10)
+
+	T_char  shift 68
+	T_int  shift 69
+	.  error
+
+	fpar_type  goto 105
+	data_type  goto 106
+
+
+state 68
+	data_type : T_char .  (14)
+
+	.  reduce 14
+
+
+state 69
+	data_type : T_int .  (13)
+
+	.  reduce 13
+
+
+state 70
+	ret_type : T_nothing .  (18)
+
+	.  reduce 18
+
+
+state 71
+	header : T_fun T_id T_lparen T_rparen T_colon ret_type .  (6)
+
+	.  reduce 6
+
+
+state 72
+	ret_type : data_type .  (17)
+
+	.  reduce 17
+
+
+state 73
+	semi_fpar_def_list : T_semicolon fpar_def . semi_fpar_def_list  (8)
+	semi_fpar_def_list : .  (7)
+
+	T_semicolon  shift 42
+	T_rparen  reduce 7
+
+	semi_fpar_def_list  goto 107
+
+
+state 74
+	header : T_fun T_id T_lparen fpar_def semi_fpar_def_list T_rparen . T_colon ret_type  (5)
+
+	T_colon  shift 108
+	.  error
+
+
+state 75
+	comma_id_list : T_comma T_id comma_id_list .  (12)
+
+	.  reduce 12
+
+
+state 76
+	grace_type : data_type . bracket_int_const_list  (21)
+	bracket_int_const_list : .  (15)
+
+	T_lbrack  shift 109
+	T_semicolon  reduce 15
+
+	bracket_int_const_list  goto 110
+
+
+state 77
+	var_def : T_var T_id comma_id_list T_colon grace_type . T_semicolon  (26)
+
+	T_semicolon  shift 111
+	.  error
+
+
+state 78
+	cond : T_not cond .  (59)
+	cond : cond . T_and cond  (60)
+	cond : cond . T_or cond  (61)
+
+	.  reduce 59
+
+
+state 79
+	expr : T_lparen expr . T_rparen  (49)
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+	cond : expr . T_eq expr  (62)
+	cond : expr . T_hash expr  (63)
+	cond : expr . T_less expr  (64)
+	cond : expr . T_more expr  (65)
+	cond : expr . T_leq expr  (66)
+	cond : expr . T_geq expr  (67)
+
+	T_div  shift 83
+	T_mod  shift 84
+	T_eq  shift 85
+	T_rparen  shift 112
+	T_plus  shift 86
+	T_minus  shift 87
+	T_times  shift 88
+	T_less  shift 89
+	T_more  shift 90
+	T_hash  shift 91
+	T_leq  shift 92
+	T_geq  shift 93
+	.  error
+
+
+state 80
+	cond : T_lparen cond . T_rparen  (58)
+	cond : cond . T_and cond  (60)
+	cond : cond . T_or cond  (61)
+
+	T_and  shift 94
+	T_or  shift 95
+	T_rparen  shift 113
+	.  error
+
+
+state 81
+	expr : T_plus expr .  (51)
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+
+	T_div  shift 83
+	T_mod  shift 84
+	T_times  shift 88
+	T_and  reduce 51
+	T_do  reduce 51
+	T_or  reduce 51
+	T_then  reduce 51
+	T_eq  reduce 51
+	T_rparen  reduce 51
+	T_plus  reduce 51
+	T_minus  reduce 51
+	T_less  reduce 51
+	T_more  reduce 51
+	T_rbrack  reduce 51
+	T_hash  reduce 51
+	T_comma  reduce 51
+	T_semicolon  reduce 51
+	T_leq  reduce 51
+	T_geq  reduce 51
+
+
+state 82
+	expr : T_minus expr .  (52)
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+
+	T_div  shift 83
+	T_mod  shift 84
+	T_times  shift 88
+	T_and  reduce 52
+	T_do  reduce 52
+	T_or  reduce 52
+	T_then  reduce 52
+	T_eq  reduce 52
+	T_rparen  reduce 52
+	T_plus  reduce 52
+	T_minus  reduce 52
+	T_less  reduce 52
+	T_more  reduce 52
+	T_rbrack  reduce 52
+	T_hash  reduce 52
+	T_comma  reduce 52
+	T_semicolon  reduce 52
+	T_leq  reduce 52
+	T_geq  reduce 52
+
+
+state 83
+	expr : expr T_div . expr  (56)
+
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 56
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 114
+	func_call  goto 54
+
+
+state 84
+	expr : expr T_mod . expr  (57)
+
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 56
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 115
+	func_call  goto 54
+
+
+state 85
+	cond : expr T_eq . expr  (62)
+
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 56
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 116
+	func_call  goto 54
+
+
+state 86
+	expr : expr T_plus . expr  (53)
+
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 56
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 117
+	func_call  goto 54
+
+
+state 87
+	expr : expr T_minus . expr  (54)
+
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 56
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 118
+	func_call  goto 54
+
+
+state 88
+	expr : expr T_times . expr  (55)
+
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 56
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 119
+	func_call  goto 54
+
+
+state 89
+	cond : expr T_less . expr  (64)
+
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 56
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 120
+	func_call  goto 54
+
+
+state 90
+	cond : expr T_more . expr  (65)
+
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 56
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 121
+	func_call  goto 54
+
+
+state 91
+	cond : expr T_hash . expr  (63)
+
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 56
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 122
+	func_call  goto 54
+
+
+state 92
+	cond : expr T_leq . expr  (66)
+
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 56
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 123
+	func_call  goto 54
+
+
+state 93
+	cond : expr T_geq . expr  (67)
+
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 56
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 124
+	func_call  goto 54
+
+
+state 94
+	cond : cond T_and . cond  (60)
+
+	T_not  shift 46
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 49
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 53
+	func_call  goto 54
+	cond  goto 125
+
+
+state 95
+	cond : cond T_or . cond  (61)
+
+	T_not  shift 46
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 49
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 53
+	func_call  goto 54
+	cond  goto 126
+
+
+state 96
+	stmt : T_if cond T_then . stmt  (31)
+	stmt : T_if cond T_then . stmt T_else stmt  (32)
+
+	T_if  shift 28
+	T_return  shift 29
+	T_while  shift 30
+	T_id  shift 31
+	T_string_literal  shift 32
+	T_lbrace  shift 19
+	T_semicolon  shift 33
+	.  error
+
+	block  goto 34
+	stmt  goto 127
+	l_value  goto 36
+	func_call  goto 37
+
+
+state 97
+	expr : T_lparen expr . T_rparen  (49)
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+
+	T_div  shift 83
+	T_mod  shift 84
+	T_rparen  shift 112
+	T_plus  shift 86
+	T_minus  shift 87
+	T_times  shift 88
+	.  error
+
+
+state 98
+	stmt : T_return expr T_semicolon .  (35)
+
+	.  reduce 35
+
+
+state 99
+	stmt : T_while cond T_do . stmt  (33)
+
+	T_if  shift 28
+	T_return  shift 29
+	T_while  shift 30
+	T_id  shift 31
+	T_string_literal  shift 32
+	T_lbrace  shift 19
+	T_semicolon  shift 33
+	.  error
+
+	block  goto 34
+	stmt  goto 128
+	l_value  goto 36
+	func_call  goto 37
+
+
+state 100
+	func_call : T_id T_lparen T_rparen .  (39)
+
+	.  reduce 39
+
+
+state 101
+	func_call : T_id T_lparen expr . comma_expr_list T_rparen  (40)
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+	comma_expr_list : .  (41)
+
+	T_div  shift 83
+	T_mod  shift 84
+	T_plus  shift 86
+	T_minus  shift 87
+	T_times  shift 88
+	T_comma  shift 129
+	T_rparen  reduce 41
+
+	comma_expr_list  goto 130
+
+
+state 102
+	l_value : l_value T_lbrack expr . T_rbrack  (45)
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+
+	T_div  shift 83
+	T_mod  shift 84
+	T_plus  shift 86
+	T_minus  shift 87
+	T_times  shift 88
+	T_rbrack  shift 131
+	.  error
+
+
+state 103
+	stmt : l_value T_prod expr . T_semicolon  (28)
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+
+	T_div  shift 83
+	T_mod  shift 84
+	T_plus  shift 86
+	T_minus  shift 87
+	T_times  shift 88
+	T_semicolon  shift 132
+	.  error
+
+
+state 104
+	fpar_def : T_ref T_id comma_id_list T_colon . fpar_type  (9)
+
+	T_char  shift 68
+	T_int  shift 69
+	.  error
+
+	fpar_type  goto 133
+	data_type  goto 106
+
+
+state 105
+	fpar_def : T_id comma_id_list T_colon fpar_type .  (10)
+
+	.  reduce 10
+
+
+state 106
+	fpar_type : data_type . T_lbrack T_rbrack bracket_int_const_list  (19)
+	fpar_type : data_type . bracket_int_const_list  (20)
+	bracket_int_const_list : .  (15)
+
+	T_lbrack  shift 134
+	T_rparen  reduce 15
+	T_semicolon  reduce 15
+
+	bracket_int_const_list  goto 135
+
+
+state 107
+	semi_fpar_def_list : T_semicolon fpar_def semi_fpar_def_list .  (8)
+
+	.  reduce 8
+
+
+state 108
+	header : T_fun T_id T_lparen fpar_def semi_fpar_def_list T_rparen T_colon . ret_type  (5)
+
+	T_char  shift 68
+	T_int  shift 69
+	T_nothing  shift 70
+	.  error
+
+	ret_type  goto 136
+	data_type  goto 72
+
+
+state 109
+	bracket_int_const_list : T_lbrack . T_int_const T_rbrack bracket_int_const_list  (16)
+
+	T_int_const  shift 137
+	.  error
+
+
+state 110
+	grace_type : data_type bracket_int_const_list .  (21)
+
+	.  reduce 21
+
+
+state 111
+	var_def : T_var T_id comma_id_list T_colon grace_type T_semicolon .  (26)
+
+	.  reduce 26
+
+
+state 112
+	expr : T_lparen expr T_rparen .  (49)
+
+	.  reduce 49
+
+
+state 113
+	cond : T_lparen cond T_rparen .  (58)
+
+	.  reduce 58
+
+
+state 114
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr T_div expr .  (56)
+	expr : expr . T_mod expr  (57)
+
+	.  reduce 56
+
+
+state 115
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+	expr : expr T_mod expr .  (57)
+
+	.  reduce 57
+
+
+state 116
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+	cond : expr T_eq expr .  (62)
+
+	T_div  shift 83
+	T_mod  shift 84
+	T_plus  shift 86
+	T_minus  shift 87
+	T_times  shift 88
+	T_and  reduce 62
+	T_do  reduce 62
+	T_or  reduce 62
+	T_then  reduce 62
+	T_rparen  reduce 62
+
+
+state 117
+	expr : expr . T_plus expr  (53)
+	expr : expr T_plus expr .  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+
+	T_div  shift 83
+	T_mod  shift 84
+	T_times  shift 88
+	T_and  reduce 53
+	T_do  reduce 53
+	T_or  reduce 53
+	T_then  reduce 53
+	T_eq  reduce 53
+	T_rparen  reduce 53
+	T_plus  reduce 53
+	T_minus  reduce 53
+	T_less  reduce 53
+	T_more  reduce 53
+	T_rbrack  reduce 53
+	T_hash  reduce 53
+	T_comma  reduce 53
+	T_semicolon  reduce 53
+	T_leq  reduce 53
+	T_geq  reduce 53
+
+
+state 118
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr T_minus expr .  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+
+	T_div  shift 83
+	T_mod  shift 84
+	T_times  shift 88
+	T_and  reduce 54
+	T_do  reduce 54
+	T_or  reduce 54
+	T_then  reduce 54
+	T_eq  reduce 54
+	T_rparen  reduce 54
+	T_plus  reduce 54
+	T_minus  reduce 54
+	T_less  reduce 54
+	T_more  reduce 54
+	T_rbrack  reduce 54
+	T_hash  reduce 54
+	T_comma  reduce 54
+	T_semicolon  reduce 54
+	T_leq  reduce 54
+	T_geq  reduce 54
+
+
+state 119
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr T_times expr .  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+
+	.  reduce 55
+
+
+state 120
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+	cond : expr T_less expr .  (64)
+
+	T_div  shift 83
+	T_mod  shift 84
+	T_plus  shift 86
+	T_minus  shift 87
+	T_times  shift 88
+	T_and  reduce 64
+	T_do  reduce 64
+	T_or  reduce 64
+	T_then  reduce 64
+	T_rparen  reduce 64
+
+
+state 121
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+	cond : expr T_more expr .  (65)
+
+	T_div  shift 83
+	T_mod  shift 84
+	T_plus  shift 86
+	T_minus  shift 87
+	T_times  shift 88
+	T_and  reduce 65
+	T_do  reduce 65
+	T_or  reduce 65
+	T_then  reduce 65
+	T_rparen  reduce 65
+
+
+state 122
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+	cond : expr T_hash expr .  (63)
+
+	T_div  shift 83
+	T_mod  shift 84
+	T_plus  shift 86
+	T_minus  shift 87
+	T_times  shift 88
+	T_and  reduce 63
+	T_do  reduce 63
+	T_or  reduce 63
+	T_then  reduce 63
+	T_rparen  reduce 63
+
+
+state 123
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+	cond : expr T_leq expr .  (66)
+
+	T_div  shift 83
+	T_mod  shift 84
+	T_plus  shift 86
+	T_minus  shift 87
+	T_times  shift 88
+	T_and  reduce 66
+	T_do  reduce 66
+	T_or  reduce 66
+	T_then  reduce 66
+	T_rparen  reduce 66
+
+
+state 124
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+	cond : expr T_geq expr .  (67)
+
+	T_div  shift 83
+	T_mod  shift 84
+	T_plus  shift 86
+	T_minus  shift 87
+	T_times  shift 88
+	T_and  reduce 67
+	T_do  reduce 67
+	T_or  reduce 67
+	T_then  reduce 67
+	T_rparen  reduce 67
+
+
+state 125
+	cond : cond . T_and cond  (60)
+	cond : cond T_and cond .  (60)
+	cond : cond . T_or cond  (61)
+
+	.  reduce 60
+
+
+state 126
+	cond : cond . T_and cond  (60)
+	cond : cond . T_or cond  (61)
+	cond : cond T_or cond .  (61)
+
+	T_and  shift 94
+	T_do  reduce 61
+	T_or  reduce 61
+	T_then  reduce 61
+	T_rparen  reduce 61
+
+
+127: shift/reduce conflict (shift 138, reduce 31) on T_else
+state 127
+	stmt : T_if cond T_then stmt .  (31)
+	stmt : T_if cond T_then stmt . T_else stmt  (32)
+
+	T_else  shift 138
+	T_if  reduce 31
+	T_return  reduce 31
+	T_while  reduce 31
+	T_id  reduce 31
+	T_string_literal  reduce 31
+	T_lbrace  reduce 31
+	T_rbrace  reduce 31
+	T_semicolon  reduce 31
+
+
+state 128
+	stmt : T_while cond T_do stmt .  (33)
+
+	.  reduce 33
+
+
+state 129
+	comma_expr_list : T_comma . expr comma_expr_list  (42)
+
+	T_id  shift 31
+	T_int_const  shift 47
+	T_char_const  shift 48
+	T_string_literal  shift 32
+	T_lparen  shift 56
+	T_plus  shift 50
+	T_minus  shift 51
+	.  error
+
+	l_value  goto 52
+	expr  goto 139
+	func_call  goto 54
+
+
+state 130
+	func_call : T_id T_lparen expr comma_expr_list . T_rparen  (40)
+
+	T_rparen  shift 140
+	.  error
+
+
+state 131
+	l_value : l_value T_lbrack expr T_rbrack .  (45)
+
+	.  reduce 45
+
+
+state 132
+	stmt : l_value T_prod expr T_semicolon .  (28)
+
+	.  reduce 28
+
+
+state 133
+	fpar_def : T_ref T_id comma_id_list T_colon fpar_type .  (9)
+
+	.  reduce 9
+
+
+state 134
+	bracket_int_const_list : T_lbrack . T_int_const T_rbrack bracket_int_const_list  (16)
+	fpar_type : data_type T_lbrack . T_rbrack bracket_int_const_list  (19)
+
+	T_int_const  shift 137
+	T_rbrack  shift 141
+	.  error
+
+
+state 135
+	fpar_type : data_type bracket_int_const_list .  (20)
+
+	.  reduce 20
+
+
+state 136
+	header : T_fun T_id T_lparen fpar_def semi_fpar_def_list T_rparen T_colon ret_type .  (5)
+
+	.  reduce 5
+
+
+state 137
+	bracket_int_const_list : T_lbrack T_int_const . T_rbrack bracket_int_const_list  (16)
+
+	T_rbrack  shift 142
+	.  error
+
+
+state 138
+	stmt : T_if cond T_then stmt T_else . stmt  (32)
+
+	T_if  shift 28
+	T_return  shift 29
+	T_while  shift 30
+	T_id  shift 31
+	T_string_literal  shift 32
+	T_lbrace  shift 19
+	T_semicolon  shift 33
+	.  error
+
+	block  goto 34
+	stmt  goto 143
+	l_value  goto 36
+	func_call  goto 37
+
+
+state 139
+	comma_expr_list : T_comma expr . comma_expr_list  (42)
+	expr : expr . T_plus expr  (53)
+	expr : expr . T_minus expr  (54)
+	expr : expr . T_times expr  (55)
+	expr : expr . T_div expr  (56)
+	expr : expr . T_mod expr  (57)
+	comma_expr_list : .  (41)
+
+	T_div  shift 83
+	T_mod  shift 84
+	T_plus  shift 86
+	T_minus  shift 87
+	T_times  shift 88
+	T_comma  shift 129
+	T_rparen  reduce 41
+
+	comma_expr_list  goto 144
+
+
+state 140
+	func_call : T_id T_lparen expr comma_expr_list T_rparen .  (40)
+
+	.  reduce 40
+
+
+state 141
+	fpar_type : data_type T_lbrack T_rbrack . bracket_int_const_list  (19)
+	bracket_int_const_list : .  (15)
+
+	T_lbrack  shift 109
+	T_rparen  reduce 15
+	T_semicolon  reduce 15
+
+	bracket_int_const_list  goto 145
+
+
+state 142
+	bracket_int_const_list : T_lbrack T_int_const T_rbrack . bracket_int_const_list  (16)
+	bracket_int_const_list : .  (15)
+
+	T_lbrack  shift 109
+	T_rparen  reduce 15
+	T_semicolon  reduce 15
+
+	bracket_int_const_list  goto 146
+
+
+state 143
+	stmt : T_if cond T_then stmt T_else stmt .  (32)
+
+	.  reduce 32
+
+
+state 144
+	comma_expr_list : T_comma expr comma_expr_list .  (42)
+
+	.  reduce 42
+
+
+state 145
+	fpar_type : data_type T_lbrack T_rbrack bracket_int_const_list .  (19)
+
+	.  reduce 19
+
+
+state 146
+	bracket_int_const_list : T_lbrack T_int_const T_rbrack bracket_int_const_list .  (16)
+
+	.  reduce 16
+
+
+State 127 contains 1 shift/reduce conflict.
+
+
+44 terminals, 25 nonterminals
+69 grammar rules, 147 states
