@@ -72,6 +72,29 @@
 
 %start program
 %type <unit -> unit> program
+%type <unit -> unit> func_def
+%type <unit -> unit> local_def_list
+%type <unit -> unit> header
+%type <unit -> 'a list> semi_fpar_def_list
+%type <unit -> unit> fpar_def
+%type <unit -> 'a list> comma_id_list
+%type <unit -> typ> data_type
+%type <unit -> 'a list> bracket_int_const_list
+%type <unit -> typ> ret_type
+%type <unit -> typ> fpar_type
+%type <unit -> typ> grace_type
+%type <unit> local_def
+%type <unit> func_decl
+%type <unit -> unit> var_def
+%type <unit -> unit> stmt
+%type <unit> block
+%type <unit -> unit> stmt_list
+(* TODO: func_call *)
+%type <unit -> 'a list> comma_expr_list
+%type <unit -> ('a * 'b list)> lvalue
+%type <unit -> 'a> expr
+%type <unit -> bool> cond
+
 
 %%
 
@@ -115,7 +138,7 @@ bracket_int_const_list: /* nothing */                                        { f
                       | T_lbrack T_int_const T_rbrack bracket_int_const_list { fun _ -> $2 :: $4 () }
 
 ret_type: data_type { fun _ -> $1 () }
-        | T_nothing { fun _ -> $1 }
+        | T_nothing { fun _ -> TYPE_none }
 
 fpar_type: data_type T_lbrack T_rbrack bracket_int_const_list { fun _ -> let base_type = $1 () in
                                                                          let dimensions = max_int :: $4 () in

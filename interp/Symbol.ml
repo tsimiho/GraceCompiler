@@ -309,7 +309,8 @@ let assignToVariable id l val =
                 match var_info.variable_type with
                 | TYPE_int -> var_info.value <- val
                 | TYPE_char -> var_info.value <- val
-                | TYPE_array _ -> setValue var_info.value l val
+                | TYPE_array _ -> let index = mapIndices var_info.value.dimensions l in
+                                  var_info.value.data.(index) <- val
                 | _ -> 
                     error "Invalid assignment to variable %a" pretty_id variable_id
             end
