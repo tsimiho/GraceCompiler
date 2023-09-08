@@ -14,7 +14,6 @@ fun main () : nothing
       r[i] <- '\0';
    }
 
-
 { $ main
    reverse("\n!dlrow olleH");
    writeString(r);

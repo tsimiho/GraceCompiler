@@ -89,7 +89,7 @@
 %type <unit -> unit> stmt
 %type <unit> block
 %type <unit -> unit> stmt_list
-(* TODO: func_call *)
+%type <unit -> 'a> func_call
 %type <unit -> 'a list> comma_expr_list
 %type <unit -> ('a * 'b list)> lvalue
 %type <unit -> 'a> expr
