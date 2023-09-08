@@ -1,6 +1,7 @@
 open Identifier
 open Error
 open Types
+open Array
 
 module H = Hashtbl.Make (
   struct
@@ -18,15 +19,22 @@ type param_status =
   | PARDEF_CHECK
 
 type scope = {
-  sco_parent : scope option;
-  sco_nesting : int;
+  sco_parent          : scope option;
+  sco_nesting         : int;
   mutable sco_entries : entry list;
-  mutable sco_negofs : int
+  mutable sco_negofs  : int
 }
+
+and variable_value = 
+  | IntValue of int
+  | CharValue of char
+  | MultiArrayValue of int multi_array
 
 and variable_info = {
   variable_type   : Types.typ;
-  variable_offset : int
+  variable_offset : int;
+  (* initialized     : bool; *)
+  mutable value   : variable_value
 }
 
 and function_info = {
@@ -69,7 +77,7 @@ let start_negative_offset = 0
 let the_outer_scope = {
   sco_parent = None;
   sco_nesting = 0;
-  sco_entries = [];
+  sco_entries = [] ;
   sco_negofs = start_negative_offset
 }
 
@@ -157,9 +165,14 @@ let lookupEntry id how err =
 
 let newVariable id typ err =
   !currentScope.sco_negofs <- !currentScope.sco_negofs - sizeOfType typ;
+  let size = extractDimensionSizes typ in
   let inf = {
     variable_type = typ;
-    variable_offset = !currentScope.sco_negofs
+    variable_offset = !currentScope.sco_negofs;
+    mutable value = match typ with
+                    | TYPE_int -> IntValue 0
+                    | TYPE_char -> CharValue ''
+                    | _ -> let arr = createArray in MultiArrayValue arr 
   } in
   newEntry id (ENTRY_variable inf) err
 
@@ -286,3 +299,21 @@ let endFunctionHeader e typ =
       inf.function_pstatus <- PARDEF_COMPLETE
   | _ ->
       internal "Cannot end parameters in a non-function"
+
+let assignToVariable id l val =
+    try
+        let variable_entry = lookupEntry id LOOKUP_CURRENT_SCOPE true in
+        match variable_entry.entry_info with
+        | ENTRY_variable var_info ->
+            begin
+                match var_info.variable_type with
+                | TYPE_int -> var_info.value <- val
+                | TYPE_char -> var_info.value <- val
+                | TYPE_array _ -> setValue var_info.value l val
+                | _ -> 
+                    error "Invalid assignment to variable %a" pretty_id variable_id
+            end
+        | _ ->
+            error "%a is not a variable" pretty_id variable_id
+    with Not_found ->
+        error "Variable %a not found" pretty_id variable_id

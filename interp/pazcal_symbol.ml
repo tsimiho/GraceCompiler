@@ -18,7 +18,7 @@ type param_status =
   | PARDEF_CHECK
 
 type scope = {
-  sco_parent : scope option;
+  sco_parent : scope option;paz
   sco_nesting : int;
   mutable sco_entries : entry list;
   mutable sco_negofs : int

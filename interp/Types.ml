@@ -1,15 +1,15 @@
 type typ = TYPE_none
          | TYPE_int
-         | TYPE_byte
+         | TYPE_char
          | TYPE_array of
              typ *
              int
-         | TYPE_proc
 
 let rec sizeOfType t =
    match t with
    | TYPE_int            -> 2
    | TYPE_byte           -> 1
+   | TYPE_char           -> 1
    | TYPE_array (et, sz) -> sz * sizeOfType et
    | _                   -> 0
 
