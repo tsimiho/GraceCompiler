@@ -138,7 +138,7 @@ bracket_int_const_list: /* nothing */                                        { f
                       | T_lbrack T_int_const T_rbrack bracket_int_const_list { fun _ -> $2 :: $4 () }
 
 ret_type: data_type { fun _ -> $1 () }
-        | T_nothing { fun _ -> TYPE_none }
+        | T_nothing { fun _ -> TYPE_proc }
 
 fpar_type: data_type T_lbrack T_rbrack bracket_int_const_list { fun _ -> let base_type = $1 () in
                                                                          let dimensions = max_int :: $4 () in

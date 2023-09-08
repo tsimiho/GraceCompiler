@@ -4,6 +4,7 @@ type typ = TYPE_none
          | TYPE_array of
              typ *
              int
+         | TYPE_proc
 
 let rec sizeOfType t =
    match t with

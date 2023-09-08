@@ -1,8 +1,5 @@
 handle scopes in function definition
-lvalues
 func calls
 return statements
-vars
 initialized (boolean)
 handle case of no first dimension
-%type <unit -> unit>...
