@@ -64,3 +64,5 @@ val endFunctionHeader : entry -> Types.typ -> unit
 val lookupEntry : Identifier.id -> lookup_type -> bool -> entry
 val start_positive_offset : int
 val start_negative_offset : int
+
+val assignToVariable : Identifier.id -> int list -> Types.typ

@@ -9,9 +9,9 @@ endif
 
 EXEFILE=gracec$(EXE)
 MLFILES=Hashcons.ml Identifier.ml Error.ml Types.ml Symbol.ml \
-  Lexer.ml Parser.ml Symbtest.ml
+  Lexer.ml Parser.ml Symbtest.ml Narray.ml
 MLIFILES=Hashcons.mli Identifier.mli Error.mli Types.mli Symbol.mli \
-  Parser.mli Lexer.mli
+  Parser.mli Lexer.mli Narray.mli
 CMOFILES=$(patsubst %.ml,%.cmo,$(MLFILES))
 CMIFILES=$(patsubst %.ml,%.cmi,$(MLFILES))
 CMXFILES=$(patsubst %.ml,%.cmx,$(MLFILES))
@@ -70,7 +70,7 @@ depend: $(MLFILES) $(MLIFILES) extend.cmo
 
 depend-symbtest: Hashcons.ml Identifier.ml Error.ml Types.ml Symbol.ml \
                  Symbtest.ml Hashcons.mli Identifier.mli Error.mli Types.mli \
-                 Symbol.mli extend.cmo
+                 Symbol.mli Narray.mli extend.cmo
 	$(OCAMLDEP) $(CAMLP5_FLAGS) $(INCLUDES) \
           $(filter-out extend.cmo,$^) > .depend
 

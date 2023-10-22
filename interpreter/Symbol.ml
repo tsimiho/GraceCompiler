@@ -1,7 +1,7 @@
 open Identifier
 open Error
 open Types
-open Array
+open Narray
 
 module H = Hashtbl.Make (
   struct
@@ -169,9 +169,9 @@ let newVariable id typ err =
   let inf = {
     variable_type = typ;
     variable_offset = !currentScope.sco_negofs;
-    mutable value = match typ with
+    value = match typ with
                     | TYPE_int -> IntValue 0
-                    | TYPE_char -> CharValue ''
+                    | TYPE_char -> CharValue '0'
                     | _ -> let arr = createArray in MultiArrayValue arr 
   } in
   newEntry id (ENTRY_variable inf) err
@@ -300,17 +300,17 @@ let endFunctionHeader e typ =
   | _ ->
       internal "Cannot end parameters in a non-function"
 
-let assignToVariable id l val =
+let assignToVariable id l value =
     try
         let variable_entry = lookupEntry id LOOKUP_CURRENT_SCOPE true in
         match variable_entry.entry_info with
         | ENTRY_variable var_info ->
             begin
                 match var_info.variable_type with
-                | TYPE_int -> var_info.value <- val
-                | TYPE_char -> var_info.value <- val
+                | TYPE_int -> var_info.value <- value 
+                | TYPE_char -> var_info.value <- value 
                 | TYPE_array _ -> let index = mapIndices var_info.value.dimensions l in
-                                  var_info.value.data.(index) <- val
+                                  var_info.value.data.(index) <- value 
                 | _ -> 
                     error "Invalid assignment to variable %a" pretty_id variable_id
             end

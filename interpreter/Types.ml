@@ -9,7 +9,6 @@ type typ = TYPE_none
 let rec sizeOfType t =
    match t with
    | TYPE_int            -> 2
-   | TYPE_byte           -> 1
    | TYPE_char           -> 1
    | TYPE_array (et, sz) -> sz * sizeOfType et
    | _                   -> 0
