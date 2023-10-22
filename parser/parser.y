@@ -41,7 +41,8 @@
 
 %%
 
-program: func_def; 
+program: /* nothing */
+         | func_def; 
 
 func_def: header local_def_list block;
 
@@ -49,15 +50,15 @@ local_def_list: /* nothing */
                 | local_def local_def_list
                 ;
 
-header: T_fun T_id '(' fpar_def semi_fpar_def_list ')' ':' ret_type 
-        | T_fun T_id '(' ')' ':' ret_type 
+header: "fun" T_id '(' fpar_def semi_fpar_def_list ')' ':' ret_type 
+        | "fun" T_id '(' ')' ':' ret_type 
         ;
 
 semi_fpar_def_list: /* nothing */ 
                     | ';' fpar_def semi_fpar_def_list 
                     ;
 
-fpar_def: T_ref T_id comma_id_list ':' fpar_type 
+fpar_def: "ref" T_id comma_id_list ':' fpar_type 
           |  T_id comma_id_list ':' fpar_type 
           ;
 
@@ -65,8 +66,8 @@ comma_id_list: /* nothing */
                | ',' T_id comma_id_list
                ;
 
-data_type: T_int 
-           | T_char 
+data_type: "int" 
+           | "char" 
            ;
 
 bracket_int_const_list: /* nothing */ 
@@ -74,7 +75,7 @@ bracket_int_const_list: /* nothing */
                         ;
 
 ret_type: data_type 
-          | T_nothing
+          | "nothing"
           ;
 
 fpar_type: data_type '[' ']' bracket_int_const_list 
@@ -96,11 +97,11 @@ stmt: ';'
       | l_value T_prod expr ';'              
       | block                              
       | func_call ';'                      
-      | T_if cond T_then stmt              
-      | T_if cond T_then stmt T_else stmt  
-      | T_while cond T_do stmt             
-      | T_return ';'                       
-      | T_return expr ';'
+      | "if" cond "then" stmt              
+      | "if" cond "then" stmt "else" stmt  
+      | T_while cond "do" stmt             
+      | "return" ';'                       
+      | "return" expr ';'
       ;
 
 
@@ -133,8 +134,8 @@ expr: T_int_const
       | expr '+' expr   
       | expr '-' expr   
       | expr '*' expr   
-      | expr T_div expr 
-      | expr T_mod expr
+      | expr "div" expr 
+      | expr "mod" expr
       ;
 
 cond: '(' cond ')'     

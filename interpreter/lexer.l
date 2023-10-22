@@ -1,8 +1,8 @@
 %option noyywrap
+
 %{
 #include <cstdio>
 #include <cstdlib>
-#include "ast.hpp"
 #include "lexer.hpp"
 #include "parser.hpp"
 
@@ -11,10 +11,12 @@
 int lineno = 1;
 %}
 
-L [A-Za-z]
+L [a-zA-Z]
 D [0-9]
 W [ \t\r]
-E [\\\'\"]
+H [0-9a-fA-F]
+E \\([ntr0\\\'\"]|x{H}{H})
+
 
 %x COMMENT
 
@@ -37,19 +39,16 @@ E [\\\'\"]
 "then"    { return T_then; }
 "var"     { return T_var; }
 "while"   { return T_while; }
-"<-"      { return T_prod }
+"<-"      { return T_prod; }
 "<="      { return T_leq; }
 ">="      { return T_geq; }
 
-[\=\+\-\*\(\)\#\<\>\[\]\{\}\,\;\:] { yylval.op = yytext[0]; return yytext[0]; }
+[\=\+\-\*\(\)\#\<\>\[\]\{\}\,\;\:] { return yytext[0]; }
 
-
-{L}({L}|{D}|\_)*	{ yylval.var = yytext; return T_id; }
-{D}+	{ yylval.num = atoi(yytext); return T_int_const; }
-\x{D}{D} { yylval.var = yytext; return T_char_const; }
-\'({L}|{D}|\\{W}|\\{E}|(\\0)|(\\n)|(\\x{D}({D}|{L})))\' { yylval.var = yytext[0]; return T_char_const; }
-\"({E}|(\\\0)|(\\x{D}({D}|{L}))|[^\'\"\\\n])*\" { yylval.var = yytext; return T_string_literal; }
-
+{L}({L}|{D}|\_)*	{ return T_id; }
+{D}+	{ return T_int_const; }
+\'([^\'\"\\]|{E})\' { return T_char_const; }
+\"([^\'\"\\]|{E})*\" { return T_string_literal; }
 
 \n	{ ++lineno; }
 {W}+	{ /* return nothing */ }

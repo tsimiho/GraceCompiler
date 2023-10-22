@@ -31,7 +31,8 @@ int lineno = 1;
 L [A-Za-z]
 D [0-9]
 W [ \t\r]
-E \\[\\\'\"]
+H [0-9a-fA-F]
+E \\([ntr0\\\'\"]|x{H}{H})
 
 %x COMMENT
 
@@ -60,13 +61,10 @@ E \\[\\\'\"]
 
 [\=\+\-\*\(\)\#\<\>\[\]\{\}\,\;\:] { return yytext[0]; }
 
-
 {L}({L}|{D}|\_)*	{ return T_id; }
 {D}+	{ return T_int_const; }
-\x{D}{D} {return T_char_const; }
-\'({L}|{D}|{W}|{E}|(\\0)|(\\x{D}({D}|{L}))|(\\n)|(\\'))\' { return T_char_const; }
-\"({E}|(\\\0)|(\\.)|(\\x{D}({D}|{L}))|[^\'\"\\\n])*\" { return T_string_literal; }
-
+\'([^\'\"\\]|{E})\' { return T_char_const; }
+\"([^\'\"\\]|{E})*\" { return T_string_literal; }
 
 \n	{ ++lineno; }
 {W}+	{ /* return nothing */ }
