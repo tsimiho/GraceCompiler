@@ -1,25 +1,57 @@
-.PHONY: clean distclean default
+###############################################################################
+#  CVS version:
+#     $Id: Makefile,v 1.2 2004/05/05 22:00:08 nickie Exp $
+###############################################################################
+#
+#  Makefile    : Makefile
+#  Project     : PCL Compiler
+#  Version     : 1.0 alpha
+#  Written by  : Nikolaos S. Papaspyrou (nickie@softlab.ntua.gr)
+#  Date        : May 14, 2003
+#  Description : Generic symbol table in C
 
-CXX=c++
-CXXFLAGS=-Wall -std=c++11
 
-default: grace
 
-lexer.cpp: lexer.l
-	flex -s -o lexer.cpp lexer.l
+.PHONY: clean distclean count
 
-lexer.o: lexer.cpp lexer.hpp parser.hpp ast.hpp symbol.hpp
+# OS type: Linux/Win DJGPP
+ifdef OS
+   EXE=.exe
+else
+   EXE=
+endif
 
-parser.hpp parser.cpp: parser.y
-	bison -dv -o parser.cpp parser.y
+CFILES   = symbol.c error.c general.c symbtest.c
+HFILES   = symbol.h error.h general.h
+OBJFILES = $(patsubst %.c,%.o,$(CFILES))
+EXEFILES = symbtest$(EXE)
+SRCFILES = $(HFILES) $(CFILES)
 
-parser.o: parser.cpp lexer.hpp ast.hpp symbol.hpp
+CC=gcc
+CFLAGS=-Wall -ansi -pedantic -g
 
-grace: lexer.o parser.o
-	$(CXX) $(CXXFLAGS) -o grace lexer.o parser.o
+%.o : %.c
+	$(CC) $(CFLAGS) -c $<
+
+symbtest$(EXE): symbtest.o symbol.o error.o general.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+general.o  : general.c general.h error.h
+error.o    : error.c general.h error.h
+symbol.o   : symbol.c symbol.h general.h error.h
+symbtest.o : symbtest.c symbol.h error.h
 
 clean:
-	$(RM) lexer.cpp parser.cpp parser.hpp parser.output *.o
+	$(RM) $(OBJFILES) *~
 
 distclean: clean
-	$(RM) grace
+	$(RM) $(EXEFILES)
+
+count:
+	wc -l -c Makefile $(SRCFILES)
+
+bonus.zip: distclean
+	zip bonus.zip Makefile $(SRCFILES)
+
+bonus.tgz:
+	tar cvfzh bonus.tgz Makefile $(SRCFILES)
