@@ -23,17 +23,17 @@ rule lexer = parse
   | "if"	    { T_if }
   | "int"	    { T_int }
   | "mod"	    { T_mod }
-  | "not"       { T_not }
-  | "nothing"   { T_nothing }
-  | "or"        { T_or }
-  | "ref"       { T_ref }
-  | "return"    { T_return }
-  | "then"      { T_then }
-  | "var"       { T_var }
-  | "while"     { T_while }
-  | "<="        { T_leq }
-  | ">="        { T_geq }
-  | "<-"        { T_prod }
+  | "not"           { T_not }
+  | "nothing"       { T_nothing }
+  | "or"            { T_or }
+  | "ref"           { T_ref }
+  | "return"        { T_return }
+  | "then"          { T_then }
+  | "var"           { T_var }
+  | "while"         { T_while }
+  | "<="            { T_leq }
+  | ">="            { T_geq }
+  | "<-"            { T_prod }
 
   | letter (letter|digit|'_')*  { T_id }
 
