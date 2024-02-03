@@ -1,0 +1,76 @@
+Error.cmo : \
+    Error.cmi
+Error.cmx : \
+    Error.cmi
+Error.cmi :
+Hashcons.cmo : \
+    Hashcons.cmi
+Hashcons.cmx : \
+    Hashcons.cmi
+Hashcons.cmi :
+Identifier.cmo : \
+    Hashcons.cmi \
+    Identifier.cmi
+Identifier.cmx : \
+    Hashcons.cmx \
+    Identifier.cmi
+Identifier.cmi :
+Lexer.cmo : \
+    Parser.cmi \
+    Lexer.cmi
+Lexer.cmx : \
+    Parser.cmx \
+    Lexer.cmi
+Lexer.cmi : \
+    Parser.cmi
+Narray.cmo : \
+    Types.cmi \
+    Narray.cmi
+Narray.cmx : \
+    Types.cmx \
+    Narray.cmi
+Narray.cmi : \
+    Types.cmi
+Parser.cmo : \
+    Types.cmi \
+    Symbol.cmi \
+    Identifier.cmi \
+    Error.cmi \
+    Parser.cmi
+Parser.cmx : \
+    Types.cmx \
+    Symbol.cmx \
+    Identifier.cmx \
+    Error.cmx \
+    Parser.cmi
+Parser.cmi :
+Symbol.cmo : \
+    Types.cmi \
+    Narray.cmi \
+    Identifier.cmi \
+    Error.cmi \
+    Symbol.cmi
+Symbol.cmx : \
+    Types.cmx \
+    Narray.cmx \
+    Identifier.cmx \
+    Error.cmx \
+    Symbol.cmi
+Symbol.cmi : \
+    Types.cmi \
+    Narray.cmi \
+    Identifier.cmi \
+    Error.cmi
+Symbtest.cmo : \
+    Types.cmi \
+    Symbol.cmi \
+    Identifier.cmi
+Symbtest.cmx : \
+    Types.cmx \
+    Symbol.cmx \
+    Identifier.cmx
+Types.cmo : \
+    Types.cmi
+Types.cmx : \
+    Types.cmi
+Types.cmi :

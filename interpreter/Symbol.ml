@@ -43,7 +43,8 @@ and function_info = {
   mutable function_redeflist : entry list;
   mutable function_result    : Types.typ;
   mutable function_pstatus   : param_status;
-  mutable function_initquad  : int
+  mutable function_initquad  : int;
+  mutable function_body      : func_body
 }
 
 and parameter_info = {
@@ -172,7 +173,7 @@ let newVariable id typ err =
     value = match typ with
                     | TYPE_int -> IntValue 0
                     | TYPE_char -> CharValue '0'
-                    | _ -> let arr = createArray in MultiArrayValue arr 
+                    | _ -> let arr = createArray size in MultiArrayValue arr 
   } in
   newEntry id (ENTRY_variable inf) err
 
@@ -196,7 +197,8 @@ let newFunction id err =
       function_redeflist = [];
       function_result = TYPE_none;
       function_pstatus = PARDEF_DEFINE;
-      function_initquad = 0
+      function_initquad = 0;
+      function_body = [];
     } in
     newEntry id (ENTRY_function inf) false
 
@@ -307,14 +309,28 @@ let assignToVariable id l value =
         | ENTRY_variable var_info ->
             begin
                 match var_info.variable_type with
-                | TYPE_int -> var_info.value <- value 
-                | TYPE_char -> var_info.value <- value 
-                | TYPE_array _ -> let index = mapIndices var_info.value.dimensions l in
-                                  var_info.value.data.(index) <- value 
-                | _ -> 
-                    error "Invalid assignment to variable %a" pretty_id variable_id
+                | TYPE_int -> 
+                    begin
+                        match value with
+                        | IntValue int_val -> var_info.value <- IntValue int_val
+                        | _ -> error "Type mismatch: expected int"
+                    end
+                | TYPE_char -> 
+                    begin
+                        match value with
+                        | CharValue char_val -> var_info.value <- CharValue char_val
+                        | _ -> error "Type mismatch: expected char"
+                    end
+                | TYPE_array _ -> 
+                    begin
+                        match var_info.value with
+                        | MultiArrayValue arr ->
+                            let index = mapIndices arr.dimensions l in
+                            match value with
+                            | IntValue int_val -> arr.data.(index) <- int_val
+                            | _ -> error "Type mismatch: expected int for array assignment"
+                    end
+                | _ -> error "Invalid assignment to variable %a" pretty_id id
             end
-        | _ ->
-            error "%a is not a variable" pretty_id variable_id
-    with Not_found ->
-        error "Variable %a not found" pretty_id variable_id
+        | _ -> error "%a is not a variable" pretty_id id
+    with Not_found -> error "Variable %a not found" pretty_id id

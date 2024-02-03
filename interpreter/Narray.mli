@@ -3,7 +3,7 @@ type 'a multi_array = {
   data : 'a array;
 }
 
-val createArray : int list -> 'a multi_array
+val createArray : int list -> int multi_array
 
 val mapIndices : int list -> int list -> int
 

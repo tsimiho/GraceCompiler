@@ -1,0 +1,2003 @@
+State 0:
+## Known stack suffix:
+##
+## LR(1) items:
+program' -> . program [ # ]
+## Transitions:
+-- On T_fun shift to state 1
+-- On program shift to state 40
+-- On header shift to state 41
+-- On func_def shift to state 143
+## Reductions:
+
+State 1:
+## Known stack suffix:
+## T_fun
+## LR(1) items:
+header -> T_fun . T_id T_lparen fpar_def semi_fpar_def_list T_rparen T_colon ret_type [ T_var T_semicolon T_lbrace T_fun ]
+header -> T_fun . T_id T_lparen T_rparen T_colon ret_type [ T_var T_semicolon T_lbrace T_fun ]
+## Transitions:
+-- On T_id shift to state 2
+## Reductions:
+
+State 2:
+## Known stack suffix:
+## T_fun T_id
+## LR(1) items:
+header -> T_fun T_id . T_lparen fpar_def semi_fpar_def_list T_rparen T_colon ret_type [ T_var T_semicolon T_lbrace T_fun ]
+header -> T_fun T_id . T_lparen T_rparen T_colon ret_type [ T_var T_semicolon T_lbrace T_fun ]
+## Transitions:
+-- On T_lparen shift to state 3
+## Reductions:
+
+State 3:
+## Known stack suffix:
+## T_fun T_id T_lparen
+## LR(1) items:
+header -> T_fun T_id T_lparen . fpar_def semi_fpar_def_list T_rparen T_colon ret_type [ T_var T_semicolon T_lbrace T_fun ]
+header -> T_fun T_id T_lparen . T_rparen T_colon ret_type [ T_var T_semicolon T_lbrace T_fun ]
+## Transitions:
+-- On T_rparen shift to state 4
+-- On T_ref shift to state 11
+-- On T_id shift to state 28
+-- On fpar_def shift to state 32
+## Reductions:
+
+State 4:
+## Known stack suffix:
+## T_fun T_id T_lparen T_rparen
+## LR(1) items:
+header -> T_fun T_id T_lparen T_rparen . T_colon ret_type [ T_var T_semicolon T_lbrace T_fun ]
+## Transitions:
+-- On T_colon shift to state 5
+## Reductions:
+
+State 5:
+## Known stack suffix:
+## T_fun T_id T_lparen T_rparen T_colon
+## LR(1) items:
+header -> T_fun T_id T_lparen T_rparen T_colon . ret_type [ T_var T_semicolon T_lbrace T_fun ]
+## Transitions:
+-- On T_nothing shift to state 6
+-- On T_int shift to state 7
+-- On T_char shift to state 8
+-- On ret_type shift to state 9
+-- On data_type shift to state 10
+## Reductions:
+
+State 6:
+## Known stack suffix:
+## T_nothing
+## LR(1) items:
+ret_type -> T_nothing . [ T_var T_semicolon T_lbrace T_fun ]
+## Transitions:
+## Reductions:
+-- On T_var T_semicolon T_lbrace T_fun
+--   reduce production ret_type -> T_nothing
+
+State 7:
+## Known stack suffix:
+## T_int
+## LR(1) items:
+data_type -> T_int . [ T_var T_semicolon T_rparen T_lbrack T_lbrace T_fun ]
+## Transitions:
+## Reductions:
+-- On T_var T_semicolon T_rparen T_lbrack T_lbrace T_fun
+--   reduce production data_type -> T_int
+
+State 8:
+## Known stack suffix:
+## T_char
+## LR(1) items:
+data_type -> T_char . [ T_var T_semicolon T_rparen T_lbrack T_lbrace T_fun ]
+## Transitions:
+## Reductions:
+-- On T_var T_semicolon T_rparen T_lbrack T_lbrace T_fun
+--   reduce production data_type -> T_char
+
+State 9:
+## Known stack suffix:
+## T_fun T_id T_lparen T_rparen T_colon ret_type
+## LR(1) items:
+header -> T_fun T_id T_lparen T_rparen T_colon ret_type . [ T_var T_semicolon T_lbrace T_fun ]
+## Transitions:
+## Reductions:
+-- On T_var T_semicolon T_lbrace T_fun
+--   reduce production header -> T_fun T_id T_lparen T_rparen T_colon ret_type
+
+State 10:
+## Known stack suffix:
+## data_type
+## LR(1) items:
+ret_type -> data_type . [ T_var T_semicolon T_lbrace T_fun ]
+## Transitions:
+## Reductions:
+-- On T_var T_semicolon T_lbrace T_fun
+--   reduce production ret_type -> data_type
+
+State 11:
+## Known stack suffix:
+## T_ref
+## LR(1) items:
+fpar_def -> T_ref . T_id comma_id_list T_colon fpar_type [ T_semicolon T_rparen ]
+## Transitions:
+-- On T_id shift to state 12
+## Reductions:
+
+State 12:
+## Known stack suffix:
+## T_ref T_id
+## LR(1) items:
+fpar_def -> T_ref T_id . comma_id_list T_colon fpar_type [ T_semicolon T_rparen ]
+## Transitions:
+-- On T_comma shift to state 13
+-- On comma_id_list shift to state 16
+## Reductions:
+-- On T_colon
+--   reduce production comma_id_list ->
+
+State 13:
+## Known stack suffix:
+## T_comma
+## LR(1) items:
+comma_id_list -> T_comma . T_id comma_id_list [ T_colon ]
+## Transitions:
+-- On T_id shift to state 14
+## Reductions:
+
+State 14:
+## Known stack suffix:
+## T_comma T_id
+## LR(1) items:
+comma_id_list -> T_comma T_id . comma_id_list [ T_colon ]
+## Transitions:
+-- On T_comma shift to state 13
+-- On comma_id_list shift to state 15
+## Reductions:
+-- On T_colon
+--   reduce production comma_id_list ->
+
+State 15:
+## Known stack suffix:
+## T_comma T_id comma_id_list
+## LR(1) items:
+comma_id_list -> T_comma T_id comma_id_list . [ T_colon ]
+## Transitions:
+## Reductions:
+-- On T_colon
+--   reduce production comma_id_list -> T_comma T_id comma_id_list
+
+State 16:
+## Known stack suffix:
+## T_ref T_id comma_id_list
+## LR(1) items:
+fpar_def -> T_ref T_id comma_id_list . T_colon fpar_type [ T_semicolon T_rparen ]
+## Transitions:
+-- On T_colon shift to state 17
+## Reductions:
+
+State 17:
+## Known stack suffix:
+## T_ref T_id comma_id_list T_colon
+## LR(1) items:
+fpar_def -> T_ref T_id comma_id_list T_colon . fpar_type [ T_semicolon T_rparen ]
+## Transitions:
+-- On T_int shift to state 7
+-- On T_char shift to state 8
+-- On fpar_type shift to state 18
+-- On data_type shift to state 19
+## Reductions:
+
+State 18:
+## Known stack suffix:
+## T_ref T_id comma_id_list T_colon fpar_type
+## LR(1) items:
+fpar_def -> T_ref T_id comma_id_list T_colon fpar_type . [ T_semicolon T_rparen ]
+## Transitions:
+## Reductions:
+-- On T_semicolon T_rparen
+--   reduce production fpar_def -> T_ref T_id comma_id_list T_colon fpar_type
+
+State 19:
+## Known stack suffix:
+## data_type
+## LR(1) items:
+fpar_type -> data_type . T_lbrack T_rbrack bracket_int_const_list [ T_semicolon T_rparen ]
+fpar_type -> data_type . bracket_int_const_list [ T_semicolon T_rparen ]
+## Transitions:
+-- On T_lbrack shift to state 20
+-- On bracket_int_const_list shift to state 27
+## Reductions:
+-- On T_semicolon T_rparen
+--   reduce production bracket_int_const_list ->
+
+State 20:
+## Known stack suffix:
+## data_type T_lbrack
+## LR(1) items:
+bracket_int_const_list -> T_lbrack . T_int_const T_rbrack bracket_int_const_list [ T_semicolon T_rparen ]
+fpar_type -> data_type T_lbrack . T_rbrack bracket_int_const_list [ T_semicolon T_rparen ]
+## Transitions:
+-- On T_rbrack shift to state 21
+-- On T_int_const shift to state 23
+## Reductions:
+
+State 21:
+## Known stack suffix:
+## data_type T_lbrack T_rbrack
+## LR(1) items:
+fpar_type -> data_type T_lbrack T_rbrack . bracket_int_const_list [ T_semicolon T_rparen ]
+## Transitions:
+-- On T_lbrack shift to state 22
+-- On bracket_int_const_list shift to state 26
+## Reductions:
+-- On T_semicolon T_rparen
+--   reduce production bracket_int_const_list ->
+
+State 22:
+## Known stack suffix:
+## T_lbrack
+## LR(1) items:
+bracket_int_const_list -> T_lbrack . T_int_const T_rbrack bracket_int_const_list [ T_semicolon T_rparen ]
+## Transitions:
+-- On T_int_const shift to state 23
+## Reductions:
+
+State 23:
+## Known stack suffix:
+## T_lbrack T_int_const
+## LR(1) items:
+bracket_int_const_list -> T_lbrack T_int_const . T_rbrack bracket_int_const_list [ T_semicolon T_rparen ]
+## Transitions:
+-- On T_rbrack shift to state 24
+## Reductions:
+
+State 24:
+## Known stack suffix:
+## T_lbrack T_int_const T_rbrack
+## LR(1) items:
+bracket_int_const_list -> T_lbrack T_int_const T_rbrack . bracket_int_const_list [ T_semicolon T_rparen ]
+## Transitions:
+-- On T_lbrack shift to state 22
+-- On bracket_int_const_list shift to state 25
+## Reductions:
+-- On T_semicolon T_rparen
+--   reduce production bracket_int_const_list ->
+
+State 25:
+## Known stack suffix:
+## T_lbrack T_int_const T_rbrack bracket_int_const_list
+## LR(1) items:
+bracket_int_const_list -> T_lbrack T_int_const T_rbrack bracket_int_const_list . [ T_semicolon T_rparen ]
+## Transitions:
+## Reductions:
+-- On T_semicolon T_rparen
+--   reduce production bracket_int_const_list -> T_lbrack T_int_const T_rbrack bracket_int_const_list
+
+State 26:
+## Known stack suffix:
+## data_type T_lbrack T_rbrack bracket_int_const_list
+## LR(1) items:
+fpar_type -> data_type T_lbrack T_rbrack bracket_int_const_list . [ T_semicolon T_rparen ]
+## Transitions:
+## Reductions:
+-- On T_semicolon T_rparen
+--   reduce production fpar_type -> data_type T_lbrack T_rbrack bracket_int_const_list
+
+State 27:
+## Known stack suffix:
+## data_type bracket_int_const_list
+## LR(1) items:
+fpar_type -> data_type bracket_int_const_list . [ T_semicolon T_rparen ]
+## Transitions:
+## Reductions:
+-- On T_semicolon T_rparen
+--   reduce production fpar_type -> data_type bracket_int_const_list
+
+State 28:
+## Known stack suffix:
+## T_id
+## LR(1) items:
+fpar_def -> T_id . comma_id_list T_colon fpar_type [ T_semicolon T_rparen ]
+## Transitions:
+-- On T_comma shift to state 13
+-- On comma_id_list shift to state 29
+## Reductions:
+-- On T_colon
+--   reduce production comma_id_list ->
+
+State 29:
+## Known stack suffix:
+## T_id comma_id_list
+## LR(1) items:
+fpar_def -> T_id comma_id_list . T_colon fpar_type [ T_semicolon T_rparen ]
+## Transitions:
+-- On T_colon shift to state 30
+## Reductions:
+
+State 30:
+## Known stack suffix:
+## T_id comma_id_list T_colon
+## LR(1) items:
+fpar_def -> T_id comma_id_list T_colon . fpar_type [ T_semicolon T_rparen ]
+## Transitions:
+-- On T_int shift to state 7
+-- On T_char shift to state 8
+-- On fpar_type shift to state 31
+-- On data_type shift to state 19
+## Reductions:
+
+State 31:
+## Known stack suffix:
+## T_id comma_id_list T_colon fpar_type
+## LR(1) items:
+fpar_def -> T_id comma_id_list T_colon fpar_type . [ T_semicolon T_rparen ]
+## Transitions:
+## Reductions:
+-- On T_semicolon T_rparen
+--   reduce production fpar_def -> T_id comma_id_list T_colon fpar_type
+
+State 32:
+## Known stack suffix:
+## T_fun T_id T_lparen fpar_def
+## LR(1) items:
+header -> T_fun T_id T_lparen fpar_def . semi_fpar_def_list T_rparen T_colon ret_type [ T_var T_semicolon T_lbrace T_fun ]
+## Transitions:
+-- On T_semicolon shift to state 33
+-- On semi_fpar_def_list shift to state 36
+## Reductions:
+-- On T_rparen
+--   reduce production semi_fpar_def_list ->
+
+State 33:
+## Known stack suffix:
+## T_semicolon
+## LR(1) items:
+semi_fpar_def_list -> T_semicolon . fpar_def semi_fpar_def_list [ T_rparen ]
+## Transitions:
+-- On T_ref shift to state 11
+-- On T_id shift to state 28
+-- On fpar_def shift to state 34
+## Reductions:
+
+State 34:
+## Known stack suffix:
+## T_semicolon fpar_def
+## LR(1) items:
+semi_fpar_def_list -> T_semicolon fpar_def . semi_fpar_def_list [ T_rparen ]
+## Transitions:
+-- On T_semicolon shift to state 33
+-- On semi_fpar_def_list shift to state 35
+## Reductions:
+-- On T_rparen
+--   reduce production semi_fpar_def_list ->
+
+State 35:
+## Known stack suffix:
+## T_semicolon fpar_def semi_fpar_def_list
+## LR(1) items:
+semi_fpar_def_list -> T_semicolon fpar_def semi_fpar_def_list . [ T_rparen ]
+## Transitions:
+## Reductions:
+-- On T_rparen
+--   reduce production semi_fpar_def_list -> T_semicolon fpar_def semi_fpar_def_list
+
+State 36:
+## Known stack suffix:
+## T_fun T_id T_lparen fpar_def semi_fpar_def_list
+## LR(1) items:
+header -> T_fun T_id T_lparen fpar_def semi_fpar_def_list . T_rparen T_colon ret_type [ T_var T_semicolon T_lbrace T_fun ]
+## Transitions:
+-- On T_rparen shift to state 37
+## Reductions:
+
+State 37:
+## Known stack suffix:
+## T_fun T_id T_lparen fpar_def semi_fpar_def_list T_rparen
+## LR(1) items:
+header -> T_fun T_id T_lparen fpar_def semi_fpar_def_list T_rparen . T_colon ret_type [ T_var T_semicolon T_lbrace T_fun ]
+## Transitions:
+-- On T_colon shift to state 38
+## Reductions:
+
+State 38:
+## Known stack suffix:
+## T_fun T_id T_lparen fpar_def semi_fpar_def_list T_rparen T_colon
+## LR(1) items:
+header -> T_fun T_id T_lparen fpar_def semi_fpar_def_list T_rparen T_colon . ret_type [ T_var T_semicolon T_lbrace T_fun ]
+## Transitions:
+-- On T_nothing shift to state 6
+-- On T_int shift to state 7
+-- On T_char shift to state 8
+-- On ret_type shift to state 39
+-- On data_type shift to state 10
+## Reductions:
+
+State 39:
+## Known stack suffix:
+## T_fun T_id T_lparen fpar_def semi_fpar_def_list T_rparen T_colon ret_type
+## LR(1) items:
+header -> T_fun T_id T_lparen fpar_def semi_fpar_def_list T_rparen T_colon ret_type . [ T_var T_semicolon T_lbrace T_fun ]
+## Transitions:
+## Reductions:
+-- On T_var T_semicolon T_lbrace T_fun
+--   reduce production header -> T_fun T_id T_lparen fpar_def semi_fpar_def_list T_rparen T_colon ret_type
+
+State 40:
+## Known stack suffix:
+## program
+## LR(1) items:
+program' -> program . [ # ]
+## Transitions:
+## Reductions:
+-- On #
+--   accept program
+
+State 41:
+## Known stack suffix:
+## header
+## LR(1) items:
+func_def -> header . local_def_list block [ T_eof ]
+## Transitions:
+-- On T_var shift to state 42
+-- On T_fun shift to state 1
+-- On var_def shift to state 50
+-- On local_def_list shift to state 51
+-- On local_def shift to state 137
+-- On header shift to state 139
+-- On func_def shift to state 141
+-- On func_decl shift to state 142
+## Reductions:
+-- On T_lbrace
+--   reduce production local_def_list ->
+
+State 42:
+## Known stack suffix:
+## T_var
+## LR(1) items:
+var_def -> T_var . T_id comma_id_list T_colon grace_type T_semicolon [ T_var T_lbrace T_fun ]
+## Transitions:
+-- On T_id shift to state 43
+## Reductions:
+
+State 43:
+## Known stack suffix:
+## T_var T_id
+## LR(1) items:
+var_def -> T_var T_id . comma_id_list T_colon grace_type T_semicolon [ T_var T_lbrace T_fun ]
+## Transitions:
+-- On T_comma shift to state 13
+-- On comma_id_list shift to state 44
+## Reductions:
+-- On T_colon
+--   reduce production comma_id_list ->
+
+State 44:
+## Known stack suffix:
+## T_var T_id comma_id_list
+## LR(1) items:
+var_def -> T_var T_id comma_id_list . T_colon grace_type T_semicolon [ T_var T_lbrace T_fun ]
+## Transitions:
+-- On T_colon shift to state 45
+## Reductions:
+
+State 45:
+## Known stack suffix:
+## T_var T_id comma_id_list T_colon
+## LR(1) items:
+var_def -> T_var T_id comma_id_list T_colon . grace_type T_semicolon [ T_var T_lbrace T_fun ]
+## Transitions:
+-- On T_int shift to state 7
+-- On T_char shift to state 8
+-- On grace_type shift to state 46
+-- On data_type shift to state 48
+## Reductions:
+
+State 46:
+## Known stack suffix:
+## T_var T_id comma_id_list T_colon grace_type
+## LR(1) items:
+var_def -> T_var T_id comma_id_list T_colon grace_type . T_semicolon [ T_var T_lbrace T_fun ]
+## Transitions:
+-- On T_semicolon shift to state 47
+## Reductions:
+
+State 47:
+## Known stack suffix:
+## T_var T_id comma_id_list T_colon grace_type T_semicolon
+## LR(1) items:
+var_def -> T_var T_id comma_id_list T_colon grace_type T_semicolon . [ T_var T_lbrace T_fun ]
+## Transitions:
+## Reductions:
+-- On T_var T_lbrace T_fun
+--   reduce production var_def -> T_var T_id comma_id_list T_colon grace_type T_semicolon
+
+State 48:
+## Known stack suffix:
+## data_type
+## LR(1) items:
+grace_type -> data_type . bracket_int_const_list [ T_semicolon ]
+## Transitions:
+-- On T_lbrack shift to state 22
+-- On bracket_int_const_list shift to state 49
+## Reductions:
+-- On T_semicolon
+--   reduce production bracket_int_const_list ->
+
+State 49:
+## Known stack suffix:
+## data_type bracket_int_const_list
+## LR(1) items:
+grace_type -> data_type bracket_int_const_list . [ T_semicolon ]
+## Transitions:
+## Reductions:
+-- On T_semicolon
+--   reduce production grace_type -> data_type bracket_int_const_list
+
+State 50:
+## Known stack suffix:
+## var_def
+## LR(1) items:
+local_def -> var_def . [ T_var T_lbrace T_fun ]
+## Transitions:
+## Reductions:
+-- On T_var T_lbrace T_fun
+--   reduce production local_def -> var_def
+
+State 51:
+## Known stack suffix:
+## header local_def_list
+## LR(1) items:
+func_def -> header local_def_list . block [ T_var T_lbrace T_fun T_eof ]
+## Transitions:
+-- On T_lbrace shift to state 52
+-- On block shift to state 136
+## Reductions:
+
+State 52:
+## Known stack suffix:
+## T_lbrace
+## LR(1) items:
+block -> T_lbrace . stmt_list T_rbrace [ T_while T_var T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_fun T_eof T_else ]
+## Transitions:
+-- On T_while shift to state 53
+-- On T_string_literal shift to state 54
+-- On T_semicolon shift to state 113
+-- On T_return shift to state 114
+-- On T_lbrace shift to state 52
+-- On T_if shift to state 118
+-- On T_id shift to state 59
+-- On stmt_list shift to state 132
+-- On stmt shift to state 134
+-- On l_value shift to state 124
+-- On func_call shift to state 128
+-- On block shift to state 130
+## Reductions:
+-- On T_rbrace
+--   reduce production stmt_list ->
+
+State 53:
+## Known stack suffix:
+## T_while
+## LR(1) items:
+stmt -> T_while . cond T_do stmt [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_not shift to state 88
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 89
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 106
+-- On cond shift to state 111
+## Reductions:
+
+State 54:
+## Known stack suffix:
+## T_string_literal
+## LR(1) items:
+l_value -> T_string_literal . [ T_times T_then T_semicolon T_rparen T_rbrack T_prod T_plus T_or T_more T_mod T_minus T_less T_leq T_lbrack T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+## Reductions:
+-- On T_times T_then T_semicolon T_rparen T_rbrack T_prod T_plus T_or T_more T_mod T_minus T_less T_leq T_lbrack T_hash T_geq T_eq T_do T_div T_comma T_and
+--   reduce production l_value -> T_string_literal
+
+State 55:
+## Known stack suffix:
+## T_plus
+## LR(1) items:
+expr -> T_plus . expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 57
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 87
+## Reductions:
+
+State 56:
+## Known stack suffix:
+## T_minus
+## LR(1) items:
+expr -> T_minus . expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 57
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 86
+## Reductions:
+
+State 57:
+## Known stack suffix:
+## T_lparen
+## LR(1) items:
+expr -> T_lparen . expr T_rparen [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 57
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 84
+## Reductions:
+
+State 58:
+## Known stack suffix:
+## T_int_const
+## LR(1) items:
+expr -> T_int_const . [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+## Reductions:
+-- On T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and
+--   reduce production expr -> T_int_const
+
+State 59:
+## Known stack suffix:
+## T_id
+## LR(1) items:
+func_call -> T_id . T_lparen T_rparen [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+func_call -> T_id . T_lparen expr comma_expr_list T_rparen [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+l_value -> T_id . [ T_times T_then T_semicolon T_rparen T_rbrack T_prod T_plus T_or T_more T_mod T_minus T_less T_leq T_lbrack T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+-- On T_lparen shift to state 60
+## Reductions:
+-- On T_times T_then T_semicolon T_rparen T_rbrack T_prod T_plus T_or T_more T_mod T_minus T_less T_leq T_lbrack T_hash T_geq T_eq T_do T_div T_comma T_and
+--   reduce production l_value -> T_id
+
+State 60:
+## Known stack suffix:
+## T_id T_lparen
+## LR(1) items:
+func_call -> T_id T_lparen . T_rparen [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+func_call -> T_id T_lparen . expr comma_expr_list T_rparen [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_rparen shift to state 61
+-- On T_plus shift to state 55
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 57
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 78
+## Reductions:
+
+State 61:
+## Known stack suffix:
+## T_id T_lparen T_rparen
+## LR(1) items:
+func_call -> T_id T_lparen T_rparen . [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+## Reductions:
+-- On T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and
+--   reduce production func_call -> T_id T_lparen T_rparen
+
+State 62:
+## Known stack suffix:
+## T_char_const
+## LR(1) items:
+expr -> T_char_const . [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+## Reductions:
+-- On T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and
+--   reduce production expr -> T_char_const
+
+State 63:
+## Known stack suffix:
+## l_value
+## LR(1) items:
+expr -> l_value . [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+l_value -> l_value . T_lbrack expr T_rbrack [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_lbrack T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+-- On T_lbrack shift to state 64
+## Reductions:
+-- On T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and
+--   reduce production expr -> l_value
+
+State 64:
+## Known stack suffix:
+## l_value T_lbrack
+## LR(1) items:
+l_value -> l_value T_lbrack . expr T_rbrack [ T_times T_then T_semicolon T_rparen T_rbrack T_prod T_plus T_or T_more T_mod T_minus T_less T_leq T_lbrack T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 57
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 66
+## Reductions:
+
+State 65:
+## Known stack suffix:
+## func_call
+## LR(1) items:
+expr -> func_call . [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+## Reductions:
+-- On T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and
+--   reduce production expr -> func_call
+
+State 66:
+## Known stack suffix:
+## l_value T_lbrack expr
+## LR(1) items:
+expr -> expr . T_plus expr [ T_times T_rbrack T_plus T_mod T_minus T_div ]
+expr -> expr . T_minus expr [ T_times T_rbrack T_plus T_mod T_minus T_div ]
+expr -> expr . T_times expr [ T_times T_rbrack T_plus T_mod T_minus T_div ]
+expr -> expr . T_div expr [ T_times T_rbrack T_plus T_mod T_minus T_div ]
+expr -> expr . T_mod expr [ T_times T_rbrack T_plus T_mod T_minus T_div ]
+l_value -> l_value T_lbrack expr . T_rbrack [ T_times T_then T_semicolon T_rparen T_rbrack T_prod T_plus T_or T_more T_mod T_minus T_less T_leq T_lbrack T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+-- On T_times shift to state 67
+-- On T_rbrack shift to state 69
+-- On T_plus shift to state 70
+-- On T_mod shift to state 72
+-- On T_minus shift to state 76
+-- On T_div shift to state 74
+## Reductions:
+
+State 67:
+## Known stack suffix:
+## expr T_times
+## LR(1) items:
+expr -> expr T_times . expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 57
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 68
+## Reductions:
+
+State 68:
+## Known stack suffix:
+## expr T_times expr
+## LR(1) items:
+expr -> expr . T_plus expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_minus expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_times expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr T_times expr . [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_div expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_mod expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+## Reductions:
+-- On T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and
+--   reduce production expr -> expr T_times expr
+
+State 69:
+## Known stack suffix:
+## l_value T_lbrack expr T_rbrack
+## LR(1) items:
+l_value -> l_value T_lbrack expr T_rbrack . [ T_times T_then T_semicolon T_rparen T_rbrack T_prod T_plus T_or T_more T_mod T_minus T_less T_leq T_lbrack T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+## Reductions:
+-- On T_times T_then T_semicolon T_rparen T_rbrack T_prod T_plus T_or T_more T_mod T_minus T_less T_leq T_lbrack T_hash T_geq T_eq T_do T_div T_comma T_and
+--   reduce production l_value -> l_value T_lbrack expr T_rbrack
+
+State 70:
+## Known stack suffix:
+## expr T_plus
+## LR(1) items:
+expr -> expr T_plus . expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 57
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 71
+## Reductions:
+
+State 71:
+## Known stack suffix:
+## expr T_plus expr
+## LR(1) items:
+expr -> expr . T_plus expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr T_plus expr . [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_minus expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_times expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_div expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_mod expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+-- On T_times shift to state 67
+-- On T_mod shift to state 72
+-- On T_div shift to state 74
+## Reductions:
+-- On T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_minus T_less T_leq T_hash T_geq T_eq T_do T_comma T_and
+--   reduce production expr -> expr T_plus expr
+
+State 72:
+## Known stack suffix:
+## expr T_mod
+## LR(1) items:
+expr -> expr T_mod . expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 57
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 73
+## Reductions:
+
+State 73:
+## Known stack suffix:
+## expr T_mod expr
+## LR(1) items:
+expr -> expr . T_plus expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_minus expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_times expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_div expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_mod expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr T_mod expr . [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+## Reductions:
+-- On T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and
+--   reduce production expr -> expr T_mod expr
+
+State 74:
+## Known stack suffix:
+## expr T_div
+## LR(1) items:
+expr -> expr T_div . expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 57
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 75
+## Reductions:
+
+State 75:
+## Known stack suffix:
+## expr T_div expr
+## LR(1) items:
+expr -> expr . T_plus expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_minus expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_times expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_div expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr T_div expr . [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_mod expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+## Reductions:
+-- On T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and
+--   reduce production expr -> expr T_div expr
+
+State 76:
+## Known stack suffix:
+## expr T_minus
+## LR(1) items:
+expr -> expr T_minus . expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 57
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 77
+## Reductions:
+
+State 77:
+## Known stack suffix:
+## expr T_minus expr
+## LR(1) items:
+expr -> expr . T_plus expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_minus expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr T_minus expr . [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_times expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_div expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_mod expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+-- On T_times shift to state 67
+-- On T_mod shift to state 72
+-- On T_div shift to state 74
+## Reductions:
+-- On T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_minus T_less T_leq T_hash T_geq T_eq T_do T_comma T_and
+--   reduce production expr -> expr T_minus expr
+
+State 78:
+## Known stack suffix:
+## T_id T_lparen expr
+## LR(1) items:
+expr -> expr . T_plus expr [ T_times T_rparen T_plus T_mod T_minus T_div T_comma ]
+expr -> expr . T_minus expr [ T_times T_rparen T_plus T_mod T_minus T_div T_comma ]
+expr -> expr . T_times expr [ T_times T_rparen T_plus T_mod T_minus T_div T_comma ]
+expr -> expr . T_div expr [ T_times T_rparen T_plus T_mod T_minus T_div T_comma ]
+expr -> expr . T_mod expr [ T_times T_rparen T_plus T_mod T_minus T_div T_comma ]
+func_call -> T_id T_lparen expr . comma_expr_list T_rparen [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+-- On T_times shift to state 67
+-- On T_plus shift to state 70
+-- On T_mod shift to state 72
+-- On T_minus shift to state 76
+-- On T_div shift to state 74
+-- On T_comma shift to state 79
+-- On comma_expr_list shift to state 82
+## Reductions:
+-- On T_rparen
+--   reduce production comma_expr_list ->
+
+State 79:
+## Known stack suffix:
+## T_comma
+## LR(1) items:
+comma_expr_list -> T_comma . expr comma_expr_list [ T_rparen ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 57
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 80
+## Reductions:
+
+State 80:
+## Known stack suffix:
+## T_comma expr
+## LR(1) items:
+comma_expr_list -> T_comma expr . comma_expr_list [ T_rparen ]
+expr -> expr . T_plus expr [ T_times T_rparen T_plus T_mod T_minus T_div T_comma ]
+expr -> expr . T_minus expr [ T_times T_rparen T_plus T_mod T_minus T_div T_comma ]
+expr -> expr . T_times expr [ T_times T_rparen T_plus T_mod T_minus T_div T_comma ]
+expr -> expr . T_div expr [ T_times T_rparen T_plus T_mod T_minus T_div T_comma ]
+expr -> expr . T_mod expr [ T_times T_rparen T_plus T_mod T_minus T_div T_comma ]
+## Transitions:
+-- On T_times shift to state 67
+-- On T_plus shift to state 70
+-- On T_mod shift to state 72
+-- On T_minus shift to state 76
+-- On T_div shift to state 74
+-- On T_comma shift to state 79
+-- On comma_expr_list shift to state 81
+## Reductions:
+-- On T_rparen
+--   reduce production comma_expr_list ->
+
+State 81:
+## Known stack suffix:
+## T_comma expr comma_expr_list
+## LR(1) items:
+comma_expr_list -> T_comma expr comma_expr_list . [ T_rparen ]
+## Transitions:
+## Reductions:
+-- On T_rparen
+--   reduce production comma_expr_list -> T_comma expr comma_expr_list
+
+State 82:
+## Known stack suffix:
+## T_id T_lparen expr comma_expr_list
+## LR(1) items:
+func_call -> T_id T_lparen expr comma_expr_list . T_rparen [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+-- On T_rparen shift to state 83
+## Reductions:
+
+State 83:
+## Known stack suffix:
+## T_id T_lparen expr comma_expr_list T_rparen
+## LR(1) items:
+func_call -> T_id T_lparen expr comma_expr_list T_rparen . [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+## Reductions:
+-- On T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and
+--   reduce production func_call -> T_id T_lparen expr comma_expr_list T_rparen
+
+State 84:
+## Known stack suffix:
+## T_lparen expr
+## LR(1) items:
+expr -> T_lparen expr . T_rparen [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_plus expr [ T_times T_rparen T_plus T_mod T_minus T_div ]
+expr -> expr . T_minus expr [ T_times T_rparen T_plus T_mod T_minus T_div ]
+expr -> expr . T_times expr [ T_times T_rparen T_plus T_mod T_minus T_div ]
+expr -> expr . T_div expr [ T_times T_rparen T_plus T_mod T_minus T_div ]
+expr -> expr . T_mod expr [ T_times T_rparen T_plus T_mod T_minus T_div ]
+## Transitions:
+-- On T_times shift to state 67
+-- On T_rparen shift to state 85
+-- On T_plus shift to state 70
+-- On T_mod shift to state 72
+-- On T_minus shift to state 76
+-- On T_div shift to state 74
+## Reductions:
+
+State 85:
+## Known stack suffix:
+## T_lparen expr T_rparen
+## LR(1) items:
+expr -> T_lparen expr T_rparen . [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+## Reductions:
+-- On T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and
+--   reduce production expr -> T_lparen expr T_rparen
+
+State 86:
+## Known stack suffix:
+## T_minus expr
+## LR(1) items:
+expr -> T_minus expr . [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_plus expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_minus expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_times expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_div expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_mod expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+-- On T_times shift to state 67
+-- On T_mod shift to state 72
+-- On T_div shift to state 74
+## Reductions:
+-- On T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_minus T_less T_leq T_hash T_geq T_eq T_do T_comma T_and
+--   reduce production expr -> T_minus expr
+
+State 87:
+## Known stack suffix:
+## T_plus expr
+## LR(1) items:
+expr -> T_plus expr . [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_plus expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_minus expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_times expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_div expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+expr -> expr . T_mod expr [ T_times T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_do T_div T_comma T_and ]
+## Transitions:
+-- On T_times shift to state 67
+-- On T_mod shift to state 72
+-- On T_div shift to state 74
+## Reductions:
+-- On T_then T_semicolon T_rparen T_rbrack T_plus T_or T_more T_minus T_less T_leq T_hash T_geq T_eq T_do T_comma T_and
+--   reduce production expr -> T_plus expr
+
+State 88:
+## Known stack suffix:
+## T_not
+## LR(1) items:
+cond -> T_not . cond [ T_then T_rparen T_or T_do T_and ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_not shift to state 88
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 89
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 106
+-- On cond shift to state 110
+## Reductions:
+
+State 89:
+## Known stack suffix:
+## T_lparen
+## LR(1) items:
+cond -> T_lparen . cond T_rparen [ T_then T_rparen T_or T_do T_and ]
+expr -> T_lparen . expr T_rparen [ T_times T_rparen T_plus T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_div ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_not shift to state 88
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 89
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 90
+-- On cond shift to state 103
+## Reductions:
+
+State 90:
+## Known stack suffix:
+## T_lparen expr
+## LR(1) items:
+cond -> expr . T_eq expr [ T_rparen T_or T_and ]
+cond -> expr . T_hash expr [ T_rparen T_or T_and ]
+cond -> expr . T_less expr [ T_rparen T_or T_and ]
+cond -> expr . T_more expr [ T_rparen T_or T_and ]
+cond -> expr . T_leq expr [ T_rparen T_or T_and ]
+cond -> expr . T_geq expr [ T_rparen T_or T_and ]
+expr -> T_lparen expr . T_rparen [ T_times T_rparen T_plus T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_div ]
+expr -> expr . T_plus expr [ T_times T_rparen T_plus T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_div ]
+expr -> expr . T_minus expr [ T_times T_rparen T_plus T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_div ]
+expr -> expr . T_times expr [ T_times T_rparen T_plus T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_div ]
+expr -> expr . T_div expr [ T_times T_rparen T_plus T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_div ]
+expr -> expr . T_mod expr [ T_times T_rparen T_plus T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_div ]
+## Transitions:
+-- On T_times shift to state 67
+-- On T_rparen shift to state 85
+-- On T_plus shift to state 70
+-- On T_more shift to state 91
+-- On T_mod shift to state 72
+-- On T_minus shift to state 76
+-- On T_less shift to state 93
+-- On T_leq shift to state 95
+-- On T_hash shift to state 97
+-- On T_geq shift to state 99
+-- On T_eq shift to state 101
+-- On T_div shift to state 74
+## Reductions:
+
+State 91:
+## Known stack suffix:
+## expr T_more
+## LR(1) items:
+cond -> expr T_more . expr [ T_then T_rparen T_or T_do T_and ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 57
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 92
+## Reductions:
+
+State 92:
+## Known stack suffix:
+## expr T_more expr
+## LR(1) items:
+cond -> expr T_more expr . [ T_then T_rparen T_or T_do T_and ]
+expr -> expr . T_plus expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_minus expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_times expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_div expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_mod expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+## Transitions:
+-- On T_times shift to state 67
+-- On T_plus shift to state 70
+-- On T_mod shift to state 72
+-- On T_minus shift to state 76
+-- On T_div shift to state 74
+## Reductions:
+-- On T_then T_rparen T_or T_do T_and
+--   reduce production cond -> expr T_more expr
+
+State 93:
+## Known stack suffix:
+## expr T_less
+## LR(1) items:
+cond -> expr T_less . expr [ T_then T_rparen T_or T_do T_and ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 57
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 94
+## Reductions:
+
+State 94:
+## Known stack suffix:
+## expr T_less expr
+## LR(1) items:
+cond -> expr T_less expr . [ T_then T_rparen T_or T_do T_and ]
+expr -> expr . T_plus expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_minus expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_times expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_div expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_mod expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+## Transitions:
+-- On T_times shift to state 67
+-- On T_plus shift to state 70
+-- On T_mod shift to state 72
+-- On T_minus shift to state 76
+-- On T_div shift to state 74
+## Reductions:
+-- On T_then T_rparen T_or T_do T_and
+--   reduce production cond -> expr T_less expr
+
+State 95:
+## Known stack suffix:
+## expr T_leq
+## LR(1) items:
+cond -> expr T_leq . expr [ T_then T_rparen T_or T_do T_and ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 57
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 96
+## Reductions:
+
+State 96:
+## Known stack suffix:
+## expr T_leq expr
+## LR(1) items:
+cond -> expr T_leq expr . [ T_then T_rparen T_or T_do T_and ]
+expr -> expr . T_plus expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_minus expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_times expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_div expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_mod expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+## Transitions:
+-- On T_times shift to state 67
+-- On T_plus shift to state 70
+-- On T_mod shift to state 72
+-- On T_minus shift to state 76
+-- On T_div shift to state 74
+## Reductions:
+-- On T_then T_rparen T_or T_do T_and
+--   reduce production cond -> expr T_leq expr
+
+State 97:
+## Known stack suffix:
+## expr T_hash
+## LR(1) items:
+cond -> expr T_hash . expr [ T_then T_rparen T_or T_do T_and ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 57
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 98
+## Reductions:
+
+State 98:
+## Known stack suffix:
+## expr T_hash expr
+## LR(1) items:
+cond -> expr T_hash expr . [ T_then T_rparen T_or T_do T_and ]
+expr -> expr . T_plus expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_minus expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_times expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_div expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_mod expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+## Transitions:
+-- On T_times shift to state 67
+-- On T_plus shift to state 70
+-- On T_mod shift to state 72
+-- On T_minus shift to state 76
+-- On T_div shift to state 74
+## Reductions:
+-- On T_then T_rparen T_or T_do T_and
+--   reduce production cond -> expr T_hash expr
+
+State 99:
+## Known stack suffix:
+## expr T_geq
+## LR(1) items:
+cond -> expr T_geq . expr [ T_then T_rparen T_or T_do T_and ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 57
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 100
+## Reductions:
+
+State 100:
+## Known stack suffix:
+## expr T_geq expr
+## LR(1) items:
+cond -> expr T_geq expr . [ T_then T_rparen T_or T_do T_and ]
+expr -> expr . T_plus expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_minus expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_times expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_div expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_mod expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+## Transitions:
+-- On T_times shift to state 67
+-- On T_plus shift to state 70
+-- On T_mod shift to state 72
+-- On T_minus shift to state 76
+-- On T_div shift to state 74
+## Reductions:
+-- On T_then T_rparen T_or T_do T_and
+--   reduce production cond -> expr T_geq expr
+
+State 101:
+## Known stack suffix:
+## expr T_eq
+## LR(1) items:
+cond -> expr T_eq . expr [ T_then T_rparen T_or T_do T_and ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 57
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 102
+## Reductions:
+
+State 102:
+## Known stack suffix:
+## expr T_eq expr
+## LR(1) items:
+cond -> expr T_eq expr . [ T_then T_rparen T_or T_do T_and ]
+expr -> expr . T_plus expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_minus expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_times expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_div expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+expr -> expr . T_mod expr [ T_times T_then T_rparen T_plus T_or T_mod T_minus T_do T_div T_and ]
+## Transitions:
+-- On T_times shift to state 67
+-- On T_plus shift to state 70
+-- On T_mod shift to state 72
+-- On T_minus shift to state 76
+-- On T_div shift to state 74
+## Reductions:
+-- On T_then T_rparen T_or T_do T_and
+--   reduce production cond -> expr T_eq expr
+
+State 103:
+## Known stack suffix:
+## T_lparen cond
+## LR(1) items:
+cond -> T_lparen cond . T_rparen [ T_then T_rparen T_or T_do T_and ]
+cond -> cond . T_and cond [ T_rparen T_or T_and ]
+cond -> cond . T_or cond [ T_rparen T_or T_and ]
+## Transitions:
+-- On T_rparen shift to state 104
+-- On T_or shift to state 105
+-- On T_and shift to state 108
+## Reductions:
+
+State 104:
+## Known stack suffix:
+## T_lparen cond T_rparen
+## LR(1) items:
+cond -> T_lparen cond T_rparen . [ T_then T_rparen T_or T_do T_and ]
+## Transitions:
+## Reductions:
+-- On T_then T_rparen T_or T_do T_and
+--   reduce production cond -> T_lparen cond T_rparen
+
+State 105:
+## Known stack suffix:
+## cond T_or
+## LR(1) items:
+cond -> cond T_or . cond [ T_then T_rparen T_or T_do T_and ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_not shift to state 88
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 89
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 106
+-- On cond shift to state 107
+## Reductions:
+
+State 106:
+## Known stack suffix:
+## expr
+## LR(1) items:
+cond -> expr . T_eq expr [ T_then T_rparen T_or T_do T_and ]
+cond -> expr . T_hash expr [ T_then T_rparen T_or T_do T_and ]
+cond -> expr . T_less expr [ T_then T_rparen T_or T_do T_and ]
+cond -> expr . T_more expr [ T_then T_rparen T_or T_do T_and ]
+cond -> expr . T_leq expr [ T_then T_rparen T_or T_do T_and ]
+cond -> expr . T_geq expr [ T_then T_rparen T_or T_do T_and ]
+expr -> expr . T_plus expr [ T_times T_plus T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_div ]
+expr -> expr . T_minus expr [ T_times T_plus T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_div ]
+expr -> expr . T_times expr [ T_times T_plus T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_div ]
+expr -> expr . T_div expr [ T_times T_plus T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_div ]
+expr -> expr . T_mod expr [ T_times T_plus T_more T_mod T_minus T_less T_leq T_hash T_geq T_eq T_div ]
+## Transitions:
+-- On T_times shift to state 67
+-- On T_plus shift to state 70
+-- On T_more shift to state 91
+-- On T_mod shift to state 72
+-- On T_minus shift to state 76
+-- On T_less shift to state 93
+-- On T_leq shift to state 95
+-- On T_hash shift to state 97
+-- On T_geq shift to state 99
+-- On T_eq shift to state 101
+-- On T_div shift to state 74
+## Reductions:
+
+State 107:
+## Known stack suffix:
+## cond T_or cond
+## LR(1) items:
+cond -> cond . T_and cond [ T_then T_rparen T_or T_do T_and ]
+cond -> cond . T_or cond [ T_then T_rparen T_or T_do T_and ]
+cond -> cond T_or cond . [ T_then T_rparen T_or T_do T_and ]
+## Transitions:
+-- On T_and shift to state 108
+## Reductions:
+-- On T_then T_rparen T_or T_do
+--   reduce production cond -> cond T_or cond
+
+State 108:
+## Known stack suffix:
+## cond T_and
+## LR(1) items:
+cond -> cond T_and . cond [ T_then T_rparen T_or T_do T_and ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_not shift to state 88
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 89
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 106
+-- On cond shift to state 109
+## Reductions:
+
+State 109:
+## Known stack suffix:
+## cond T_and cond
+## LR(1) items:
+cond -> cond . T_and cond [ T_then T_rparen T_or T_do T_and ]
+cond -> cond T_and cond . [ T_then T_rparen T_or T_do T_and ]
+cond -> cond . T_or cond [ T_then T_rparen T_or T_do T_and ]
+## Transitions:
+## Reductions:
+-- On T_then T_rparen T_or T_do T_and
+--   reduce production cond -> cond T_and cond
+
+State 110:
+## Known stack suffix:
+## T_not cond
+## LR(1) items:
+cond -> T_not cond . [ T_then T_rparen T_or T_do T_and ]
+cond -> cond . T_and cond [ T_then T_rparen T_or T_do T_and ]
+cond -> cond . T_or cond [ T_then T_rparen T_or T_do T_and ]
+## Transitions:
+## Reductions:
+-- On T_then T_rparen T_or T_do T_and
+--   reduce production cond -> T_not cond
+
+State 111:
+## Known stack suffix:
+## T_while cond
+## LR(1) items:
+cond -> cond . T_and cond [ T_or T_do T_and ]
+cond -> cond . T_or cond [ T_or T_do T_and ]
+stmt -> T_while cond . T_do stmt [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+-- On T_or shift to state 105
+-- On T_do shift to state 112
+-- On T_and shift to state 108
+## Reductions:
+
+State 112:
+## Known stack suffix:
+## T_while cond T_do
+## LR(1) items:
+stmt -> T_while cond T_do . stmt [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+-- On T_while shift to state 53
+-- On T_string_literal shift to state 54
+-- On T_semicolon shift to state 113
+-- On T_return shift to state 114
+-- On T_lbrace shift to state 52
+-- On T_if shift to state 118
+-- On T_id shift to state 59
+-- On stmt shift to state 131
+-- On l_value shift to state 124
+-- On func_call shift to state 128
+-- On block shift to state 130
+## Reductions:
+
+State 113:
+## Known stack suffix:
+## T_semicolon
+## LR(1) items:
+stmt -> T_semicolon . [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+## Reductions:
+-- On T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else
+--   reduce production stmt -> T_semicolon
+
+State 114:
+## Known stack suffix:
+## T_return
+## LR(1) items:
+stmt -> T_return . T_semicolon [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+stmt -> T_return . expr T_semicolon [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_semicolon shift to state 115
+-- On T_plus shift to state 55
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 57
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 116
+## Reductions:
+
+State 115:
+## Known stack suffix:
+## T_return T_semicolon
+## LR(1) items:
+stmt -> T_return T_semicolon . [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+## Reductions:
+-- On T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else
+--   reduce production stmt -> T_return T_semicolon
+
+State 116:
+## Known stack suffix:
+## T_return expr
+## LR(1) items:
+expr -> expr . T_plus expr [ T_times T_semicolon T_plus T_mod T_minus T_div ]
+expr -> expr . T_minus expr [ T_times T_semicolon T_plus T_mod T_minus T_div ]
+expr -> expr . T_times expr [ T_times T_semicolon T_plus T_mod T_minus T_div ]
+expr -> expr . T_div expr [ T_times T_semicolon T_plus T_mod T_minus T_div ]
+expr -> expr . T_mod expr [ T_times T_semicolon T_plus T_mod T_minus T_div ]
+stmt -> T_return expr . T_semicolon [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+-- On T_times shift to state 67
+-- On T_semicolon shift to state 117
+-- On T_plus shift to state 70
+-- On T_mod shift to state 72
+-- On T_minus shift to state 76
+-- On T_div shift to state 74
+## Reductions:
+
+State 117:
+## Known stack suffix:
+## T_return expr T_semicolon
+## LR(1) items:
+stmt -> T_return expr T_semicolon . [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+## Reductions:
+-- On T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else
+--   reduce production stmt -> T_return expr T_semicolon
+
+State 118:
+## Known stack suffix:
+## T_if
+## LR(1) items:
+stmt -> T_if . cond T_then stmt [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+stmt -> T_if . cond T_then stmt T_else stmt [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_not shift to state 88
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 89
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 106
+-- On cond shift to state 119
+## Reductions:
+
+State 119:
+## Known stack suffix:
+## T_if cond
+## LR(1) items:
+cond -> cond . T_and cond [ T_then T_or T_and ]
+cond -> cond . T_or cond [ T_then T_or T_and ]
+stmt -> T_if cond . T_then stmt [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+stmt -> T_if cond . T_then stmt T_else stmt [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+-- On T_then shift to state 120
+-- On T_or shift to state 105
+-- On T_and shift to state 108
+## Reductions:
+
+State 120:
+## Known stack suffix:
+## T_if cond T_then
+## LR(1) items:
+stmt -> T_if cond T_then . stmt [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+stmt -> T_if cond T_then . stmt T_else stmt [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+-- On T_while shift to state 53
+-- On T_string_literal shift to state 54
+-- On T_semicolon shift to state 113
+-- On T_return shift to state 114
+-- On T_lbrace shift to state 52
+-- On T_if shift to state 118
+-- On T_id shift to state 59
+-- On stmt shift to state 121
+-- On l_value shift to state 124
+-- On func_call shift to state 128
+-- On block shift to state 130
+## Reductions:
+
+State 121:
+## Known stack suffix:
+## T_if cond T_then stmt
+## LR(1) items:
+stmt -> T_if cond T_then stmt . [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+stmt -> T_if cond T_then stmt . T_else stmt [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+-- On T_else shift to state 122
+## Reductions:
+-- On T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else
+--   reduce production stmt -> T_if cond T_then stmt
+** Conflict on T_else
+
+State 122:
+## Known stack suffix:
+## T_if cond T_then stmt T_else
+## LR(1) items:
+stmt -> T_if cond T_then stmt T_else . stmt [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+-- On T_while shift to state 53
+-- On T_string_literal shift to state 54
+-- On T_semicolon shift to state 113
+-- On T_return shift to state 114
+-- On T_lbrace shift to state 52
+-- On T_if shift to state 118
+-- On T_id shift to state 59
+-- On stmt shift to state 123
+-- On l_value shift to state 124
+-- On func_call shift to state 128
+-- On block shift to state 130
+## Reductions:
+
+State 123:
+## Known stack suffix:
+## T_if cond T_then stmt T_else stmt
+## LR(1) items:
+stmt -> T_if cond T_then stmt T_else stmt . [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+## Reductions:
+-- On T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else
+--   reduce production stmt -> T_if cond T_then stmt T_else stmt
+
+State 124:
+## Known stack suffix:
+## l_value
+## LR(1) items:
+l_value -> l_value . T_lbrack expr T_rbrack [ T_prod T_lbrack ]
+stmt -> l_value . T_prod expr T_semicolon [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+-- On T_prod shift to state 125
+-- On T_lbrack shift to state 64
+## Reductions:
+
+State 125:
+## Known stack suffix:
+## l_value T_prod
+## LR(1) items:
+stmt -> l_value T_prod . expr T_semicolon [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+-- On T_string_literal shift to state 54
+-- On T_plus shift to state 55
+-- On T_minus shift to state 56
+-- On T_lparen shift to state 57
+-- On T_int_const shift to state 58
+-- On T_id shift to state 59
+-- On T_char_const shift to state 62
+-- On l_value shift to state 63
+-- On func_call shift to state 65
+-- On expr shift to state 126
+## Reductions:
+
+State 126:
+## Known stack suffix:
+## l_value T_prod expr
+## LR(1) items:
+expr -> expr . T_plus expr [ T_times T_semicolon T_plus T_mod T_minus T_div ]
+expr -> expr . T_minus expr [ T_times T_semicolon T_plus T_mod T_minus T_div ]
+expr -> expr . T_times expr [ T_times T_semicolon T_plus T_mod T_minus T_div ]
+expr -> expr . T_div expr [ T_times T_semicolon T_plus T_mod T_minus T_div ]
+expr -> expr . T_mod expr [ T_times T_semicolon T_plus T_mod T_minus T_div ]
+stmt -> l_value T_prod expr . T_semicolon [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+-- On T_times shift to state 67
+-- On T_semicolon shift to state 127
+-- On T_plus shift to state 70
+-- On T_mod shift to state 72
+-- On T_minus shift to state 76
+-- On T_div shift to state 74
+## Reductions:
+
+State 127:
+## Known stack suffix:
+## l_value T_prod expr T_semicolon
+## LR(1) items:
+stmt -> l_value T_prod expr T_semicolon . [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+## Reductions:
+-- On T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else
+--   reduce production stmt -> l_value T_prod expr T_semicolon
+
+State 128:
+## Known stack suffix:
+## func_call
+## LR(1) items:
+stmt -> func_call . T_semicolon [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+-- On T_semicolon shift to state 129
+## Reductions:
+
+State 129:
+## Known stack suffix:
+## func_call T_semicolon
+## LR(1) items:
+stmt -> func_call T_semicolon . [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+## Reductions:
+-- On T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else
+--   reduce production stmt -> func_call T_semicolon
+
+State 130:
+## Known stack suffix:
+## block
+## LR(1) items:
+stmt -> block . [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+## Reductions:
+-- On T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else
+--   reduce production stmt -> block
+
+State 131:
+## Known stack suffix:
+## T_while cond T_do stmt
+## LR(1) items:
+stmt -> T_while cond T_do stmt . [ T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else ]
+## Transitions:
+## Reductions:
+-- On T_while T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_else
+--   reduce production stmt -> T_while cond T_do stmt
+
+State 132:
+## Known stack suffix:
+## T_lbrace stmt_list
+## LR(1) items:
+block -> T_lbrace stmt_list . T_rbrace [ T_while T_var T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_fun T_eof T_else ]
+## Transitions:
+-- On T_rbrace shift to state 133
+## Reductions:
+
+State 133:
+## Known stack suffix:
+## T_lbrace stmt_list T_rbrace
+## LR(1) items:
+block -> T_lbrace stmt_list T_rbrace . [ T_while T_var T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_fun T_eof T_else ]
+## Transitions:
+## Reductions:
+-- On T_while T_var T_string_literal T_semicolon T_return T_rbrace T_lbrace T_if T_id T_fun T_eof T_else
+--   reduce production block -> T_lbrace stmt_list T_rbrace
+
+State 134:
+## Known stack suffix:
+## stmt
+## LR(1) items:
+stmt_list -> stmt . stmt_list [ T_rbrace ]
+## Transitions:
+-- On T_while shift to state 53
+-- On T_string_literal shift to state 54
+-- On T_semicolon shift to state 113
+-- On T_return shift to state 114
+-- On T_lbrace shift to state 52
+-- On T_if shift to state 118
+-- On T_id shift to state 59
+-- On stmt_list shift to state 135
+-- On stmt shift to state 134
+-- On l_value shift to state 124
+-- On func_call shift to state 128
+-- On block shift to state 130
+## Reductions:
+-- On T_rbrace
+--   reduce production stmt_list ->
+
+State 135:
+## Known stack suffix:
+## stmt stmt_list
+## LR(1) items:
+stmt_list -> stmt stmt_list . [ T_rbrace ]
+## Transitions:
+## Reductions:
+-- On T_rbrace
+--   reduce production stmt_list -> stmt stmt_list
+
+State 136:
+## Known stack suffix:
+## header local_def_list block
+## LR(1) items:
+func_def -> header local_def_list block . [ T_var T_lbrace T_fun T_eof ]
+## Transitions:
+## Reductions:
+-- On T_var T_lbrace T_fun T_eof
+--   reduce production func_def -> header local_def_list block
+
+State 137:
+## Known stack suffix:
+## local_def
+## LR(1) items:
+local_def_list -> local_def . local_def_list [ T_lbrace ]
+## Transitions:
+-- On T_var shift to state 42
+-- On T_fun shift to state 1
+-- On var_def shift to state 50
+-- On local_def_list shift to state 138
+-- On local_def shift to state 137
+-- On header shift to state 139
+-- On func_def shift to state 141
+-- On func_decl shift to state 142
+## Reductions:
+-- On T_lbrace
+--   reduce production local_def_list ->
+
+State 138:
+## Known stack suffix:
+## local_def local_def_list
+## LR(1) items:
+local_def_list -> local_def local_def_list . [ T_lbrace ]
+## Transitions:
+## Reductions:
+-- On T_lbrace
+--   reduce production local_def_list -> local_def local_def_list
+
+State 139:
+## Known stack suffix:
+## header
+## LR(1) items:
+func_decl -> header . T_semicolon [ T_var T_lbrace T_fun ]
+func_def -> header . local_def_list block [ T_var T_lbrace T_fun ]
+## Transitions:
+-- On T_var shift to state 42
+-- On T_semicolon shift to state 140
+-- On T_fun shift to state 1
+-- On var_def shift to state 50
+-- On local_def_list shift to state 51
+-- On local_def shift to state 137
+-- On header shift to state 139
+-- On func_def shift to state 141
+-- On func_decl shift to state 142
+## Reductions:
+-- On T_lbrace
+--   reduce production local_def_list ->
+
+State 140:
+## Known stack suffix:
+## header T_semicolon
+## LR(1) items:
+func_decl -> header T_semicolon . [ T_var T_lbrace T_fun ]
+## Transitions:
+## Reductions:
+-- On T_var T_lbrace T_fun
+--   reduce production func_decl -> header T_semicolon
+
+State 141:
+## Known stack suffix:
+## func_def
+## LR(1) items:
+local_def -> func_def . [ T_var T_lbrace T_fun ]
+## Transitions:
+## Reductions:
+-- On T_var T_lbrace T_fun
+--   reduce production local_def -> func_def
+
+State 142:
+## Known stack suffix:
+## func_decl
+## LR(1) items:
+local_def -> func_decl . [ T_var T_lbrace T_fun ]
+## Transitions:
+## Reductions:
+-- On T_var T_lbrace T_fun
+--   reduce production local_def -> func_decl
+
+State 143:
+## Known stack suffix:
+## func_def
+## LR(1) items:
+program -> func_def . T_eof [ # ]
+## Transitions:
+-- On T_eof shift to state 144
+## Reductions:
+
+State 144:
+## Known stack suffix:
+## func_def T_eof
+## LR(1) items:
+program -> func_def T_eof . [ # ]
+## Transitions:
+## Reductions:
+-- On #
+--   reduce production program -> func_def T_eof
+

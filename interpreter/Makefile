@@ -7,11 +7,11 @@ else
    EXE=
 endif
 
-EXEFILE=gracec$(EXE)
-MLFILES=Hashcons.ml Identifier.ml Error.ml Types.ml Symbol.ml \
-  Lexer.ml Parser.ml Symbtest.ml Narray.ml
-MLIFILES=Hashcons.mli Identifier.mli Error.mli Types.mli Symbol.mli \
-  Parser.mli Lexer.mli Narray.mli
+EXEFILE=grace$(EXE)
+MLFILES=Hashcons.ml Identifier.ml Error.ml Types.ml Narray.ml Symbol.ml \
+  Lexer.ml Parser.ml Symbtest.ml
+MLIFILES=Hashcons.mli Identifier.mli Error.mli Types.mli Narray.mli Symbol.mli \
+  Parser.mli Lexer.mli 
 CMOFILES=$(patsubst %.ml,%.cmo,$(MLFILES))
 CMIFILES=$(patsubst %.ml,%.cmi,$(MLFILES))
 CMXFILES=$(patsubst %.ml,%.cmx,$(MLFILES))
@@ -29,7 +29,7 @@ OCAMLOPT=ocamlopt $(OCAMLOPT_FLAGS)
 OCAMLDEP=ocamldep
 INCLUDES=
 
-default: symbtest$(EXE)
+default: $(EXEFILE)
 
 symbtest$(EXE): $(filter-out Lexer.cmo Parser.cmo,$(CMOFILES))
 	$(OCAMLC) -o $@ $^
@@ -57,7 +57,7 @@ $(EXEFILE): Parser.mli Lexer.ml $(CMOFILES)
 	$(OCAMLC) -o $@ $(CMOFILES)
 
 Parser.ml Parser.mli: Parser.mly
-	ocamlyacc -v Parser.mly
+	menhir -v Parser.mly
 
 Lexer.ml: Lexer.mll
 	ocamllex Lexer.mll
@@ -83,7 +83,7 @@ distclean: clean
 	$(RM) $(EXEFILE) symbtest$(EXE) .depend
 
 pack: clean
-	tar cvfz gracec.tar.gz $(SRCFILES)
+	tar cvfz grace.tar.gz $(SRCFILES)
 
 bonus.zip: distclean
 	zip bonus.zip README Makefile extend.ml \

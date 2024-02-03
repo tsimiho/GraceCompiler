@@ -1,11 +1,31 @@
 %{
   open Symbol
+  open Types
+  open Identifier
+  open Error
 
-  let param = { 
-    id: string; 
+  type param = { 
+    id: Identifier.id; 
     mode: pass_mode; 
     param_type: typ 
   }
+
+  and param_mode = PASS_BY_VALUE | PASS_BY_REFERENCE
+
+  and param_def = {
+    id: string;
+    mode: param_mode;
+    param_type: Types.typ;
+  }
+
+  (* and lvalue_type =  *)
+  (*   |  *)
+
+
+  and expr_type = 
+    | IntConst of int
+    | CharConst of char
+    | BoolConst of bool
  
   let registerHeader id params return_type = 
     let fun_entry = newFunction id true in
@@ -13,11 +33,22 @@
     match params with
     | [] -> ()
     | _  -> List.iter ( fun param ->
-                          newParameter param.id param.param_type param.mode id true
+                          ignore (newParameter param.id param.param_type param.mode fun_entry true)
                       ) params;
-    fun_entry.function_result <- return_type
+    match fun_entry.entry_info with
+    | ENTRY_function func_info ->
+        func_info.function_result <- return_type;
+    | _ -> error "Expected a function entry %a" pretty_id id;
     closeScope();
     endFunctionHeader fun_entry return_type
+
+
+  let callFunction id params = 
+    let e = lookupEntry id LOOKUP_CURRENT_SCOPE false in
+    match e.entry_info with
+    | ENTRY_function inf ->
+        
+
 
 %}
 
@@ -75,11 +106,11 @@
 %type <unit -> unit> func_def
 %type <unit -> unit> local_def_list
 %type <unit -> unit> header
-%type <unit -> 'a list> semi_fpar_def_list
+%type <unit -> param_def list> semi_fpar_def_list
 %type <unit -> unit> fpar_def
-%type <unit -> 'a list> comma_id_list
+%type <unit -> string list> comma_id_list
 %type <unit -> typ> data_type
-%type <unit -> 'a list> bracket_int_const_list
+%type <unit -> int list> bracket_int_const_list
 %type <unit -> typ> ret_type
 %type <unit -> typ> fpar_type
 %type <unit -> typ> grace_type
@@ -89,10 +120,10 @@
 %type <unit -> unit> stmt
 %type <unit> block
 %type <unit -> unit> stmt_list
-%type <unit -> 'a> func_call
-%type <unit -> 'a list> comma_expr_list
-%type <unit -> ('a * 'b list)> lvalue
-%type <unit -> 'a> expr
+%type <unit -> expr_type> func_call
+%type <unit -> expr_type list> comma_expr_list
+%type <unit -> (string * expr_type list)> l_value
+%type <unit -> expr_type> expr
 %type <unit -> bool> cond
 
 
@@ -100,7 +131,16 @@
 
 program: func_def T_eof { $1 }
 
-func_def: header local_def_list block { fun _ -> begin $1 (); $2 (); $3 () end }
+func_def: header local_def_list block { fun _ -> begin 
+                                          let func_name = $1 () in
+                                          $2 ();
+                                          let func_body = $3 () in
+                                          let func_entry = lookupEntry (id_make func_name) LOOKUP_CURRENT_SCOPE true in
+                                          match func_entry.entry_info with
+                                          | ENTRY_function func_info -> func_info.function_body <- func_body
+                                          | _ -> ()
+                                        end
+                                      }
 
 local_def_list: /* nothing */            { fun _ -> () }
               | local_def local_def_list { fun _ -> begin $1 (); $2 () end }
@@ -108,12 +148,14 @@ local_def_list: /* nothing */            { fun _ -> () }
 header: T_fun T_id T_lparen fpar_def semi_fpar_def_list T_rparen T_colon ret_type { fun _ -> let id = $2 in
                                                                                              let params = $4 () :: $5 () in
                                                                                              let return_type = $7 () in 
-                                                                                             registerHeader id params return_type
+                                                                                             registerHeader id params return_type;
+                                                                                             id
                                                                                   }
       | T_fun T_id T_lparen T_rparen T_colon ret_type                             { fun _ -> let id = $2 in
                                                                                              let params = [] in
-                                                                                             let return_type = $7 () in 
-                                                                                             registerHeader id params return_type
+                                                                                             let return_type = $6 () in 
+                                                                                             registerHeader id params return_type;
+                                                                                             id
                                                                                   } 
 
 semi_fpar_def_list: /* nothing */                           { fun _ -> [] }
@@ -121,11 +163,11 @@ semi_fpar_def_list: /* nothing */                           { fun _ -> [] }
 
 fpar_def: T_ref T_id comma_id_list T_colon fpar_type { fun _ -> let params = $2 :: $3 () in
                                                                 let param_type = $5 () in
-                                                                List.map (fun name -> { id = name; mode = PASS_BY_REFERENCE ; param_type = param_type }) params            
+                                                                ignore (List.map (fun name -> { id = name; mode = PASS_BY_REFERENCE ; param_type = param_type }) params)
                                                      }
         | T_id comma_id_list T_colon fpar_type       { fun _ -> let params = $1 :: $2 () in
                                                                 let param_type = $4 () in
-                                                                List.map (fun name -> { id = name; mode = PASS_BY_VALUE; param_type = param_type }) params            
+                                                                ignore (List.map (fun name -> { id = name; mode = PASS_BY_VALUE; param_type = param_type }) params)
                                                      }
 
 comma_id_list: /* nothing */              { fun _ -> [] }
@@ -170,16 +212,16 @@ var_def: T_var T_id comma_id_list T_colon grace_type T_semicolon { fun _ -> let 
 
 stmt: T_semicolon                       { fun _ -> () }
     | l_value T_prod expr T_semicolon   { fun _ -> let (id,l) = $1 () in
-                                                   let val = $2 () in
-                                                   assignToVariable id l val
+                                                   let value = $2 () in
+                                                   assignToVariable id l value
                                         }
     | block                             { $1 }
     | func_call T_semicolon             { $1 }
     | T_if cond T_then stmt             { fun _ -> if $2 () <> 0 then $4 () }
     | T_if cond T_then stmt T_else stmt { fun _ -> if $2 () <> 0 then $4 () else $6 () }
     | T_while cond T_do stmt            { fun _ -> while $2 () do $4 () done }
-    | T_return T_semicolon              {  }
-    | T_return expr T_semicolon         {  }
+    | T_return T_semicolon              { fun _ -> Return None }
+    | T_return expr T_semicolon         { fun _ -> Return (Some $2 ()) }
 
 
 block: T_lbrace stmt_list T_rbrace { $2 }
@@ -187,34 +229,35 @@ block: T_lbrace stmt_list T_rbrace { $2 }
 stmt_list: /* nothing */  { fun _ -> () }
          | stmt stmt_list { fun _ -> begin $1 (); $2 () end }
 
-func_call: T_id T_lparen T_rparen                      {  }
-         | T_id T_lparen expr comma_expr_list T_rparen {  }
+func_call: T_id T_lparen T_rparen                      { fun _ -> }
+         | T_id T_lparen expr comma_expr_list T_rparen { fun _ -> }
 
 comma_expr_list: /* nothing */                { fun _ -> [] }
                | T_comma expr comma_expr_list { fun _ -> $2 () :: $3 () }
 
 l_value: T_id                           { fun _ -> ($1,[]) }
        | T_string_literal               { fun _ -> ($1,[]) }
-       | l_value T_lbrack expr T_rbrack { fun _ -> let (val, l) = $1 () in
+       | l_value T_lbrack expr T_rbrack { fun _ -> let (value, l) = $1 () in
                                                    let exp = $3 () in
-                                                   (val, exp :: l)
+                                                   (value, exp :: l)
                                         }
 
-expr: T_int_const            { fun _ -> $1 }
-    | T_char_const           { fun _ -> $1 }
+
+expr: T_int_const            { fun _ -> IntConst $1 }
+    | T_char_const           { fun _ -> CharConst $1 }
     | l_value                { fun _ -> $1 () }
     | T_lparen expr T_rparen { $2 }
     | func_call              { fun _ -> $1 () }
-    | T_plus expr            { fun _ -> + $1 () }
-    | T_minus expr           { fun _ -> - $1 () }
-    | expr T_plus expr       { fun _ -> $1 () + $2 () }
-    | expr T_minus expr      { fun _ -> $1 () - $2 () }
-    | expr T_times expr      { fun _ -> $1 () * $2 () }
-    | expr T_div expr        { fun _ -> $1 () / $2 () }
-    | expr T_mod expr        { fun _ -> $1 () mod $2 () }
+    | T_plus expr            { fun _ -> IntConst (+ $1 ()) }
+    | T_minus expr           { fun _ -> IntConst (- $1 ()) }
+    | expr T_plus expr       { fun _ -> IntConst ($1 () + $2 ()) }
+    | expr T_minus expr      { fun _ -> IntConst ($1 () - $2 ()) }
+    | expr T_times expr      { fun _ -> IntConst ($1 () * $2 ()) }
+    | expr T_div expr        { fun _ -> IntConst ($1 () / $2 ()) }
+    | expr T_mod expr        { fun _ -> IntConst ($1 () mod $2 ()) }
 
 cond: T_lparen cond T_rparen { $2 }
-    | T_not cond             { fun _ -> not $2 () }
+    | T_not cond             { fun _ -> not ($2 ()) }
     | cond T_and cond        { fun _ -> $1 () && $3 () }
     | cond T_or cond         { fun _ -> $1 () || $3 () }
     | expr T_eq expr         { fun _ -> $1 () = $3 () }
