@@ -19,14 +19,21 @@ type scope = {
 
 and variable_value = 
   | IntValue of int
-  | CharValue of char
-  | MultiArrayValue of int multi_array
+  | CharValue of string
+  | MultiArray of int multi_array
 
 and variable_info = {
   variable_type   : Types.typ;
   variable_offset : int;
   mutable value           : variable_value
 }
+
+and expr_type = 
+  | IntConst of int
+  | CharConst of string
+  | BoolConst of bool
+  | MultiArray of int multi_array
+  | Unit
 
 and function_info = {
   mutable function_isForward : bool;
@@ -35,7 +42,7 @@ and function_info = {
   mutable function_result    : Types.typ;
   mutable function_pstatus   : param_status;
   mutable function_initquad  : int;
-  mutable function_body      : func_body
+  mutable function_body      : unit -> expr_type option
 }
 
 and parameter_info = {
@@ -79,6 +86,6 @@ val newParameter : Identifier.id -> Types.typ -> pass_mode -> entry -> bool -> e
 val newTemporary : Types.typ -> entry
 val forwardFunction : entry -> unit
 val endFunctionHeader : entry -> Types.typ -> unit
-val assignToVariable : Identifier.id -> int list -> variable_value -> unit
+val assignToVariable : Identifier.id -> int list -> expr_type -> unit
 val start_positive_offset : int
 val start_negative_offset : int

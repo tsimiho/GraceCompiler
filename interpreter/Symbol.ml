@@ -27,8 +27,8 @@ type scope = {
 
 and variable_value = 
   | IntValue of int
-  | CharValue of char
-  | MultiArrayValue of int multi_array
+  | CharValue of string
+  | MultiArray of int multi_array
 
 and variable_info = {
   variable_type   : Types.typ;
@@ -37,6 +37,13 @@ and variable_info = {
   mutable value   : variable_value
 }
 
+and expr_type = 
+  | IntConst of int
+  | CharConst of string
+  | BoolConst of bool
+  | MultiArray of int multi_array
+  | Unit
+
 and function_info = {
   mutable function_isForward : bool;
   mutable function_paramlist : entry list;
@@ -44,7 +51,7 @@ and function_info = {
   mutable function_result    : Types.typ;
   mutable function_pstatus   : param_status;
   mutable function_initquad  : int;
-  mutable function_body      : func_body
+  mutable function_body      : unit -> expr_type option
 }
 
 and parameter_info = {
@@ -172,8 +179,8 @@ let newVariable id typ err =
     variable_offset = !currentScope.sco_negofs;
     value = match typ with
                     | TYPE_int -> IntValue 0
-                    | TYPE_char -> CharValue '0'
-                    | _ -> let arr = createArray size in MultiArrayValue arr 
+                    | TYPE_char -> CharValue "0"
+                    | _ -> let arr = createArray size in MultiArray arr 
   } in
   newEntry id (ENTRY_variable inf) err
 
@@ -198,7 +205,7 @@ let newFunction id err =
       function_result = TYPE_none;
       function_pstatus = PARDEF_DEFINE;
       function_initquad = 0;
-      function_body = [];
+      function_body = fun _ -> None
     } in
     newEntry id (ENTRY_function inf) false
 
@@ -302,7 +309,7 @@ let endFunctionHeader e typ =
   | _ ->
       internal "Cannot end parameters in a non-function"
 
-let assignToVariable id l value =
+let assignToVariable id l v =
     try
         let variable_entry = lookupEntry id LOOKUP_CURRENT_SCOPE true in
         match variable_entry.entry_info with
@@ -311,23 +318,23 @@ let assignToVariable id l value =
                 match var_info.variable_type with
                 | TYPE_int -> 
                     begin
-                        match value with
-                        | IntValue int_val -> var_info.value <- IntValue int_val
+                        match v with
+                        | IntConst int_val -> var_info.value <- IntValue int_val
                         | _ -> error "Type mismatch: expected int"
                     end
                 | TYPE_char -> 
                     begin
-                        match value with
-                        | CharValue char_val -> var_info.value <- CharValue char_val
+                        match v with
+                        | CharConst char_val -> var_info.value <- CharValue char_val
                         | _ -> error "Type mismatch: expected char"
                     end
                 | TYPE_array _ -> 
                     begin
                         match var_info.value with
-                        | MultiArrayValue arr ->
+                        | MultiArray arr ->
                             let index = mapIndices arr.dimensions l in
-                            match value with
-                            | IntValue int_val -> arr.data.(index) <- int_val
+                            match v with
+                            | IntConst int_val -> arr.data.(index) <- int_val
                             | _ -> error "Type mismatch: expected int for array assignment"
                     end
                 | _ -> error "Invalid assignment to variable %a" pretty_id id

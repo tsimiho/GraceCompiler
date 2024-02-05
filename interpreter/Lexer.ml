@@ -1316,141 +1316,161 @@ and __ocaml_lex_lexer_rec lexbuf __ocaml_lex_state =
 # 1317 "Lexer.ml"
 
   | 20 ->
+let
 # 38 "Lexer.mll"
-                                ( T_id )
-# 1322 "Lexer.ml"
-
-  | 21 ->
-# 41 "Lexer.mll"
-             ( Lexing.new_line lexbuf; lexer lexbuf )
+                                  id
+# 1323 "Lexer.ml"
+= Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
+# 38 "Lexer.mll"
+                                     ( T_id id )
 # 1327 "Lexer.ml"
 
-  | 22 ->
-# 42 "Lexer.mll"
-             ( T_int_const )
+  | 21 ->
+# 40 "Lexer.mll"
+                          ( Lexing.new_line lexbuf; lexer lexbuf )
 # 1332 "Lexer.ml"
 
-  | 23 ->
-# 43 "Lexer.mll"
-                                                  ( T_char_const )
-# 1337 "Lexer.ml"
-
-  | 24 ->
-# 44 "Lexer.mll"
-                                                   ( T_string_literal )
+  | 22 ->
+let
+# 41 "Lexer.mll"
+               num_string
+# 1338 "Lexer.ml"
+= Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
+# 41 "Lexer.mll"
+                          ( T_int_const (int_of_string num_string) )
 # 1342 "Lexer.ml"
 
-  | 25 ->
-# 46 "Lexer.mll"
-              ( T_eq )
-# 1347 "Lexer.ml"
-
-  | 26 ->
-# 47 "Lexer.mll"
-              ( T_lparen )
+  | 23 ->
+let
+# 42 "Lexer.mll"
+                                              char_val
+# 1348 "Lexer.ml"
+= Lexing.sub_lexeme lexbuf (lexbuf.Lexing.lex_start_pos + 1) (lexbuf.Lexing.lex_curr_pos + -1) in
+# 42 "Lexer.mll"
+                                                              ( T_char_const char_val )
 # 1352 "Lexer.ml"
 
-  | 27 ->
-# 48 "Lexer.mll"
-              ( T_rparen )
-# 1357 "Lexer.ml"
-
-  | 28 ->
-# 49 "Lexer.mll"
-              ( T_plus )
+  | 24 ->
+let
+# 43 "Lexer.mll"
+                                                 str
+# 1358 "Lexer.ml"
+= Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos (lexbuf.Lexing.lex_curr_pos + -1) in
+# 43 "Lexer.mll"
+                                                              ( T_string_literal str )
 # 1362 "Lexer.ml"
 
-  | 29 ->
-# 50 "Lexer.mll"
-              ( T_minus )
+  | 25 ->
+# 45 "Lexer.mll"
+              ( T_eq )
 # 1367 "Lexer.ml"
 
-  | 30 ->
-# 51 "Lexer.mll"
-              ( T_times )
+  | 26 ->
+# 46 "Lexer.mll"
+              ( T_lparen )
 # 1372 "Lexer.ml"
 
-  | 31 ->
-# 52 "Lexer.mll"
-              ( T_less )
+  | 27 ->
+# 47 "Lexer.mll"
+              ( T_rparen )
 # 1377 "Lexer.ml"
 
-  | 32 ->
-# 53 "Lexer.mll"
-              ( T_more )
+  | 28 ->
+# 48 "Lexer.mll"
+              ( T_plus )
 # 1382 "Lexer.ml"
 
-  | 33 ->
-# 54 "Lexer.mll"
-              ( T_lbrack )
+  | 29 ->
+# 49 "Lexer.mll"
+              ( T_minus )
 # 1387 "Lexer.ml"
 
-  | 34 ->
-# 55 "Lexer.mll"
-              ( T_rbrack )
+  | 30 ->
+# 50 "Lexer.mll"
+              ( T_times )
 # 1392 "Lexer.ml"
 
-  | 35 ->
-# 56 "Lexer.mll"
-              ( T_lbrace )
+  | 31 ->
+# 51 "Lexer.mll"
+              ( T_less )
 # 1397 "Lexer.ml"
 
-  | 36 ->
-# 57 "Lexer.mll"
-              ( T_rbrace )
+  | 32 ->
+# 52 "Lexer.mll"
+              ( T_more )
 # 1402 "Lexer.ml"
 
-  | 37 ->
-# 58 "Lexer.mll"
-              ( T_hash)
+  | 33 ->
+# 53 "Lexer.mll"
+              ( T_lbrack )
 # 1407 "Lexer.ml"
 
-  | 38 ->
-# 59 "Lexer.mll"
-              ( T_comma )
+  | 34 ->
+# 54 "Lexer.mll"
+              ( T_rbrack )
 # 1412 "Lexer.ml"
 
-  | 39 ->
-# 60 "Lexer.mll"
-              ( T_semicolon )
+  | 35 ->
+# 55 "Lexer.mll"
+              ( T_lbrace )
 # 1417 "Lexer.ml"
 
-  | 40 ->
-# 61 "Lexer.mll"
-              ( T_colon )
+  | 36 ->
+# 56 "Lexer.mll"
+              ( T_rbrace )
 # 1422 "Lexer.ml"
 
-  | 41 ->
-# 63 "Lexer.mll"
-                       ( lexer lexbuf )
+  | 37 ->
+# 57 "Lexer.mll"
+              ( T_hash)
 # 1427 "Lexer.ml"
 
-  | 42 ->
-# 64 "Lexer.mll"
-                       ( lexer lexbuf )
+  | 38 ->
+# 58 "Lexer.mll"
+              ( T_comma )
 # 1432 "Lexer.ml"
 
-  | 43 ->
-# 65 "Lexer.mll"
-                       ( comment lexbuf )
+  | 39 ->
+# 59 "Lexer.mll"
+              ( T_semicolon )
 # 1437 "Lexer.ml"
 
-  | 44 ->
-# 68 "Lexer.mll"
-                  ( T_eof )
+  | 40 ->
+# 60 "Lexer.mll"
+              ( T_colon )
 # 1442 "Lexer.ml"
+
+  | 41 ->
+# 62 "Lexer.mll"
+                       ( lexer lexbuf )
+# 1447 "Lexer.ml"
+
+  | 42 ->
+# 63 "Lexer.mll"
+                       ( lexer lexbuf )
+# 1452 "Lexer.ml"
+
+  | 43 ->
+# 64 "Lexer.mll"
+                       ( comment lexbuf )
+# 1457 "Lexer.ml"
+
+  | 44 ->
+# 67 "Lexer.mll"
+                  ( T_eof )
+# 1462 "Lexer.ml"
 
   | 45 ->
 let
-# 69 "Lexer.mll"
+# 68 "Lexer.mll"
           chr
-# 1448 "Lexer.ml"
+# 1468 "Lexer.ml"
 = Lexing.sub_lexeme_char lexbuf lexbuf.Lexing.lex_start_pos in
-# 69 "Lexer.mll"
+# 68 "Lexer.mll"
                   ( Printf.eprintf "Invalid character: '%c' (ascii: %d) on line %d \n"
                     chr (Char.code chr) !lines;
                     lexer lexbuf )
-# 1454 "Lexer.ml"
+# 1474 "Lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_lexer_rec lexbuf __ocaml_lex_state
@@ -1460,19 +1480,19 @@ and comment lexbuf =
 and __ocaml_lex_comment_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 74 "Lexer.mll"
+# 73 "Lexer.mll"
          ( lexer lexbuf )
-# 1466 "Lexer.ml"
+# 1486 "Lexer.ml"
 
   | 1 ->
-# 75 "Lexer.mll"
+# 74 "Lexer.mll"
          ( Lexing.new_line lexbuf; comment lexbuf )
-# 1471 "Lexer.ml"
+# 1491 "Lexer.ml"
 
   | 2 ->
-# 76 "Lexer.mll"
+# 75 "Lexer.mll"
                                        (comment lexbuf)
-# 1476 "Lexer.ml"
+# 1496 "Lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
       __ocaml_lex_comment_rec lexbuf __ocaml_lex_state

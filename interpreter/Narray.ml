@@ -8,7 +8,7 @@ type 'a multi_array = {
 let createArray dimensions =
   let total_size = List.fold_left ( * ) 1 dimensions in
   let data = Array.make total_size 0 in
-    { dimensions; data }
+  { dimensions; data }
 
 let mapIndices dimensions indices =
   let rec map_rec dims inds acc =

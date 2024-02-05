@@ -23,6 +23,12 @@ Lexer.cmx : \
     Lexer.cmi
 Lexer.cmi : \
     Parser.cmi
+Main.cmo : \
+    Parser.cmi \
+    Lexer.cmi
+Main.cmx : \
+    Parser.cmx \
+    Lexer.cmx
 Narray.cmo : \
     Types.cmi \
     Narray.cmi
@@ -34,16 +40,19 @@ Narray.cmi : \
 Parser.cmo : \
     Types.cmi \
     Symbol.cmi \
+    Narray.cmi \
     Identifier.cmi \
     Error.cmi \
     Parser.cmi
 Parser.cmx : \
     Types.cmx \
     Symbol.cmx \
+    Narray.cmx \
     Identifier.cmx \
     Error.cmx \
     Parser.cmi
-Parser.cmi :
+Parser.cmi : \
+    Identifier.cmi
 Symbol.cmo : \
     Types.cmi \
     Narray.cmi \
@@ -61,14 +70,6 @@ Symbol.cmi : \
     Narray.cmi \
     Identifier.cmi \
     Error.cmi
-Symbtest.cmo : \
-    Types.cmi \
-    Symbol.cmi \
-    Identifier.cmi
-Symbtest.cmx : \
-    Types.cmx \
-    Symbol.cmx \
-    Identifier.cmx
 Types.cmo : \
     Types.cmi
 Types.cmx : \

@@ -6,7 +6,7 @@ type token =
   | T_var
   | T_times
   | T_then
-  | T_string_literal
+  | T_string_literal of (string)
   | T_semicolon
   | T_rparen
   | T_return
@@ -26,10 +26,10 @@ type token =
   | T_leq
   | T_lbrack
   | T_lbrace
-  | T_int_const
+  | T_int_const of (int)
   | T_int
   | T_if
-  | T_id
+  | T_id of (string)
   | T_hash
   | T_geq
   | T_fun
@@ -40,7 +40,7 @@ type token =
   | T_div
   | T_comma
   | T_colon
-  | T_char_const
+  | T_char_const of (string)
   | T_char
   | T_and
 
@@ -50,4 +50,4 @@ exception Error
 
 (* The monolithic API. *)
 
-val program: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (unit -> unit)
+val program: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (unit -> Identifier.id option)

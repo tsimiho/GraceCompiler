@@ -9,7 +9,7 @@ endif
 
 EXEFILE=grace$(EXE)
 MLFILES=Hashcons.ml Identifier.ml Error.ml Types.ml Narray.ml Symbol.ml \
-  Lexer.ml Parser.ml Symbtest.ml
+  Lexer.ml Parser.ml Main.ml
 MLIFILES=Hashcons.mli Identifier.mli Error.mli Types.mli Narray.mli Symbol.mli \
   Parser.mli Lexer.mli 
 CMOFILES=$(patsubst %.ml,%.cmo,$(MLFILES))
@@ -57,7 +57,7 @@ $(EXEFILE): Parser.mli Lexer.ml $(CMOFILES)
 	$(OCAMLC) -o $@ $(CMOFILES)
 
 Parser.ml Parser.mli: Parser.mly
-	menhir -v Parser.mly
+	menhir -v --unused-precedence-levels Parser.mly
 
 Lexer.ml: Lexer.mll
 	ocamllex Lexer.mll
@@ -68,11 +68,11 @@ depend: $(MLFILES) $(MLIFILES) extend.cmo
 	$(OCAMLDEP) $(CAMLP5_FLAGS) $(INCLUDES) \
           $(filter-out extend.cmo,$^) > .depend
 
-depend-symbtest: Hashcons.ml Identifier.ml Error.ml Types.ml Symbol.ml \
-                 Symbtest.ml Hashcons.mli Identifier.mli Error.mli Types.mli \
-                 Symbol.mli Narray.mli extend.cmo
-	$(OCAMLDEP) $(CAMLP5_FLAGS) $(INCLUDES) \
-          $(filter-out extend.cmo,$^) > .depend
+# depend-symbtest: Hashcons.ml Identifier.ml Error.ml Types.ml Symbol.ml \
+#                  Symbtest.ml Hashcons.mli Identifier.mli Error.mli Types.mli \
+#                  Symbol.mli Narray.mli extend.cmo
+# 	$(OCAMLDEP) $(CAMLP5_FLAGS) $(INCLUDES) \
+#           $(filter-out extend.cmo,$^) > .depend
 
 clean:
 	$(RM) $(CMXFILES) $(CMOFILES) $(CMIFILES) $(OBJFILES) $(EXEFILES) \

@@ -35,13 +35,12 @@ rule lexer = parse
   | ">="            { T_geq }
   | "<-"            { T_prod }
 
-  | letter (letter|digit|'_')*  { T_id }
+  | letter (letter|digit|'_')* as id { T_id id }
 
-
-  | '\n'     { Lexing.new_line lexbuf; lexer lexbuf }
-  | digit+   { T_int_const }
-  | '\'' (letter | digit | common | escape ) '\'' { T_char_const }
-  | '\"' (letter | digit | common | escape )* '\"' { T_string_literal }
+  | '\n'                  { Lexing.new_line lexbuf; lexer lexbuf }
+  | digit+  as num_string { T_int_const (int_of_string num_string) }
+  | '\'' (letter | digit | common | escape as char_val ) '\'' { T_char_const char_val }
+  | '\"' (letter | digit | common | escape )* as str '\"'     { T_string_literal str }
 
   | '='       { T_eq }
   | '('       { T_lparen }
@@ -55,15 +54,15 @@ rule lexer = parse
   | ']'       { T_rbrack }
   | '{'       { T_lbrace }
   | '}'       { T_rbrace }
-  | '#'       { T_hash} 
+  | '#'       { T_hash}
   | ','       { T_comma }
   | ';'       { T_semicolon }
-  | ':'       { T_colon } 
+  | ':'       { T_colon }
 
   | white+             { lexer lexbuf }
-  | '$' [^ '\n' '$']*  { lexer lexbuf } 
+  | '$' [^ '\n' '$']*  { lexer lexbuf }
   | "$$"               { comment lexbuf }
- 
+
 
   |  eof          { T_eof }
   |  _ as chr     { Printf.eprintf "Invalid character: '%c' (ascii: %d) on line %d \n"
@@ -73,5 +72,4 @@ rule lexer = parse
 and comment = parse
   | "$$" { lexer lexbuf }
   | '\n' { Lexing.new_line lexbuf; comment lexbuf }
-  | ([^ '$' '\n']|('$' [^ '$' '\n']))* {comment lexbuf} 
-
+  | ([^ '$' '\n']|('$' [^ '$' '\n']))* {comment lexbuf}
