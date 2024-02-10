@@ -1,0 +1,38 @@
+### Starting build.
+# Target: Main.ml.depends, tags: { extension:ml, file:Main.ml, ocaml, ocamldep, quiet, traverse }
+/Users/tsimiho/.opam/default/bin/ocamldep.opt -modules Main.ml > Main.ml.depends # cached
+# Target: Ast.mli.depends, tags: { extension:mli, file:Ast.mli, ocaml, ocamldep, quiet, traverse }
+/Users/tsimiho/.opam/default/bin/ocamldep.opt -modules Ast.mli > Ast.mli.depends # cached
+# Target: Ast.cmi, tags: { byte, compile, extension:mli, file:Ast.mli, interf, ocaml, quiet, traverse }
+/Users/tsimiho/.opam/default/bin/ocamlc.opt -c -I /Users/tsimiho/.opam/default/lib/llvm -o Ast.cmi Ast.mli # cached
+# Target: Lexer.mli.depends, tags: { extension:mli, file:Lexer.mli, ocaml, ocamldep, quiet, traverse }
+/Users/tsimiho/.opam/default/bin/ocamldep.opt -modules Lexer.mli > Lexer.mli.depends # cached
+# Target: Parser.mly, tags: { extension:mly, file:Parser.mly, infer, ocaml, ocamlyacc, parser, quiet, traverse }
+/Users/tsimiho/.opam/default/bin/ocamlyacc Parser.mly # cached
+# Target: Parser.mli.depends, tags: { extension:mli, file:Parser.mli, ocaml, ocamldep, quiet, traverse }
+/Users/tsimiho/.opam/default/bin/ocamldep.opt -modules Parser.mli > Parser.mli.depends # cached
+# Target: Parser.cmi, tags: { byte, compile, extension:mli, file:Parser.mli, interf, ocaml, quiet, traverse }
+/Users/tsimiho/.opam/default/bin/ocamlc.opt -c -I /Users/tsimiho/.opam/default/lib/llvm -o Parser.cmi Parser.mli # cached
+# Target: Lexer.cmi, tags: { byte, compile, extension:mli, file:Lexer.mli, interf, ocaml, quiet, traverse }
+/Users/tsimiho/.opam/default/bin/ocamlc.opt -c -I /Users/tsimiho/.opam/default/lib/llvm -o Lexer.cmi Lexer.mli # cached
+# Target: Main.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:Main.cmo, file:Main.ml, implem, ocaml, quiet, traverse }
+/Users/tsimiho/.opam/default/bin/ocamlc.opt -c -I /Users/tsimiho/.opam/default/lib/llvm -o Main.cmo Main.ml # cached
+# Target: Ast.ml.depends, tags: { extension:ml, file:Ast.ml, ocaml, ocamldep, quiet, traverse }
+/Users/tsimiho/.opam/default/bin/ocamldep.opt -modules Ast.ml > Ast.ml.depends # cached
+# Target: Ast.cmx, tags: { compile, extension:cmx, extension:ml, file:Ast.cmx, file:Ast.ml, implem, native, ocaml, quiet, traverse }
+/Users/tsimiho/.opam/default/bin/ocamlopt.opt -c -I /Users/tsimiho/.opam/default/lib/llvm -o Ast.cmx Ast.ml # cached
+# Target: Lexer.mll, tags: { extension:mll, file:Lexer.mll, lexer, ocaml, ocamllex, quiet, traverse }
+/Users/tsimiho/.opam/default/bin/ocamllex.opt -q Lexer.mll # cached
+# Target: Lexer.ml.depends, tags: { extension:ml, file:Lexer.ml, ocaml, ocamldep, quiet, traverse }
+/Users/tsimiho/.opam/default/bin/ocamldep.opt -modules Lexer.ml > Lexer.ml.depends # cached
+# Target: Parser.ml.depends, tags: { extension:ml, file:Parser.ml, ocaml, ocamldep, quiet, traverse }
+/Users/tsimiho/.opam/default/bin/ocamldep.opt -modules Parser.ml > Parser.ml.depends # cached
+# Target: Parser.cmx, tags: { compile, extension:cmx, extension:ml, file:Parser.cmx, file:Parser.ml, implem, native, ocaml, quiet, traverse }
+/Users/tsimiho/.opam/default/bin/ocamlopt.opt -c -I /Users/tsimiho/.opam/default/lib/llvm -o Parser.cmx Parser.ml # cached
+# Target: Lexer.cmx, tags: { compile, extension:cmx, extension:ml, file:Lexer.cmx, file:Lexer.ml, implem, native, ocaml, quiet, traverse }
+/Users/tsimiho/.opam/default/bin/ocamlopt.opt -c -I /Users/tsimiho/.opam/default/lib/llvm -o Lexer.cmx Lexer.ml # cached
+# Target: Main.cmx, tags: { compile, extension:cmx, extension:ml, file:Main.cmx, file:Main.ml, implem, native, ocaml, quiet, traverse }
+/Users/tsimiho/.opam/default/bin/ocamlopt.opt -c -I /Users/tsimiho/.opam/default/lib/llvm -o Main.cmx Main.ml # cached
+# Target: Main.native, tags: { dont_link_with, extension:native, file:Main.native, link, native, ocaml, program, quiet, traverse }
+/Users/tsimiho/.opam/default/bin/ocamlopt.opt -cclib -L/opt/homebrew/Cellar/llvm@13/13.0.1_2/lib -I /Users/tsimiho/.opam/default/lib/llvm /Users/tsimiho/.opam/default/lib/llvm/shared/llvm.cmxa /Users/tsimiho/.opam/default/lib/llvm/shared/llvm_analysis.cmxa /Users/tsimiho/.opam/default/lib/llvm/shared/llvm_all_backends.cmxa /Users/tsimiho/.opam/default/lib/llvm/shared/llvm_scalar_opts.cmxa Ast.cmx Parser.cmx Lexer.cmx Main.cmx -o Main.native # cached
+# Compilation successful.
