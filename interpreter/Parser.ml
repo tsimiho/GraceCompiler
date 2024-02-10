@@ -13,7 +13,7 @@ module MenhirBasics = struct
     | T_times
     | T_then
     | T_string_literal of (
-# 64 "Parser.mly"
+# 75 "Parser.mly"
       (string)
 # 19 "Parser.ml"
   )
@@ -37,14 +37,14 @@ module MenhirBasics = struct
     | T_lbrack
     | T_lbrace
     | T_int_const of (
-# 62 "Parser.mly"
+# 73 "Parser.mly"
       (int)
 # 43 "Parser.ml"
   )
     | T_int
     | T_if
     | T_id of (
-# 61 "Parser.mly"
+# 72 "Parser.mly"
       (string)
 # 50 "Parser.ml"
   )
@@ -59,8 +59,8 @@ module MenhirBasics = struct
     | T_comma
     | T_colon
     | T_char_const of (
-# 63 "Parser.mly"
-      (string)
+# 74 "Parser.mly"
+      (char)
 # 65 "Parser.ml"
   )
     | T_char
@@ -78,6 +78,8 @@ include MenhirBasics
   open Error
   open Narray
 
+  initSymbolTable 1000;
+
   type param = { 
     id: Identifier.id list; 
     mode: pass_mode; 
@@ -88,21 +90,17 @@ include MenhirBasics
 
   let registerHeader id params return_type = 
     let fun_entry = newFunction id true in
-    openScope();
-    match params with
-    | [] -> ()
-    | _ -> List.iter ( fun params -> 
-                         List.iter ( fun single_id -> 
-                                       ignore (newParameter single_id params.param_type params.mode fun_entry true) 
-                                   ) params.id
-                     ) params;
+    (* openScope(); *)
+    List.iter ( fun p -> 
+                  List.iter ( fun single_id -> 
+                                ignore (newParameter single_id p.param_type p.mode fun_entry true) 
+                            ) p.id
+              ) params;
     match fun_entry.entry_info with
     | ENTRY_function func_info ->
         func_info.function_result <- return_type;
     | _ -> error "Expected a function entry %a" pretty_id id;
-    closeScope();
     endFunctionHeader fun_entry return_type
-
 
   let callFunction id args =
     let func_entry = lookupEntry id LOOKUP_ALL_SCOPES true in
@@ -110,9 +108,22 @@ include MenhirBasics
     | ENTRY_function func_info -> func_info.function_body () 
     | _ -> error "%a is not a function" pretty_id id; None
 
+
+  let print_variable_value value =
+    match value with
+    | IntValue i -> Printf.printf "IntValue: %d\n" i
+    | CharValue c -> Printf.printf "CharValue: '%c'\n" c
+    | BoolValue b -> Printf.printf "BoolValue: %b\n" b
+    | MultiArray arr -> Printf.printf "MultiArray"
+    | Unit -> Printf.printf "Unit\n"
+
+  let print_grace_type t =
+    match t with
+    | TYPE_int | TYPE_char -> Printf.printf "Not an array\n"
+    | _  -> Printf.printf "array\n"
         
 
-# 116 "Parser.ml"
+# 127 "Parser.ml"
 
 type ('s, 'r) _menhir_state = 
   | MenhirState000 : ('s, _menhir_box_program) _menhir_state
@@ -468,79 +479,79 @@ type ('s, 'r) _menhir_state =
 
 and ('s, 'r) _menhir_cell1_comma_id_list = 
   | MenhirCell1_comma_id_list of 's * ('s, 'r) _menhir_state * (
-# 99 "Parser.mly"
+# 110 "Parser.mly"
       (unit -> Identifier.id list)
-# 474 "Parser.ml"
+# 485 "Parser.ml"
 )
 
 and ('s, 'r) _menhir_cell1_cond = 
   | MenhirCell1_cond of 's * ('s, 'r) _menhir_state * (
-# 115 "Parser.mly"
+# 126 "Parser.mly"
       (unit -> bool)
-# 481 "Parser.ml"
+# 492 "Parser.ml"
 )
 
 and ('s, 'r) _menhir_cell1_data_type = 
   | MenhirCell1_data_type of 's * ('s, 'r) _menhir_state * (
-# 100 "Parser.mly"
+# 111 "Parser.mly"
       (unit -> typ)
-# 488 "Parser.ml"
+# 499 "Parser.ml"
 )
 
 and ('s, 'r) _menhir_cell1_expr = 
   | MenhirCell1_expr of 's * ('s, 'r) _menhir_state * (
-# 114 "Parser.mly"
-      (unit -> expr_type)
-# 495 "Parser.ml"
+# 125 "Parser.mly"
+      (unit -> variable_value)
+# 506 "Parser.ml"
 )
 
 and ('s, 'r) _menhir_cell1_fpar_def = 
   | MenhirCell1_fpar_def of 's * ('s, 'r) _menhir_state * (
-# 98 "Parser.mly"
+# 109 "Parser.mly"
       (unit -> param)
-# 502 "Parser.ml"
+# 513 "Parser.ml"
 )
 
 and ('s, 'r) _menhir_cell1_header = 
   | MenhirCell1_header of 's * ('s, 'r) _menhir_state * (
-# 96 "Parser.mly"
+# 107 "Parser.mly"
       (unit -> Identifier.id option)
-# 509 "Parser.ml"
+# 520 "Parser.ml"
 )
 
 and ('s, 'r) _menhir_cell1_l_value = 
   | MenhirCell1_l_value of 's * ('s, 'r) _menhir_state * (
-# 113 "Parser.mly"
+# 124 "Parser.mly"
       (unit -> (string * int list))
-# 516 "Parser.ml"
+# 527 "Parser.ml"
 )
 
 and ('s, 'r) _menhir_cell1_local_def = 
   | MenhirCell1_local_def of 's * ('s, 'r) _menhir_state * (
-# 105 "Parser.mly"
+# 116 "Parser.mly"
       (unit -> Identifier.id option)
-# 523 "Parser.ml"
+# 534 "Parser.ml"
 )
 
 and ('s, 'r) _menhir_cell1_local_def_list = 
   | MenhirCell1_local_def_list of 's * ('s, 'r) _menhir_state * (
-# 95 "Parser.mly"
+# 106 "Parser.mly"
       (unit -> unit)
-# 530 "Parser.ml"
+# 541 "Parser.ml"
 )
 
 and ('s, 'r) _menhir_cell1_semi_fpar_def_list = 
   | MenhirCell1_semi_fpar_def_list of 's * ('s, 'r) _menhir_state * (
-# 97 "Parser.mly"
+# 108 "Parser.mly"
       (unit -> param list)
-# 537 "Parser.ml"
+# 548 "Parser.ml"
 )
 
 and ('s, 'r) _menhir_cell1_stmt = 
   | MenhirCell1_stmt of 's * ('s, 'r) _menhir_state * (
-# 108 "Parser.mly"
-      (unit -> expr_type option)
-# 544 "Parser.ml"
+# 119 "Parser.mly"
+      (unit -> variable_value option)
+# 555 "Parser.ml"
 )
 
 and ('s, 'r) _menhir_cell1_T_comma = 
@@ -563,16 +574,16 @@ and ('s, 'r) _menhir_cell1_T_hash =
 
 and ('s, 'r) _menhir_cell1_T_id = 
   | MenhirCell1_T_id of 's * ('s, 'r) _menhir_state * (
-# 61 "Parser.mly"
+# 72 "Parser.mly"
       (string)
-# 569 "Parser.ml"
+# 580 "Parser.ml"
 )
 
 and 's _menhir_cell0_T_id = 
   | MenhirCell0_T_id of 's * (
-# 61 "Parser.mly"
+# 72 "Parser.mly"
       (string)
-# 576 "Parser.ml"
+# 587 "Parser.ml"
 )
 
 and ('s, 'r) _menhir_cell1_T_if = 
@@ -580,9 +591,9 @@ and ('s, 'r) _menhir_cell1_T_if =
 
 and 's _menhir_cell0_T_int_const = 
   | MenhirCell0_T_int_const of 's * (
-# 62 "Parser.mly"
+# 73 "Parser.mly"
       (int)
-# 586 "Parser.ml"
+# 597 "Parser.ml"
 )
 
 and ('s, 'r) _menhir_cell1_T_lbrace = 
@@ -638,912 +649,936 @@ and ('s, 'r) _menhir_cell1_T_while =
 
 and _menhir_box_program = 
   | MenhirBox_program of (
-# 93 "Parser.mly"
-      (unit -> Identifier.id option)
-# 644 "Parser.ml"
+# 104 "Parser.mly"
+      (unit -> unit)
+# 655 "Parser.ml"
 ) [@@unboxed]
 
 let _menhir_action_01 =
   fun _2 ->
     (
-# 218 "Parser.mly"
+# 236 "Parser.mly"
                                    ( _2 )
-# 652 "Parser.ml"
+# 663 "Parser.ml"
      : (
-# 109 "Parser.mly"
-      (unit -> expr_type option)
-# 656 "Parser.ml"
+# 120 "Parser.mly"
+      (unit -> variable_value option)
+# 667 "Parser.ml"
     ))
 
 let _menhir_action_02 =
   fun () ->
     (
-# 169 "Parser.mly"
+# 183 "Parser.mly"
                                                                              ( fun _ -> [] )
-# 664 "Parser.ml"
+# 675 "Parser.ml"
      : (
-# 101 "Parser.mly"
+# 112 "Parser.mly"
       (unit -> int list)
-# 668 "Parser.ml"
+# 679 "Parser.ml"
     ))
 
 let _menhir_action_03 =
   fun _2 _4 ->
     (
-# 170 "Parser.mly"
+# 184 "Parser.mly"
                                                                              ( fun _ -> _2 :: _4 () )
-# 676 "Parser.ml"
+# 687 "Parser.ml"
      : (
-# 101 "Parser.mly"
+# 112 "Parser.mly"
       (unit -> int list)
-# 680 "Parser.ml"
+# 691 "Parser.ml"
     ))
 
 let _menhir_action_04 =
   fun () ->
     (
-# 250 "Parser.mly"
+# 281 "Parser.mly"
                                               ( fun _ -> [] )
-# 688 "Parser.ml"
+# 699 "Parser.ml"
      : (
-# 112 "Parser.mly"
-      (unit -> expr_type list)
-# 692 "Parser.ml"
+# 123 "Parser.mly"
+      (unit -> variable_value list)
+# 703 "Parser.ml"
     ))
 
 let _menhir_action_05 =
   fun _2 _3 ->
     (
-# 251 "Parser.mly"
+# 282 "Parser.mly"
                                               ( fun _ -> _2 () :: _3 () )
-# 700 "Parser.ml"
+# 711 "Parser.ml"
      : (
-# 112 "Parser.mly"
-      (unit -> expr_type list)
-# 704 "Parser.ml"
+# 123 "Parser.mly"
+      (unit -> variable_value list)
+# 715 "Parser.ml"
     ))
 
 let _menhir_action_06 =
   fun () ->
     (
-# 163 "Parser.mly"
+# 177 "Parser.mly"
                                           ( fun _ -> [] )
-# 712 "Parser.ml"
+# 723 "Parser.ml"
      : (
-# 99 "Parser.mly"
+# 110 "Parser.mly"
       (unit -> Identifier.id list)
-# 716 "Parser.ml"
+# 727 "Parser.ml"
     ))
 
 let _menhir_action_07 =
   fun _2 _3 ->
     (
-# 164 "Parser.mly"
+# 178 "Parser.mly"
                                           ( fun _ -> (id_make _2) :: _3 () )
-# 724 "Parser.ml"
+# 735 "Parser.ml"
      : (
-# 99 "Parser.mly"
+# 110 "Parser.mly"
       (unit -> Identifier.id list)
-# 728 "Parser.ml"
+# 739 "Parser.ml"
     ))
 
 let _menhir_action_08 =
   fun _2 ->
     (
-# 301 "Parser.mly"
+# 336 "Parser.mly"
                              ( _2 )
-# 736 "Parser.ml"
+# 747 "Parser.ml"
      : (
-# 115 "Parser.mly"
+# 126 "Parser.mly"
       (unit -> bool)
-# 740 "Parser.ml"
+# 751 "Parser.ml"
     ))
 
 let _menhir_action_09 =
   fun _2 ->
     (
-# 302 "Parser.mly"
+# 337 "Parser.mly"
                              ( fun _ -> not (_2 ()) )
-# 748 "Parser.ml"
+# 759 "Parser.ml"
      : (
-# 115 "Parser.mly"
+# 126 "Parser.mly"
       (unit -> bool)
-# 752 "Parser.ml"
+# 763 "Parser.ml"
     ))
 
 let _menhir_action_10 =
   fun _1 _3 ->
     (
-# 303 "Parser.mly"
+# 338 "Parser.mly"
                              ( fun _ -> _1 () && _3 () )
-# 760 "Parser.ml"
+# 771 "Parser.ml"
      : (
-# 115 "Parser.mly"
+# 126 "Parser.mly"
       (unit -> bool)
-# 764 "Parser.ml"
+# 775 "Parser.ml"
     ))
 
 let _menhir_action_11 =
   fun _1 _3 ->
     (
-# 304 "Parser.mly"
+# 339 "Parser.mly"
                              ( fun _ -> _1 () || _3 () )
-# 772 "Parser.ml"
+# 783 "Parser.ml"
      : (
-# 115 "Parser.mly"
+# 126 "Parser.mly"
       (unit -> bool)
-# 776 "Parser.ml"
+# 787 "Parser.ml"
     ))
 
 let _menhir_action_12 =
   fun _1 _3 ->
     (
-# 305 "Parser.mly"
+# 340 "Parser.mly"
                              ( fun _ -> _1 () = _3 () )
-# 784 "Parser.ml"
+# 795 "Parser.ml"
      : (
-# 115 "Parser.mly"
+# 126 "Parser.mly"
       (unit -> bool)
-# 788 "Parser.ml"
+# 799 "Parser.ml"
     ))
 
 let _menhir_action_13 =
   fun _1 _3 ->
     (
-# 306 "Parser.mly"
+# 341 "Parser.mly"
                              ( fun _ -> _1 () <> _3 () )
-# 796 "Parser.ml"
+# 807 "Parser.ml"
      : (
-# 115 "Parser.mly"
+# 126 "Parser.mly"
       (unit -> bool)
-# 800 "Parser.ml"
+# 811 "Parser.ml"
     ))
 
 let _menhir_action_14 =
   fun _1 _3 ->
     (
-# 307 "Parser.mly"
+# 342 "Parser.mly"
                              ( fun _ -> _1 () < _3 () )
-# 808 "Parser.ml"
+# 819 "Parser.ml"
      : (
-# 115 "Parser.mly"
+# 126 "Parser.mly"
       (unit -> bool)
-# 812 "Parser.ml"
+# 823 "Parser.ml"
     ))
 
 let _menhir_action_15 =
   fun _1 _3 ->
     (
-# 308 "Parser.mly"
+# 343 "Parser.mly"
                              ( fun _ -> _1 () > _3 () )
-# 820 "Parser.ml"
+# 831 "Parser.ml"
      : (
-# 115 "Parser.mly"
+# 126 "Parser.mly"
       (unit -> bool)
-# 824 "Parser.ml"
+# 835 "Parser.ml"
     ))
 
 let _menhir_action_16 =
   fun _1 _3 ->
     (
-# 309 "Parser.mly"
+# 344 "Parser.mly"
                              ( fun _ -> _1 () <= _3 () )
-# 832 "Parser.ml"
+# 843 "Parser.ml"
      : (
-# 115 "Parser.mly"
+# 126 "Parser.mly"
       (unit -> bool)
-# 836 "Parser.ml"
+# 847 "Parser.ml"
     ))
 
 let _menhir_action_17 =
   fun _1 _3 ->
     (
-# 310 "Parser.mly"
+# 345 "Parser.mly"
                              ( fun _ -> _1 () >= _3 () )
-# 844 "Parser.ml"
+# 855 "Parser.ml"
      : (
-# 115 "Parser.mly"
+# 126 "Parser.mly"
       (unit -> bool)
-# 848 "Parser.ml"
+# 859 "Parser.ml"
     ))
 
 let _menhir_action_18 =
   fun () ->
     (
-# 166 "Parser.mly"
+# 180 "Parser.mly"
                   ( fun _ -> TYPE_int )
-# 856 "Parser.ml"
+# 867 "Parser.ml"
      : (
-# 100 "Parser.mly"
+# 111 "Parser.mly"
       (unit -> typ)
-# 860 "Parser.ml"
+# 871 "Parser.ml"
     ))
 
 let _menhir_action_19 =
   fun () ->
     (
-# 167 "Parser.mly"
+# 181 "Parser.mly"
                   ( fun _ -> TYPE_char )
-# 868 "Parser.ml"
+# 879 "Parser.ml"
      : (
-# 100 "Parser.mly"
+# 111 "Parser.mly"
       (unit -> typ)
-# 872 "Parser.ml"
+# 883 "Parser.ml"
     ))
 
 let _menhir_action_20 =
   fun _1 ->
     (
-# 262 "Parser.mly"
-                             ( fun _ -> IntConst _1 )
-# 880 "Parser.ml"
+# 293 "Parser.mly"
+                             ( fun _ -> IntValue _1 )
+# 891 "Parser.ml"
      : (
-# 114 "Parser.mly"
-      (unit -> expr_type)
-# 884 "Parser.ml"
+# 125 "Parser.mly"
+      (unit -> variable_value)
+# 895 "Parser.ml"
     ))
 
 let _menhir_action_21 =
   fun _1 ->
     (
-# 263 "Parser.mly"
-                             ( fun _ -> CharConst _1 )
-# 892 "Parser.ml"
+# 294 "Parser.mly"
+                             ( fun _ -> CharValue _1 )
+# 903 "Parser.ml"
      : (
-# 114 "Parser.mly"
-      (unit -> expr_type)
-# 896 "Parser.ml"
+# 125 "Parser.mly"
+      (unit -> variable_value)
+# 907 "Parser.ml"
     ))
 
 let _menhir_action_22 =
   fun _1 ->
     (
-# 264 "Parser.mly"
+# 295 "Parser.mly"
                              ( fun _ -> let (value , l) = _1 () in
                                         MultiArray (createArray l)
                              )
-# 906 "Parser.ml"
+# 917 "Parser.ml"
      : (
-# 114 "Parser.mly"
-      (unit -> expr_type)
-# 910 "Parser.ml"
+# 125 "Parser.mly"
+      (unit -> variable_value)
+# 921 "Parser.ml"
     ))
 
 let _menhir_action_23 =
   fun _2 ->
     (
-# 267 "Parser.mly"
+# 298 "Parser.mly"
                              ( _2 )
-# 918 "Parser.ml"
+# 929 "Parser.ml"
      : (
-# 114 "Parser.mly"
-      (unit -> expr_type)
-# 922 "Parser.ml"
+# 125 "Parser.mly"
+      (unit -> variable_value)
+# 933 "Parser.ml"
     ))
 
 let _menhir_action_24 =
   fun _1 ->
     (
-# 268 "Parser.mly"
+# 299 "Parser.mly"
                              ( fun _ -> match _1 () with
                                         | Some value -> value
                                         | None -> Unit
                              )
-# 933 "Parser.ml"
+# 944 "Parser.ml"
      : (
-# 114 "Parser.mly"
-      (unit -> expr_type)
-# 937 "Parser.ml"
+# 125 "Parser.mly"
+      (unit -> variable_value)
+# 948 "Parser.ml"
     ))
 
 let _menhir_action_25 =
   fun _2 ->
     (
-# 272 "Parser.mly"
+# 303 "Parser.mly"
                              ( fun _ -> match _2 () with 
-                                        | IntConst num -> IntConst num
-                                        | _ -> error "not an integer"; Unit
+                                        | IntValue num -> IntValue num
+                                        | _ -> error "not an integer; +"; Unit
                              )
-# 948 "Parser.ml"
+# 959 "Parser.ml"
      : (
-# 114 "Parser.mly"
-      (unit -> expr_type)
-# 952 "Parser.ml"
+# 125 "Parser.mly"
+      (unit -> variable_value)
+# 963 "Parser.ml"
     ))
 
 let _menhir_action_26 =
   fun _2 ->
     (
-# 276 "Parser.mly"
+# 307 "Parser.mly"
                              ( fun _ -> match _2 () with 
-                                        | IntConst num -> IntConst (- num)
-                                        | _ -> error "not an integer"; Unit
+                                        | IntValue num -> IntValue (- num)
+                                        | _ -> error "not an integer; -"; Unit
                              )
-# 963 "Parser.ml"
+# 974 "Parser.ml"
      : (
-# 114 "Parser.mly"
-      (unit -> expr_type)
-# 967 "Parser.ml"
+# 125 "Parser.mly"
+      (unit -> variable_value)
+# 978 "Parser.ml"
     ))
 
 let _menhir_action_27 =
   fun _1 _3 ->
     (
-# 280 "Parser.mly"
+# 311 "Parser.mly"
                              ( fun _ -> match (_1 (), _3 ()) with
-                                        | (IntConst a, IntConst b) -> IntConst (a + b)
-                                        | _ -> error "not an integer"; Unit
+                                        | (IntValue a, IntValue b) -> IntValue (a + b)
+                                        | _ -> error "not an integer; plus"; Unit
                              )
-# 978 "Parser.ml"
+# 989 "Parser.ml"
      : (
-# 114 "Parser.mly"
-      (unit -> expr_type)
-# 982 "Parser.ml"
+# 125 "Parser.mly"
+      (unit -> variable_value)
+# 993 "Parser.ml"
     ))
 
 let _menhir_action_28 =
   fun _1 _3 ->
     (
-# 284 "Parser.mly"
-                             ( fun _ -> match (_1 (), _3 ()) with
-                                        | (IntConst a, IntConst b) -> IntConst (a - b)
-                                        | _ -> error "not an integer"; Unit
+# 315 "Parser.mly"
+                             ( fun _ -> let val1 = _1 () in
+                                        let val2 = _3 () in
+                                        print_variable_value val1;
+                                        print_variable_value val2;
+                                        match (val1, val2) with
+                                        | (IntValue a, IntValue b) -> IntValue (a - b)
+                                        | (c, d) -> error "not an integer; minus"; Unit
                              )
-# 993 "Parser.ml"
+# 1008 "Parser.ml"
      : (
-# 114 "Parser.mly"
-      (unit -> expr_type)
-# 997 "Parser.ml"
+# 125 "Parser.mly"
+      (unit -> variable_value)
+# 1012 "Parser.ml"
     ))
 
 let _menhir_action_29 =
   fun _1 _3 ->
     (
-# 288 "Parser.mly"
+# 323 "Parser.mly"
                              ( fun _ -> match (_1 (), _3 ()) with
-                                        | (IntConst a, IntConst b) -> IntConst (a * b)
-                                        | _ -> error "not an integer"; Unit
+                                        | (IntValue a, IntValue b) -> IntValue (a * b)
+                                        | _ -> error "not an integer; times"; Unit
                              )
-# 1008 "Parser.ml"
+# 1023 "Parser.ml"
      : (
-# 114 "Parser.mly"
-      (unit -> expr_type)
-# 1012 "Parser.ml"
+# 125 "Parser.mly"
+      (unit -> variable_value)
+# 1027 "Parser.ml"
     ))
 
 let _menhir_action_30 =
   fun _1 _3 ->
     (
-# 292 "Parser.mly"
+# 327 "Parser.mly"
                              ( fun _ -> match (_1 (), _3 ()) with
-                                        | (IntConst a, IntConst b) -> IntConst (a / b)
-                                        | _ -> error "not an integer"; Unit
+                                        | (IntValue a, IntValue b) -> IntValue (a / b)
+                                        | _ -> error "not an integer; div"; Unit
                              )
-# 1023 "Parser.ml"
+# 1038 "Parser.ml"
      : (
-# 114 "Parser.mly"
-      (unit -> expr_type)
-# 1027 "Parser.ml"
+# 125 "Parser.mly"
+      (unit -> variable_value)
+# 1042 "Parser.ml"
     ))
 
 let _menhir_action_31 =
   fun _1 _3 ->
     (
-# 296 "Parser.mly"
+# 331 "Parser.mly"
                              ( fun _ -> match (_1 (), _3 ()) with
-                                        | (IntConst a, IntConst b) -> IntConst (a mod b)
-                                        | _ -> error "not an integer"; Unit
+                                        | (IntValue a, IntValue b) -> IntValue (a mod b)
+                                        | _ -> error "not an integer; mod"; Unit
                              )
-# 1038 "Parser.ml"
+# 1053 "Parser.ml"
      : (
-# 114 "Parser.mly"
-      (unit -> expr_type)
-# 1042 "Parser.ml"
+# 125 "Parser.mly"
+      (unit -> variable_value)
+# 1057 "Parser.ml"
     ))
 
 let _menhir_action_32 =
   fun _2 _3 _5 ->
     (
-# 154 "Parser.mly"
+# 168 "Parser.mly"
                                                      ( fun _ -> let params = (id_make _2) :: _3 () in
                                                                 let param_type = _5 () in
                                                                 { id = params; mode = PASS_BY_REFERENCE ; param_type = param_type }
                                                      )
-# 1053 "Parser.ml"
+# 1068 "Parser.ml"
      : (
-# 98 "Parser.mly"
+# 109 "Parser.mly"
       (unit -> param)
-# 1057 "Parser.ml"
+# 1072 "Parser.ml"
     ))
 
 let _menhir_action_33 =
   fun _1 _2 _4 ->
     (
-# 158 "Parser.mly"
+# 172 "Parser.mly"
                                                      ( fun _ -> let params = (id_make _1) :: _2 () in
                                                                 let param_type = _4 () in
                                                                 { id = params; mode = PASS_BY_VALUE ; param_type = param_type }
                                                      )
-# 1068 "Parser.ml"
+# 1083 "Parser.ml"
      : (
-# 98 "Parser.mly"
+# 109 "Parser.mly"
       (unit -> param)
-# 1072 "Parser.ml"
+# 1087 "Parser.ml"
     ))
 
 let _menhir_action_34 =
   fun _1 _4 ->
     (
-# 175 "Parser.mly"
+# 189 "Parser.mly"
                                                               ( fun _ -> let base_type = _1 () in
                                                                          let dimensions = max_int :: _4 () in
-                                                                         let arr = List.fold_right (fun size acc -> TYPE_array (acc, size)) dimensions base_type in
-                                                                         arr
+                                                                         match dimensions with
+                                                                         | [] -> base_type
+                                                                         | _ -> TYPE_array (base_type, dimensions)
                                                               )
-# 1084 "Parser.ml"
+# 1100 "Parser.ml"
      : (
-# 103 "Parser.mly"
+# 114 "Parser.mly"
       (unit -> typ)
-# 1088 "Parser.ml"
+# 1104 "Parser.ml"
     ))
 
 let _menhir_action_35 =
   fun _1 _2 ->
     (
-# 180 "Parser.mly"
+# 195 "Parser.mly"
                                                               ( fun _ -> let base_type = _1 () in
                                                                          let dimensions = _2 () in
-                                                                         let arr = List.fold_right (fun size acc -> TYPE_array (acc, size)) dimensions base_type in
-                                                                         arr
+                                                                         match dimensions with
+                                                                         | [] -> base_type
+                                                                         | _ -> TYPE_array (base_type, dimensions)
                                                               )
-# 1100 "Parser.ml"
+# 1117 "Parser.ml"
      : (
-# 103 "Parser.mly"
+# 114 "Parser.mly"
       (unit -> typ)
-# 1104 "Parser.ml"
+# 1121 "Parser.ml"
     ))
 
 let _menhir_action_36 =
   fun _1 ->
     (
-# 227 "Parser.mly"
+# 245 "Parser.mly"
                                                        ( fun _ -> let func_name = _1 in
-                                                                  let func_entry = lookupEntry (id_make func_name) LOOKUP_ALL_SCOPES true in
-                                                                  match func_entry.entry_info with
-                                                                  | ENTRY_function func_info ->
-                                                                     if List.length func_info.function_paramlist = 0 then
-                                                                       callFunction (id_make func_name) []
-                                                                     else
-                                                                        (error "Incorrect number of arguments for function %a" pretty_id (id_make func_name); None)
-                                                                  | _ -> (error "%a is not a function" pretty_id (id_make func_name); None)
+                                                                  match func_name with 
+                                                                  | "writeInteger" -> print_string "WriteInteger"; None
+                                                                  | "writeChar"    -> print_string "WriteChar"; None
+                                                                  | "writeString"  -> print_string "WriteString"; None
+                                                                  | "readInteger"  -> print_string "ReadInteger"; None
+                                                                  | "readChar"     -> print_string "ReadChar"; None
+                                                                  | "readString"   -> print_string "ReadString"; None
+                                                                  | _ -> let func_entry = lookupEntry (id_make func_name) LOOKUP_ALL_SCOPES true in
+                                                                         (match func_entry.entry_info with
+                                                                         | ENTRY_function func_info ->
+                                                                           if List.length func_info.function_paramlist = 0 then
+                                                                             callFunction (id_make func_name) []
+                                                                           else (error "Incorrect number of arguments for function %a" pretty_id (id_make func_name); None)
+                                                                         | _ -> (error "%a is not a function" pretty_id (id_make func_name); None))
                                                        )
-# 1121 "Parser.ml"
+# 1144 "Parser.ml"
      : (
-# 111 "Parser.mly"
-      (unit -> expr_type option)
-# 1125 "Parser.ml"
+# 122 "Parser.mly"
+      (unit -> variable_value option)
+# 1148 "Parser.ml"
     ))
 
 let _menhir_action_37 =
   fun _1 _3 _4 ->
     (
-# 237 "Parser.mly"
+# 261 "Parser.mly"
                                                        ( fun _ -> let func_name = _1 in
                                                                   let args = _3 () :: _4 () in
-                                                                  let func_entry = lookupEntry (id_make func_name) LOOKUP_ALL_SCOPES true in
-                                                                  match func_entry.entry_info with
-                                                                  | ENTRY_function func_info ->
-                                                                      if List.length func_info.function_paramlist = List.length args then
-                                                                        callFunction (id_make func_name) args
-                                                                      else
-                                                                        (error "Incorrect number of arguments for function %a" pretty_id (id_make func_name); None)
-                                                                  | _ -> (error "%a is not a function" pretty_id (id_make func_name); None)
+                                                                  match func_name with 
+                                                                  | "writeInteger" -> print_string "WriteInteger"; None
+                                                                  | "writeChar"    -> print_string "WriteChar"; None
+                                                                  | "writeString"  -> print_string "WriteString"; None
+                                                                  | "readInteger"  -> print_string "ReadInteger"; None
+                                                                  | "readChar"     -> print_string "ReadChar"; None
+                                                                  | "readString"   -> print_string "ReadString"; None
+                                                                  | _ -> let func_entry = lookupEntry (id_make func_name) LOOKUP_ALL_SCOPES true in
+                                                                         (match func_entry.entry_info with
+                                                                         | ENTRY_function func_info ->
+                                                                           if List.length func_info.function_paramlist = List.length args then
+                                                                           callFunction (id_make func_name) args
+                                                                         else
+                                                                           (error "Incorrect number of arguments for function %a" pretty_id (id_make func_name); None)
+                                                                         | _ -> (error "%a is not a function" pretty_id (id_make func_name); None))
                                                        )
-# 1143 "Parser.ml"
+# 1173 "Parser.ml"
      : (
-# 111 "Parser.mly"
-      (unit -> expr_type option)
-# 1147 "Parser.ml"
+# 122 "Parser.mly"
+      (unit -> variable_value option)
+# 1177 "Parser.ml"
     ))
 
 let _menhir_action_38 =
   fun _1 ->
     (
-# 196 "Parser.mly"
+# 213 "Parser.mly"
                               ( _1 )
-# 1155 "Parser.ml"
+# 1185 "Parser.ml"
      : (
-# 106 "Parser.mly"
+# 117 "Parser.mly"
       (unit -> Identifier.id option)
-# 1159 "Parser.ml"
+# 1189 "Parser.ml"
     ))
 
 let _menhir_action_39 =
   fun _1 _2 _3 ->
     (
-# 122 "Parser.mly"
+# 136 "Parser.mly"
                                       ( fun _ -> begin 
                                           match _1 () with
                                           | Some func_name -> 
                                               _2 ();
                                               let func_body = _3 in
-                                              let func_entry = lookupEntry func_name LOOKUP_CURRENT_SCOPE true in
+                                              let func_entry = lookupEntry func_name LOOKUP_ALL_SCOPES true in
                                               (match func_entry.entry_info with
-                                              | ENTRY_function func_info -> func_info.function_body <- func_body; None
-                                              | _ -> None)
+                                              | ENTRY_function func_info -> func_info.function_body <- func_body; Some func_name
+                                              | _ -> Some func_name)
                                           | None -> error "not a function"; None
                                         end
                                       )
-# 1178 "Parser.ml"
+# 1208 "Parser.ml"
      : (
-# 94 "Parser.mly"
+# 105 "Parser.mly"
       (unit -> Identifier.id option)
-# 1182 "Parser.ml"
+# 1212 "Parser.ml"
     ))
 
 let _menhir_action_40 =
   fun _1 _2 ->
     (
-# 186 "Parser.mly"
+# 202 "Parser.mly"
                                              ( fun _ -> let base_type = _1 () in
                                                         let dimensions = _2 () in
-                                                        let arr = List.fold_right (fun size acc -> TYPE_array (acc, size)) dimensions base_type in
-                                                        arr
+                                                        match dimensions with
+                                                        | [] -> base_type
+                                                        | _ -> TYPE_array (base_type, dimensions)
                                              )
-# 1194 "Parser.ml"
+# 1225 "Parser.ml"
      : (
-# 104 "Parser.mly"
+# 115 "Parser.mly"
       (unit -> typ)
-# 1198 "Parser.ml"
+# 1229 "Parser.ml"
     ))
 
 let _menhir_action_41 =
   fun _2 _4 _5 _8 ->
     (
-# 138 "Parser.mly"
+# 152 "Parser.mly"
                                                                                   ( fun _ -> let id = (id_make _2) in
                                                                                              let params = _4 () :: _5 () in
                                                                                              let return_type = _8 () in 
                                                                                              registerHeader id params return_type;
                                                                                              Some id
                                                                                   )
-# 1211 "Parser.ml"
+# 1242 "Parser.ml"
      : (
-# 96 "Parser.mly"
+# 107 "Parser.mly"
       (unit -> Identifier.id option)
-# 1215 "Parser.ml"
+# 1246 "Parser.ml"
     ))
 
 let _menhir_action_42 =
   fun _2 _6 ->
     (
-# 144 "Parser.mly"
+# 158 "Parser.mly"
                                                                                   ( fun _ -> let id = (id_make _2) in
                                                                                              let params = [] in
                                                                                              let return_type = _6 () in 
                                                                                              registerHeader id params return_type;
                                                                                              Some id
                                                                                   )
-# 1228 "Parser.ml"
+# 1259 "Parser.ml"
      : (
-# 96 "Parser.mly"
+# 107 "Parser.mly"
       (unit -> Identifier.id option)
-# 1232 "Parser.ml"
+# 1263 "Parser.ml"
     ))
 
 let _menhir_action_43 =
   fun _1 ->
     (
-# 253 "Parser.mly"
+# 284 "Parser.mly"
                                         ( fun _ -> (_1,[]) )
-# 1240 "Parser.ml"
+# 1271 "Parser.ml"
      : (
-# 113 "Parser.mly"
+# 124 "Parser.mly"
       (unit -> (string * int list))
-# 1244 "Parser.ml"
+# 1275 "Parser.ml"
     ))
 
 let _menhir_action_44 =
   fun _1 ->
     (
-# 254 "Parser.mly"
+# 285 "Parser.mly"
                                         ( fun _ -> (_1,[]) )
-# 1252 "Parser.ml"
+# 1283 "Parser.ml"
      : (
-# 113 "Parser.mly"
+# 124 "Parser.mly"
       (unit -> (string * int list))
-# 1256 "Parser.ml"
+# 1287 "Parser.ml"
     ))
 
 let _menhir_action_45 =
   fun _1 _3 ->
     (
-# 255 "Parser.mly"
+# 286 "Parser.mly"
                                         ( fun _ -> let (value, l) = _1 () in
                                                    match _3 () with 
-                                                   | IntConst exp -> (value, exp :: l)
+                                                   | IntValue exp -> (value, exp :: l)
                                                    | _ -> error "not an integer"; (value, [])
                                         )
-# 1268 "Parser.ml"
+# 1299 "Parser.ml"
      : (
-# 113 "Parser.mly"
+# 124 "Parser.mly"
       (unit -> (string * int list))
-# 1272 "Parser.ml"
+# 1303 "Parser.ml"
     ))
 
 let _menhir_action_46 =
   fun _1 ->
     (
-# 192 "Parser.mly"
+# 209 "Parser.mly"
                      ( _1 )
-# 1280 "Parser.ml"
+# 1311 "Parser.ml"
      : (
-# 105 "Parser.mly"
+# 116 "Parser.mly"
       (unit -> Identifier.id option)
-# 1284 "Parser.ml"
+# 1315 "Parser.ml"
     ))
 
 let _menhir_action_47 =
   fun _1 ->
     (
-# 193 "Parser.mly"
+# 210 "Parser.mly"
                      ( _1 )
-# 1292 "Parser.ml"
+# 1323 "Parser.ml"
      : (
-# 105 "Parser.mly"
+# 116 "Parser.mly"
       (unit -> Identifier.id option)
-# 1296 "Parser.ml"
+# 1327 "Parser.ml"
     ))
 
 let _menhir_action_48 =
   fun _1 ->
     (
-# 194 "Parser.mly"
+# 211 "Parser.mly"
                      ( _1 )
-# 1304 "Parser.ml"
+# 1335 "Parser.ml"
      : (
-# 105 "Parser.mly"
+# 116 "Parser.mly"
       (unit -> Identifier.id option)
-# 1308 "Parser.ml"
+# 1339 "Parser.ml"
     ))
 
 let _menhir_action_49 =
   fun () ->
     (
-# 135 "Parser.mly"
+# 149 "Parser.mly"
                                          ( fun _ -> () )
-# 1316 "Parser.ml"
+# 1347 "Parser.ml"
      : (
-# 95 "Parser.mly"
+# 106 "Parser.mly"
       (unit -> unit)
-# 1320 "Parser.ml"
+# 1351 "Parser.ml"
     ))
 
 let _menhir_action_50 =
   fun _1 _2 ->
     (
-# 136 "Parser.mly"
+# 150 "Parser.mly"
                                          ( fun _ -> begin ignore(_1 ()); _2 () end )
-# 1328 "Parser.ml"
+# 1359 "Parser.ml"
      : (
-# 95 "Parser.mly"
+# 106 "Parser.mly"
       (unit -> unit)
-# 1332 "Parser.ml"
+# 1363 "Parser.ml"
     ))
 
 let _menhir_action_51 =
   fun _1 ->
     (
-# 120 "Parser.mly"
-                        ( _1 )
-# 1340 "Parser.ml"
+# 131 "Parser.mly"
+                        ( fun _ -> match _1 () with
+                                   | Some id -> ignore(callFunction id [])
+                                   | _ -> error "not a function"
+                        )
+# 1374 "Parser.ml"
      : (
-# 93 "Parser.mly"
-      (unit -> Identifier.id option)
-# 1344 "Parser.ml"
+# 104 "Parser.mly"
+      (unit -> unit)
+# 1378 "Parser.ml"
     ))
 
 let _menhir_action_52 =
   fun _1 ->
     (
-# 172 "Parser.mly"
+# 186 "Parser.mly"
                     ( fun _ -> _1 () )
-# 1352 "Parser.ml"
+# 1386 "Parser.ml"
      : (
-# 102 "Parser.mly"
+# 113 "Parser.mly"
       (unit -> typ)
-# 1356 "Parser.ml"
+# 1390 "Parser.ml"
     ))
 
 let _menhir_action_53 =
   fun () ->
     (
-# 173 "Parser.mly"
+# 187 "Parser.mly"
                     ( fun _ -> TYPE_proc )
-# 1364 "Parser.ml"
+# 1398 "Parser.ml"
      : (
-# 102 "Parser.mly"
+# 113 "Parser.mly"
       (unit -> typ)
-# 1368 "Parser.ml"
+# 1402 "Parser.ml"
     ))
 
 let _menhir_action_54 =
   fun () ->
     (
-# 151 "Parser.mly"
+# 165 "Parser.mly"
                                                             ( fun _ -> [] )
-# 1376 "Parser.ml"
+# 1410 "Parser.ml"
      : (
-# 97 "Parser.mly"
+# 108 "Parser.mly"
       (unit -> param list)
-# 1380 "Parser.ml"
+# 1414 "Parser.ml"
     ))
 
 let _menhir_action_55 =
   fun _2 _3 ->
     (
-# 152 "Parser.mly"
+# 166 "Parser.mly"
                                                             ( fun _ -> _2 () :: _3 () )
-# 1388 "Parser.ml"
+# 1422 "Parser.ml"
      : (
-# 97 "Parser.mly"
+# 108 "Parser.mly"
       (unit -> param list)
-# 1392 "Parser.ml"
+# 1426 "Parser.ml"
     ))
 
 let _menhir_action_56 =
   fun () ->
     (
-# 203 "Parser.mly"
+# 221 "Parser.mly"
                                         ( fun _ -> None )
-# 1400 "Parser.ml"
+# 1434 "Parser.ml"
      : (
-# 108 "Parser.mly"
-      (unit -> expr_type option)
-# 1404 "Parser.ml"
+# 119 "Parser.mly"
+      (unit -> variable_value option)
+# 1438 "Parser.ml"
     ))
 
 let _menhir_action_57 =
   fun _1 _3 ->
     (
-# 204 "Parser.mly"
+# 222 "Parser.mly"
                                         ( fun _ -> let (id,l) = _1 () in
                                                    let value = _3 () in
-                                                   assignToVariable (id_make id) l value;
+                                                   assignToVariable (id_make id) value;
                                                    None
                                         )
-# 1416 "Parser.ml"
+# 1450 "Parser.ml"
      : (
-# 108 "Parser.mly"
-      (unit -> expr_type option)
-# 1420 "Parser.ml"
+# 119 "Parser.mly"
+      (unit -> variable_value option)
+# 1454 "Parser.ml"
     ))
 
 let _menhir_action_58 =
   fun _1 ->
     (
-# 209 "Parser.mly"
+# 227 "Parser.mly"
                                         ( _1 )
-# 1428 "Parser.ml"
+# 1462 "Parser.ml"
      : (
-# 108 "Parser.mly"
-      (unit -> expr_type option)
-# 1432 "Parser.ml"
+# 119 "Parser.mly"
+      (unit -> variable_value option)
+# 1466 "Parser.ml"
     ))
 
 let _menhir_action_59 =
   fun _1 ->
     (
-# 210 "Parser.mly"
+# 228 "Parser.mly"
                                         ( _1 )
-# 1440 "Parser.ml"
+# 1474 "Parser.ml"
      : (
-# 108 "Parser.mly"
-      (unit -> expr_type option)
-# 1444 "Parser.ml"
+# 119 "Parser.mly"
+      (unit -> variable_value option)
+# 1478 "Parser.ml"
     ))
 
 let _menhir_action_60 =
   fun _2 _4 ->
     (
-# 211 "Parser.mly"
+# 229 "Parser.mly"
                                         ( fun _ -> if _2 () then _4 () else None )
-# 1452 "Parser.ml"
+# 1486 "Parser.ml"
      : (
-# 108 "Parser.mly"
-      (unit -> expr_type option)
-# 1456 "Parser.ml"
+# 119 "Parser.mly"
+      (unit -> variable_value option)
+# 1490 "Parser.ml"
     ))
 
 let _menhir_action_61 =
   fun _2 _4 _6 ->
     (
-# 212 "Parser.mly"
+# 230 "Parser.mly"
                                         ( fun _ -> if _2 () then _4 () else _6 () )
-# 1464 "Parser.ml"
+# 1498 "Parser.ml"
      : (
-# 108 "Parser.mly"
-      (unit -> expr_type option)
-# 1468 "Parser.ml"
+# 119 "Parser.mly"
+      (unit -> variable_value option)
+# 1502 "Parser.ml"
     ))
 
 let _menhir_action_62 =
   fun _2 _4 ->
     (
-# 213 "Parser.mly"
+# 231 "Parser.mly"
                                         ( fun _ -> while _2 () do ignore(_4 ()) done; None )
-# 1476 "Parser.ml"
+# 1510 "Parser.ml"
      : (
-# 108 "Parser.mly"
-      (unit -> expr_type option)
-# 1480 "Parser.ml"
+# 119 "Parser.mly"
+      (unit -> variable_value option)
+# 1514 "Parser.ml"
     ))
 
 let _menhir_action_63 =
   fun () ->
     (
-# 214 "Parser.mly"
+# 232 "Parser.mly"
                                         ( fun _ -> None )
-# 1488 "Parser.ml"
+# 1522 "Parser.ml"
      : (
-# 108 "Parser.mly"
-      (unit -> expr_type option)
-# 1492 "Parser.ml"
+# 119 "Parser.mly"
+      (unit -> variable_value option)
+# 1526 "Parser.ml"
     ))
 
 let _menhir_action_64 =
   fun _2 ->
     (
-# 215 "Parser.mly"
+# 233 "Parser.mly"
                                         ( fun _ -> Some(_2 ()) )
-# 1500 "Parser.ml"
+# 1534 "Parser.ml"
      : (
-# 108 "Parser.mly"
-      (unit -> expr_type option)
-# 1504 "Parser.ml"
+# 119 "Parser.mly"
+      (unit -> variable_value option)
+# 1538 "Parser.ml"
     ))
 
 let _menhir_action_65 =
   fun () ->
     (
-# 220 "Parser.mly"
+# 238 "Parser.mly"
                           ( fun _ -> None )
-# 1512 "Parser.ml"
+# 1546 "Parser.ml"
      : (
-# 110 "Parser.mly"
-      (unit -> expr_type option)
-# 1516 "Parser.ml"
+# 121 "Parser.mly"
+      (unit -> variable_value option)
+# 1550 "Parser.ml"
     ))
 
 let _menhir_action_66 =
   fun _1 _2 ->
     (
-# 221 "Parser.mly"
+# 239 "Parser.mly"
                           ( fun _ -> let result = _1 () in
                                      match result with
                                      | Some _ as returnValue -> returnValue
                                      | None -> _2 ()
       )
-# 1528 "Parser.ml"
+# 1562 "Parser.ml"
      : (
-# 110 "Parser.mly"
-      (unit -> expr_type option)
-# 1532 "Parser.ml"
+# 121 "Parser.mly"
+      (unit -> variable_value option)
+# 1566 "Parser.ml"
     ))
 
 let _menhir_action_67 =
   fun _2 _3 _5 ->
     (
-# 198 "Parser.mly"
+# 215 "Parser.mly"
                                                                  ( fun _ -> let vars = (id_make _2) :: _3 () in
                                                                             let var_type = _5 () in
+                                                                            print_grace_type var_type;
                                                                             List.iter ( fun var -> ignore(newVariable var var_type true) ) vars; None
                                                                  )
-# 1543 "Parser.ml"
+# 1578 "Parser.ml"
      : (
-# 107 "Parser.mly"
+# 118 "Parser.mly"
       (unit -> Identifier.id option)
-# 1547 "Parser.ml"
+# 1582 "Parser.ml"
     ))
 
 let _menhir_print_token : token -> string =

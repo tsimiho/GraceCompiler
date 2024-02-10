@@ -41,7 +41,7 @@ type token =
   | T_geq
   | T_prod
 
-open Parsing;;
+open Parsing
 let _ = parse_error;;
 let yytransl_const = [|
   257 (* T_eof *);

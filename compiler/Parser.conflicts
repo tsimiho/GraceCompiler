@@ -9,7 +9,7 @@ header local_def_list T_lbrace T_if cond T_then T_if cond T_then stmt
 ** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
 
 program 
-func_def 
+func_def T_eof 
 header local_def_list block 
                       T_lbrace stmt_list T_rbrace 
                                stmt stmt_list 

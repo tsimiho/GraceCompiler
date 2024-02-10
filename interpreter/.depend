@@ -51,8 +51,7 @@ Parser.cmx : \
     Identifier.cmx \
     Error.cmx \
     Parser.cmi
-Parser.cmi : \
-    Identifier.cmi
+Parser.cmi :
 Symbol.cmo : \
     Types.cmi \
     Narray.cmi \
@@ -71,7 +70,9 @@ Symbol.cmi : \
     Identifier.cmi \
     Error.cmi
 Types.cmo : \
+    Narray.cmi \
     Types.cmi
 Types.cmx : \
+    Narray.cmx \
     Types.cmi
 Types.cmi :

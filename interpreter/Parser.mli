@@ -40,7 +40,7 @@ type token =
   | T_div
   | T_comma
   | T_colon
-  | T_char_const of (string)
+  | T_char_const of (char)
   | T_char
   | T_and
 
@@ -50,4 +50,4 @@ exception Error
 
 (* The monolithic API. *)
 
-val program: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (unit -> Identifier.id option)
+val program: (Lexing.lexbuf -> token) -> Lexing.lexbuf -> (unit -> unit)

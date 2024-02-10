@@ -1217,102 +1217,102 @@ and __ocaml_lex_lexer_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
 # 17 "Lexer.mll"
-              ( T_and )
+          ( T_and )
 # 1222 "Lexer.ml"
 
   | 1 ->
 # 18 "Lexer.mll"
-               ( T_char )
+           ( T_char )
 # 1227 "Lexer.ml"
 
   | 2 ->
 # 19 "Lexer.mll"
-              ( T_div )
+          ( T_div )
 # 1232 "Lexer.ml"
 
   | 3 ->
 # 20 "Lexer.mll"
-             ( T_do )
+         ( T_do )
 # 1237 "Lexer.ml"
 
   | 4 ->
 # 21 "Lexer.mll"
-               ( T_else )
+                ( T_else )
 # 1242 "Lexer.ml"
 
   | 5 ->
 # 22 "Lexer.mll"
-              ( T_fun )
+                ( T_fun )
 # 1247 "Lexer.ml"
 
   | 6 ->
 # 23 "Lexer.mll"
-             ( T_if )
+                ( T_if )
 # 1252 "Lexer.ml"
 
   | 7 ->
 # 24 "Lexer.mll"
-              ( T_int )
+                ( T_int )
 # 1257 "Lexer.ml"
 
   | 8 ->
 # 25 "Lexer.mll"
-              ( T_mod )
+                ( T_mod )
 # 1262 "Lexer.ml"
 
   | 9 ->
 # 26 "Lexer.mll"
-                    ( T_not )
+                ( T_not )
 # 1267 "Lexer.ml"
 
   | 10 ->
 # 27 "Lexer.mll"
-                    ( T_nothing )
+                ( T_nothing )
 # 1272 "Lexer.ml"
 
   | 11 ->
 # 28 "Lexer.mll"
-                    ( T_or )
+                ( T_or )
 # 1277 "Lexer.ml"
 
   | 12 ->
 # 29 "Lexer.mll"
-                    ( T_ref )
+                ( T_ref )
 # 1282 "Lexer.ml"
 
   | 13 ->
 # 30 "Lexer.mll"
-                    ( T_return )
+                ( T_return )
 # 1287 "Lexer.ml"
 
   | 14 ->
 # 31 "Lexer.mll"
-                    ( T_then )
+                ( T_then )
 # 1292 "Lexer.ml"
 
   | 15 ->
 # 32 "Lexer.mll"
-                    ( T_var )
+                ( T_var )
 # 1297 "Lexer.ml"
 
   | 16 ->
 # 33 "Lexer.mll"
-                    ( T_while )
+                ( T_while )
 # 1302 "Lexer.ml"
 
   | 17 ->
 # 34 "Lexer.mll"
-                    ( T_leq )
+                ( T_leq )
 # 1307 "Lexer.ml"
 
   | 18 ->
 # 35 "Lexer.mll"
-                    ( T_geq )
+                ( T_geq )
 # 1312 "Lexer.ml"
 
   | 19 ->
 # 36 "Lexer.mll"
-                    ( T_prod )
+                ( T_prod )
 # 1317 "Lexer.ml"
 
   | 20 ->
@@ -1347,7 +1347,7 @@ let
 # 1348 "Lexer.ml"
 = Lexing.sub_lexeme lexbuf (lexbuf.Lexing.lex_start_pos + 1) (lexbuf.Lexing.lex_curr_pos + -1) in
 # 42 "Lexer.mll"
-                                                              ( T_char_const char_val )
+                                                              ( T_char_const (String.get char_val 0) )
 # 1352 "Lexer.ml"
 
   | 24 ->
