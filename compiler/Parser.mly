@@ -296,8 +296,8 @@ l_value: T_id                           { fun _ -> ($1,[]) }
                                         }
 
 
-expr: T_int_const            { fun _ -> IntValue $1 }
-    | T_char_const           { fun _ -> CharValue $1 }
+expr: T_int_const            { fun _ -> const_int int_type $1 }
+    | T_char_const           { fun _ -> const_int char_type $1 }
     | l_value                { fun _ -> let (value , l) = $1 () in
                                         MultiArray (createArray l)
                              }

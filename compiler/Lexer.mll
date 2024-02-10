@@ -14,10 +14,10 @@ let hex = ['0'-'9' 'a'-'f' 'A'-'F']
 let escape = '\\' (['n' 't' 'r' '0' '\\' '\'' '"'] | ('x' hex hex ))
 
 rule lexer = parse
-  | "and"	{ T_and }
-  | "char"	{ T_char }
-  | "div"	{ T_div }
-  | "do"	{ T_do }
+  | "and"	    { T_and }
+  | "char"	    { T_char }
+  | "div"	    { T_div }
+  | "do"	    { T_do }
   | "else"      { T_else }
   | "fun"       { T_fun }
   | "if"        { T_if }
