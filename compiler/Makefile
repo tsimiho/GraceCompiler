@@ -9,7 +9,7 @@ endif
 
 EXEFILE=grace$(EXE)
 MLFILES=Hashcons.ml Identifier.ml Error.ml Types.ml Narray.ml Symbol.ml \
-  Lexer.ml Parser.ml Main.ml
+  Codegen.ml Lexer.ml Parser.ml Main.ml
 MLIFILES=Hashcons.mli Identifier.mli Error.mli Types.mli Narray.mli Symbol.mli \
   Parser.mli Lexer.mli 
 CMOFILES=$(patsubst %.ml,%.cmo,$(MLFILES))
@@ -27,6 +27,8 @@ OCAMLOPT_FLAGS=
 OCAMLC=ocamlc $(OCAMLC_FLAGS)
 OCAMLOPT=ocamlopt $(OCAMLOPT_FLAGS)
 OCAMLDEP=ocamldep
+LLVM_PACKAGES=-package llvm -package llvm.analysis -package llvm.scalar_opts \
+	      -package llvm.ipo -package llvm.all_backends -package llvm.target
 INCLUDES=
 
 default: $(EXEFILE)
@@ -49,18 +51,24 @@ extend.cmo: extend.ml
 	$(OCAMLC) $(CAMLP5_FLAGS) -c $<
 
 %.cmo %.cmi: %.ml extend.cmo
-	$(OCAMLC) $(CAMLP5_FLAGS) -c $<
+	ocamlfind $(OCAMLC) $(CAMLP5_FLAGS) $(LLVM_PACKAGES) -c $<
 
 .PHONY: all clean count depend
 
 $(EXEFILE): Parser.mli Lexer.ml $(CMOFILES)
-	$(OCAMLC) -o $@ $(CMOFILES)
+	ocamlfind $(OCAMLC) $(LLVM_PACKAGES) -linkpkg -o $@ $(CMOFILES)
 
 Parser.ml Parser.mli: Parser.mly
-	menhir -v --unused-precedence-levels Parser.mly
+	ocamlyacc -v --unused-precedence-levels Parser.mly
 
 Lexer.ml: Lexer.mll
 	ocamllex Lexer.mll
+
+Parser.cmi: Parser.mli
+	ocamlfind $(OCAMLC) $(CAMLP5_FLAGS) $(LLVM_PACKAGES) -c Parser.mli
+
+Parser.cmo: Parser.ml Parser.cmi
+	ocamlfind $(OCAMLC) $(CAMLP5_FLAGS) $(LLVM_PACKAGES) -c Parser.ml
 
 -include .depend
 
@@ -80,7 +88,7 @@ clean:
            $(patsubst %,%.cm?,$(EXEFILES)) $(PARSERFILES) pplib.cma *~
 
 distclean: clean
-	$(RM) $(EXEFILE) symbtest$(EXE) .depend
+	$(RM) $(EXEFILE) symbtest$(EXE) .depend Parser.automaton Parser.conflicts
 
 pack: clean
 	tar cvfz grace.tar.gz $(SRCFILES)

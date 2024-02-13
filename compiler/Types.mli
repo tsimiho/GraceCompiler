@@ -1,7 +1,6 @@
 type typ = TYPE_none       
          | TYPE_int        
          | TYPE_char
-         | TYPE_byte
          | TYPE_array of   
              typ *         
              int list

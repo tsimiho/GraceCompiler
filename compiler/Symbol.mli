@@ -27,7 +27,6 @@ and variable_value =
 and variable_info = {
   variable_type   : Types.typ;
   variable_offset : int;
-  mutable value   : variable_value
 }
 
 and function_info = {
@@ -37,7 +36,6 @@ and function_info = {
   mutable function_result    : Types.typ;
   mutable function_pstatus   : param_status;
   mutable function_initquad  : int;
-  mutable function_body      : unit -> variable_value option
 }
 
 and parameter_info = {
@@ -81,6 +79,5 @@ val newParameter : Identifier.id -> Types.typ -> pass_mode -> entry -> bool -> e
 val newTemporary : Types.typ -> entry
 val forwardFunction : entry -> unit
 val endFunctionHeader : entry -> Types.typ -> unit
-val assignToVariable : Identifier.id -> variable_value -> unit
 val start_positive_offset : int
 val start_negative_offset : int

@@ -35,8 +35,6 @@ and variable_value =
 and variable_info = {
   variable_type   : Types.typ;
   variable_offset : int;
-  (* initialized     : bool; *)
-  mutable value   : variable_value
 }
 
 and function_info = {
@@ -46,7 +44,6 @@ and function_info = {
   mutable function_result    : Types.typ;
   mutable function_pstatus   : param_status;
   mutable function_initquad  : int;
-  mutable function_body      : unit -> variable_value option
 }
 
 and parameter_info = {
@@ -68,7 +65,7 @@ and entry_info = ENTRY_none
 
 and entry = {
   entry_id    : Identifier.id;
-  entry_scope : scope
+  entry_scope : scope;
   entry_info  : entry_info
 }
 
@@ -168,14 +165,9 @@ let lookupEntry id how err =
 
 let newVariable id typ err =
   !currentScope.sco_negofs <- !currentScope.sco_negofs - sizeOfType typ;
-  let size = extractDimensionSizes typ in
   let inf = {
     variable_type = typ;
     variable_offset = !currentScope.sco_negofs;
-    value = match typ with
-            | TYPE_int -> IntValue 0
-            | TYPE_char -> CharValue '0'
-            | _ -> let arr = createArray size in MultiArray arr
   } in
   newEntry id (ENTRY_variable inf) err
 
@@ -200,7 +192,6 @@ let newFunction id err =
       function_result = TYPE_none;
       function_pstatus = PARDEF_DEFINE;
       function_initquad = 0;
-      function_body = fun _ -> None
     } in
     newEntry id (ENTRY_function inf) false
 
@@ -304,10 +295,3 @@ let endFunctionHeader e typ =
   | _ ->
       internal "Cannot end parameters in a non-function"
 
-let assignToVariable (id: Identifier.id) (expr_val: variable_value) = 
-  try
-    let variable_entry = lookupEntry id LOOKUP_CURRENT_SCOPE true in
-    match variable_entry.entry_info with 
-    | ENTRY_variable v -> v.value <- expr_val
-    | _ -> error "not a variable"
-  with Not_found -> error "Variable %a not found" pretty_id id
