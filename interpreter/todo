@@ -1,7 +1,0 @@
-handle scopes in function definition
-func calls:
-  arg types
-return statements
-initialized (boolean)
-handle case of no first dimension
-main: no arguments and return type nothing

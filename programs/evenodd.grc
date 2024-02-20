@@ -32,7 +32,7 @@ fun main(): nothing
 
 { $ main
   writeString("Please, give an integer: ");
-  
+
   if odd(readInteger()) = 1 then
     writeString("odd\n");
   else
