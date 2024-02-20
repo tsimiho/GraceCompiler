@@ -169,12 +169,11 @@ let genVarRead name indices =
                        build_gep base_ptr [| zero; zero |] "first_elem_ptr" builder
              | _ -> error "%a: cannot read full int array" pretty_id (id_make name); raise Terminate)
 
-      | _  ->
-              let dims = List.map ( fun d -> const_int int_type d ) dimensions in
+      | _  -> let dims = List.map ( fun d -> const_int int_type d ) dimensions in
               let offset = calc_flat_index indices dims in
-              let element_ptr = build_in_bounds_gep base_ptr [| const_int int_type 0; offset |] "element_ptr" builder in
               if param then build_gep base_ptr [| offset |] "element_ptr" builder
               else
+              let element_ptr = build_in_bounds_gep base_ptr [| const_int int_type 0; offset |] "element_ptr" builder in
               build_load element_ptr "element_val" builder
       )
     | _ ->
@@ -335,7 +334,7 @@ let rec genFuncCall fname args =
         then (process_lists args param_types param_modes)
         else List.map (fun e ->
         match e with
-        | Expr exp -> if (fname = "writeChar" || fname = "writeInt" ) then exp else exp (* TODO *)
+        | Expr exp -> if (fname = "writeChar" || fname = "writeInteger" ) then build_load exp "load_expr" builder else exp (* TODO *)
         | Str str  -> let the_string = build_global_string str "string-lit" builder in
                       build_struct_gep the_string 0 "string_to_char_ptr" builder
         ) args in
