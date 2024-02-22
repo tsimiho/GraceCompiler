@@ -47,7 +47,4 @@
  (name main)
  (public_name grace)
  (libraries llvm symbol types identifier error codegen)
- (modules Lexer Parser Main)
- (promote
-  (until-clean)
-  (into ..)))
+ (modules Lexer Parser Main))

@@ -389,7 +389,7 @@ let yyact = [|
                                                  let body = _3 () in
                                                  let is_main = !main in
                                                  if is_main then main := false;
-                                                 genFunc func_name params return_type local_defs body is_main false;
+                                                 genFuncDef func_name params return_type local_defs body is_main;
                                                  closeScope ()
                                       )
 # 396 "bin/Parser.ml"
@@ -532,7 +532,7 @@ let yyact = [|
     Obj.repr(
 # 155 "bin/Parser.mly"
                                                   ( fun _ -> let base_type = _1 () in
-                                                             let dimensions = 10 :: _4 () in
+                                                             let dimensions = 100 :: _4 () in
                                                              match dimensions with
                                                              | [] -> base_type
                                                              | _ -> TYPE_array (base_type, dimensions)
@@ -591,7 +591,7 @@ let yyact = [|
     Obj.repr(
 # 179 "bin/Parser.mly"
                               ( fun _ -> let (func_name, params, return_type) = _1 () in
-                                         genFunc func_name params return_type [] [] false true;
+                                         genFuncDecl func_name params return_type;
                                          closeScope();
                               )
 # 598 "bin/Parser.ml"

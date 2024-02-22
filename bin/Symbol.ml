@@ -47,10 +47,10 @@ and function_info = {
 }
 
 and parameter_info = {
-  parameter_type           : Types.typ;
+  mutable parameter_type   : Types.typ;
   mutable parameter_offset : int;
   parameter_mode           : pass_mode;
-  parameter_ptr            : llvalue;
+  mutable parameter_ptr    : llvalue;
 }
 
 and temporary_info = {
@@ -203,6 +203,20 @@ let newFunction id err =
     } in
     newEntry id (ENTRY_function inf) false
 
+
+let updatePtr f id ptr =
+  match f.entry_info with
+  | ENTRY_function inf ->
+    List.iter ( fun p ->
+      match p.entry_info with
+      | ENTRY_parameter param ->
+        if p.entry_id = id then param.parameter_ptr <- ptr
+      | _ -> error "I found a parameter that is not a parameter!";
+        raise Exit
+    ) inf.function_paramlist
+  | _ -> error "Not a function";
+  raise Exit
+
 let newParameter id typ ptr mode f err =
   match f.entry_info with
   | ENTRY_function inf -> begin
@@ -233,7 +247,7 @@ let newParameter id typ ptr mode f err =
                     error "Parameter name mismatch in redeclaration \
                            of function %a" pretty_id f.entry_id
                   else
-                    H.add !tab id p;
+                    H.add !tab id p; updatePtr f id ptr;
                   p
               | _ ->
                   error "I found a parameter that is not a parameter!";

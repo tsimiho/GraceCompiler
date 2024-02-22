@@ -108,7 +108,7 @@ func_def: header local_def_list block { fun _ -> let (func_name, params, return_
                                                  let body = $3 () in
                                                  let is_main = !main in
                                                  if is_main then main := false;
-                                                 genFunc func_name params return_type local_defs body is_main false;
+                                                 genFuncDef func_name params return_type local_defs body is_main;
                                                  closeScope ()
                                       }
 
@@ -153,7 +153,7 @@ ret_type: data_type { fun _ -> $1 () }
         | T_nothing { fun _ -> TYPE_proc }
 
 fpar_type: data_type T_lbrack T_rbrack array_dims { fun _ -> let base_type = $1 () in
-                                                             let dimensions = 10 :: $4 () in
+                                                             let dimensions = 100 :: $4 () in
                                                              match dimensions with
                                                              | [] -> base_type
                                                              | _ -> TYPE_array (base_type, dimensions)
@@ -177,7 +177,7 @@ local_def: func_def  { FuncDef $1 }
          | var_def   { VarDef $1 }
 
 func_decl: header T_semicolon { fun _ -> let (func_name, params, return_type) = $1 () in
-                                         genFunc func_name params return_type [] [] false true;
+                                         genFuncDecl func_name params return_type;
                                          closeScope();
                               }
 
