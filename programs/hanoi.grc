@@ -17,9 +17,6 @@ fun solve () : nothing
          move(source, target);
          hanoi(rings-1, auxiliary, target, source);
       }
-      else {
-        writeString("Else");
-      }
    } $ hanoi
 
    var NumberOfRings : int;

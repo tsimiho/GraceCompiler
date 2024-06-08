@@ -370,7 +370,7 @@ let yynames_block = "\
 let yyact = [|
   (fun _ -> failwith "parser")
 ; (fun __caml_parser_env ->
-    let _1 = (Parsing.peek_val __caml_parser_env 1 : unit -> unit) in
+    let _1 = (Parsing.peek_val __caml_parser_env 1 : unit -> local_def_type) in
     Obj.repr(
 # 102 "bin/Parser.mly"
                         ( fun _ -> initSymbolTable 1000;
@@ -380,282 +380,276 @@ let yyact = [|
                : unit -> unit))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : unit -> string * param list * typ) in
-    let _2 = (Parsing.peek_val __caml_parser_env 1 : unit -> local_def list) in
+    let _2 = (Parsing.peek_val __caml_parser_env 1 : unit -> local_def_type list) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : unit -> (unit -> unit) list) in
     Obj.repr(
 # 106 "bin/Parser.mly"
                                       ( fun _ -> let (func_name, params, return_type) = _1 () in
                                                  let local_defs = _2 () in
                                                  let body = _3 () in
-                                                 let is_main = !main in
-                                                 if is_main then main := false;
-                                                 genFuncDef func_name params return_type local_defs body is_main;
-                                                 closeScope ()
+                                                 FuncDef (func_name, params, return_type, local_defs, body)
                                       )
-# 396 "bin/Parser.ml"
-               : unit -> unit))
+# 393 "bin/Parser.ml"
+               : unit -> local_def_type))
 ; (fun __caml_parser_env ->
     Obj.repr(
-# 115 "bin/Parser.mly"
+# 112 "bin/Parser.mly"
                                          ( fun _ -> [] )
-# 402 "bin/Parser.ml"
-               : unit -> local_def list))
+# 399 "bin/Parser.ml"
+               : unit -> local_def_type list))
 ; (fun __caml_parser_env ->
-    let _1 = (Parsing.peek_val __caml_parser_env 1 : local_def) in
-    let _2 = (Parsing.peek_val __caml_parser_env 0 : unit -> local_def list) in
+    let _1 = (Parsing.peek_val __caml_parser_env 1 : unit -> local_def_type) in
+    let _2 = (Parsing.peek_val __caml_parser_env 0 : unit -> local_def_type list) in
     Obj.repr(
-# 116 "bin/Parser.mly"
-                                         ( fun _ -> _1 :: _2 () )
-# 410 "bin/Parser.ml"
-               : unit -> local_def list))
+# 113 "bin/Parser.mly"
+                                         ( fun _ -> _1 () :: _2 () )
+# 407 "bin/Parser.ml"
+               : unit -> local_def_type list))
 ; (fun __caml_parser_env ->
     let _2 = (Parsing.peek_val __caml_parser_env 5 : string) in
     let _4 = (Parsing.peek_val __caml_parser_env 3 : unit -> param list) in
     let _7 = (Parsing.peek_val __caml_parser_env 0 : unit -> typ) in
     Obj.repr(
-# 118 "bin/Parser.mly"
+# 115 "bin/Parser.mly"
                                                                     ( fun _ -> let id = _2 in
                                                                                let params = _4 () in
                                                                                let return_type = _7 () in
                                                                                (id, params, return_type)
                                                                     )
-# 423 "bin/Parser.ml"
+# 420 "bin/Parser.ml"
                : unit -> string * param list * typ))
 ; (fun __caml_parser_env ->
     let _2 = (Parsing.peek_val __caml_parser_env 4 : string) in
     let _6 = (Parsing.peek_val __caml_parser_env 0 : unit -> typ) in
     Obj.repr(
-# 123 "bin/Parser.mly"
+# 120 "bin/Parser.mly"
                                                                     ( fun _ -> let id = _2 in
                                                                                let params = [] in
                                                                                let return_type = _6 () in
                                                                                (id, params, return_type)
                                                                     )
-# 435 "bin/Parser.ml"
+# 432 "bin/Parser.ml"
                : unit -> string * param list * typ))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : unit -> param) in
     Obj.repr(
-# 129 "bin/Parser.mly"
+# 126 "bin/Parser.mly"
                                                   ( fun _ -> [_1 ()] )
-# 442 "bin/Parser.ml"
+# 439 "bin/Parser.ml"
                : unit -> param list))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : unit -> param) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : unit -> param list) in
     Obj.repr(
-# 130 "bin/Parser.mly"
+# 127 "bin/Parser.mly"
                                                   ( fun _ -> _1 () :: _3 () )
-# 450 "bin/Parser.ml"
+# 447 "bin/Parser.ml"
                : unit -> param list))
 ; (fun __caml_parser_env ->
     let _2 = (Parsing.peek_val __caml_parser_env 2 : unit -> string list) in
     let _4 = (Parsing.peek_val __caml_parser_env 0 : unit -> typ) in
     Obj.repr(
-# 132 "bin/Parser.mly"
+# 129 "bin/Parser.mly"
                                                 ( fun _ -> let params = _2 () in
                                                            let param_type = _4 () in
                                                            let mode = PASS_BY_REFERENCE in
                                                            { id = params; mode = mode; param_type = param_type }
                                                 )
-# 462 "bin/Parser.ml"
+# 459 "bin/Parser.ml"
                : unit -> param))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : unit -> string list) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : unit -> typ) in
     Obj.repr(
-# 137 "bin/Parser.mly"
+# 134 "bin/Parser.mly"
                                                 ( fun _ -> let params = _1 () in
                                                            let param_type = _3 () in
                                                            let mode = PASS_BY_VALUE in
                                                            { id = params; mode = mode; param_type = param_type }
                                                 )
-# 474 "bin/Parser.ml"
+# 471 "bin/Parser.ml"
                : unit -> param))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : string) in
     Obj.repr(
-# 143 "bin/Parser.mly"
+# 140 "bin/Parser.mly"
                                           ( fun _ -> [_1] )
-# 481 "bin/Parser.ml"
+# 478 "bin/Parser.ml"
                : unit -> string list))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : string) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : unit -> string list) in
     Obj.repr(
-# 144 "bin/Parser.mly"
+# 141 "bin/Parser.mly"
                                           ( fun _ -> _1 :: _3 () )
-# 489 "bin/Parser.ml"
+# 486 "bin/Parser.ml"
                : unit -> string list))
 ; (fun __caml_parser_env ->
     Obj.repr(
-# 146 "bin/Parser.mly"
+# 143 "bin/Parser.mly"
                   ( fun _ -> TYPE_int )
-# 495 "bin/Parser.ml"
+# 492 "bin/Parser.ml"
                : unit -> typ))
 ; (fun __caml_parser_env ->
     Obj.repr(
-# 147 "bin/Parser.mly"
+# 144 "bin/Parser.mly"
                   ( fun _ -> TYPE_char )
-# 501 "bin/Parser.ml"
+# 498 "bin/Parser.ml"
                : unit -> typ))
 ; (fun __caml_parser_env ->
     Obj.repr(
-# 149 "bin/Parser.mly"
+# 146 "bin/Parser.mly"
                                                      ( fun _ -> [] )
-# 507 "bin/Parser.ml"
+# 504 "bin/Parser.ml"
                : unit -> int list))
 ; (fun __caml_parser_env ->
     let _2 = (Parsing.peek_val __caml_parser_env 2 : int) in
     let _4 = (Parsing.peek_val __caml_parser_env 0 : unit -> int list) in
     Obj.repr(
-# 150 "bin/Parser.mly"
+# 147 "bin/Parser.mly"
                                                      ( fun _ -> _2 :: _4 () )
-# 515 "bin/Parser.ml"
+# 512 "bin/Parser.ml"
                : unit -> int list))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : unit -> typ) in
     Obj.repr(
-# 152 "bin/Parser.mly"
+# 149 "bin/Parser.mly"
                     ( fun _ -> _1 () )
-# 522 "bin/Parser.ml"
+# 519 "bin/Parser.ml"
                : unit -> typ))
 ; (fun __caml_parser_env ->
     Obj.repr(
-# 153 "bin/Parser.mly"
+# 150 "bin/Parser.mly"
                     ( fun _ -> TYPE_proc )
-# 528 "bin/Parser.ml"
+# 525 "bin/Parser.ml"
                : unit -> typ))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 3 : unit -> typ) in
     let _4 = (Parsing.peek_val __caml_parser_env 0 : unit -> int list) in
     Obj.repr(
-# 155 "bin/Parser.mly"
+# 152 "bin/Parser.mly"
                                                   ( fun _ -> let base_type = _1 () in
-                                                             let dimensions = 100 :: _4 () in
+                                                             let dimensions = -1 :: _4 () in
                                                              match dimensions with
                                                              | [] -> base_type
                                                              | _ -> TYPE_array (base_type, dimensions)
                                                   )
-# 541 "bin/Parser.ml"
+# 538 "bin/Parser.ml"
                : unit -> typ))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 1 : unit -> typ) in
     let _2 = (Parsing.peek_val __caml_parser_env 0 : unit -> int list) in
     Obj.repr(
-# 161 "bin/Parser.mly"
+# 158 "bin/Parser.mly"
                                                   ( fun _ -> let base_type = _1 () in
                                                              let dimensions = _2 () in
                                                              match dimensions with
                                                              | [] -> base_type
                                                              | _ -> TYPE_array (base_type, dimensions)
                                                   )
-# 554 "bin/Parser.ml"
+# 551 "bin/Parser.ml"
                : unit -> typ))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 1 : unit -> typ) in
     let _2 = (Parsing.peek_val __caml_parser_env 0 : unit -> int list) in
     Obj.repr(
-# 168 "bin/Parser.mly"
+# 165 "bin/Parser.mly"
                                  ( fun _ -> let base_type = _1 () in
                                             let dimensions = _2 () in
                                             match dimensions with
                                             | [] -> base_type
                                             | _  -> TYPE_array (base_type, dimensions)
                                   )
-# 567 "bin/Parser.ml"
+# 564 "bin/Parser.ml"
                : unit -> typ))
 ; (fun __caml_parser_env ->
-    let _1 = (Parsing.peek_val __caml_parser_env 0 : unit -> unit) in
+    let _1 = (Parsing.peek_val __caml_parser_env 0 : unit -> local_def_type) in
     Obj.repr(
-# 175 "bin/Parser.mly"
-                     ( FuncDef _1 )
-# 574 "bin/Parser.ml"
-               : local_def))
+# 172 "bin/Parser.mly"
+                     ( _1 )
+# 571 "bin/Parser.ml"
+               : unit -> local_def_type))
 ; (fun __caml_parser_env ->
-    let _1 = (Parsing.peek_val __caml_parser_env 0 : unit -> unit) in
+    let _1 = (Parsing.peek_val __caml_parser_env 0 : unit -> local_def_type) in
     Obj.repr(
-# 176 "bin/Parser.mly"
-                     ( FuncDecl _1 )
-# 581 "bin/Parser.ml"
-               : local_def))
+# 173 "bin/Parser.mly"
+                     ( _1 )
+# 578 "bin/Parser.ml"
+               : unit -> local_def_type))
 ; (fun __caml_parser_env ->
-    let _1 = (Parsing.peek_val __caml_parser_env 0 : unit -> unit) in
+    let _1 = (Parsing.peek_val __caml_parser_env 0 : unit -> local_def_type) in
     Obj.repr(
-# 177 "bin/Parser.mly"
-                     ( VarDef _1 )
-# 588 "bin/Parser.ml"
-               : local_def))
+# 174 "bin/Parser.mly"
+                     ( _1 )
+# 585 "bin/Parser.ml"
+               : unit -> local_def_type))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 1 : unit -> string * param list * typ) in
     Obj.repr(
-# 179 "bin/Parser.mly"
+# 176 "bin/Parser.mly"
                               ( fun _ -> let (func_name, params, return_type) = _1 () in
-                                         genFuncDecl func_name params return_type;
-                                         closeScope();
+                                         FuncDecl (func_name, params, return_type)
                               )
-# 598 "bin/Parser.ml"
-               : unit -> unit))
+# 594 "bin/Parser.ml"
+               : unit -> local_def_type))
 ; (fun __caml_parser_env ->
     let _2 = (Parsing.peek_val __caml_parser_env 3 : unit -> string list) in
     let _4 = (Parsing.peek_val __caml_parser_env 1 : unit -> typ) in
     Obj.repr(
-# 184 "bin/Parser.mly"
+# 180 "bin/Parser.mly"
                                                             ( fun _ -> let vars = _2 () in
                                                                        let var_type = _4 () in
-                                                                       List.iter ( fun var ->
-                                                                         let ptr = genVarDef var var_type in
-                                                                         ignore(newVariable (id_make var) var_type ptr true);
-                                                                       ) vars
-                                                                 )
-# 612 "bin/Parser.ml"
-               : unit -> unit))
+                                                                       VarDef (vars, var_type)
+                                                            )
+# 605 "bin/Parser.ml"
+               : unit -> local_def_type))
 ; (fun __caml_parser_env ->
     Obj.repr(
-# 192 "bin/Parser.mly"
+# 185 "bin/Parser.mly"
                                         ( fun _ -> () )
-# 618 "bin/Parser.ml"
+# 611 "bin/Parser.ml"
                : unit -> unit))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 3 : unit -> (lvalue * expr_type list)) in
     let _3 = (Parsing.peek_val __caml_parser_env 1 : unit -> expr_type) in
     Obj.repr(
-# 193 "bin/Parser.mly"
+# 186 "bin/Parser.mly"
                                         ( fun _ -> let (lval, indices) = _1 () in
                                                    let value_expr = _3 () in
                                                    let idx = List.map (fun e -> match e with
-                                                     | Expr exp -> exp
-                                                     | Str _ -> error "string cannot be an index"; raise Terminate
+                                                     | Expr (exp, exp_type) -> exp
+                                                     | LValue (v, vt, i)    -> let ll, _ = genVarRead v i "val" in ll
+                                                     | Str _         -> error "String cannot be an index"; raise Terminate
                                                    ) indices in
                                                    match lval with
                                                    | Var var_name -> genVarWrite var_name idx value_expr
-                                                   | StrLit _ -> failwith "String literals cannot be assigned to"
+                                                   | StrLit _ -> error "String literals cannot be assigned to"; raise Terminate
                                         )
-# 635 "bin/Parser.ml"
+# 629 "bin/Parser.ml"
                : unit -> unit))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : unit -> (unit -> unit) list) in
     Obj.repr(
-# 203 "bin/Parser.mly"
+# 197 "bin/Parser.mly"
                                         ( fun _ -> let l = _1 () in
                                                    List.iter (fun s -> s ()) l
                                         )
-# 644 "bin/Parser.ml"
+# 638 "bin/Parser.ml"
                : unit -> unit))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 1 : unit -> string * expr_type list) in
     Obj.repr(
-# 206 "bin/Parser.mly"
+# 200 "bin/Parser.mly"
                                         ( fun _ -> let (func_name, args) = _1 () in
                                                    ignore(genFuncCall func_name args)
                                         )
-# 653 "bin/Parser.ml"
+# 647 "bin/Parser.ml"
                : unit -> unit))
 ; (fun __caml_parser_env ->
     let _2 = (Parsing.peek_val __caml_parser_env 2 : unit -> llvalue) in
     let _4 = (Parsing.peek_val __caml_parser_env 0 : unit -> unit) in
     Obj.repr(
-# 209 "bin/Parser.mly"
+# 203 "bin/Parser.mly"
                                         ( fun _ -> let cond_val = _2 () in
                                                    let start_bb = insertion_block builder in
                                                    let the_function = block_parent start_bb in
@@ -671,14 +665,14 @@ let yyact = [|
                                                    ignore(build_cond_br cond_val then_bb merge_bb builder);
                                                    position_at_end merge_bb builder
                                         )
-# 675 "bin/Parser.ml"
+# 669 "bin/Parser.ml"
                : unit -> unit))
 ; (fun __caml_parser_env ->
     let _2 = (Parsing.peek_val __caml_parser_env 4 : unit -> llvalue) in
     let _4 = (Parsing.peek_val __caml_parser_env 2 : unit -> unit) in
     let _6 = (Parsing.peek_val __caml_parser_env 0 : unit -> unit) in
     Obj.repr(
-# 224 "bin/Parser.mly"
+# 218 "bin/Parser.mly"
                                         ( fun _ -> let cond_val = _2 () in
                                                    let start_bb = insertion_block builder in
                                                    let the_function = block_parent start_bb in
@@ -686,6 +680,8 @@ let yyact = [|
                                                    let merge_bb = append_block context "ifcont" the_function in
                                                    position_at_end then_bb builder;
                                                    _4 ();
+                                                   let then_returns = check_return_flag () in
+                                                   reset_return_flag ();
                                                    begin match block_terminator (insertion_block builder) with
                                                    | None   -> ignore(build_br merge_bb builder)
                                                    | Some _ -> ()
@@ -693,6 +689,10 @@ let yyact = [|
                                                    let else_bb = append_block context "else" the_function in
                                                    position_at_end else_bb builder;
                                                    _6 ();
+                                                   let else_returns = check_return_flag () in
+                                                   reset_return_flag ();
+                                                   if then_returns && else_returns then
+                                                     set_return_flag ();
                                                    begin match block_terminator (insertion_block builder) with
                                                    | None   -> ignore(build_br merge_bb builder)
                                                    | Some _ -> ()
@@ -730,355 +730,471 @@ let yyact = [|
 ; (fun __caml_parser_env ->
     Obj.repr(
 # 263 "bin/Parser.mly"
-                                        ( fun _ -> ignore(build_ret_void builder) )
-# 735 "bin/Parser.ml"
+                                        ( fun _ -> let function_return_type = match !current_function with
+                                                   | Some f -> (match f.entry_info with
+                                                     | ENTRY_function info -> info.function_result
+                                                     | _ -> error "Expected a function entry"; raise Terminate)
+                                                   | None -> error "Return statement not within a function"; raise Terminate in
+                                                   if function_return_type <> TYPE_proc then
+                                                     error "Return type mismatch: expected %s but got void" (string_of_type function_return_type);
+                                                   set_return_flag ();
+                                                   ignore(build_ret_void builder)
+                                        )
+# 744 "bin/Parser.ml"
                : unit -> unit))
 ; (fun __caml_parser_env ->
     let _2 = (Parsing.peek_val __caml_parser_env 1 : unit -> expr_type) in
     Obj.repr(
-# 264 "bin/Parser.mly"
-                                        ( fun _ -> let expr_val = match _2 () with
-                                                     | Expr e -> e
-                                                     | Str str -> build_global_stringptr (str ^ "\000") "mystr" builder in
+# 273 "bin/Parser.mly"
+                                        ( fun _ -> let expr_val, expr_type = match _2 () with
+                                                   | Expr (exp, exp_type) -> (exp, exp_type)
+                                                   | LValue (v, vt, i)    -> genVarRead v i "val"
+                                                   | Str str              -> (error "Functions cannot return a string"; raise Terminate) in
+                                                   let function_return_type = match !current_function with
+                                                   | Some f -> (match f.entry_info with
+                                                     | ENTRY_function info -> info.function_result
+                                                     | _ -> error "Expected a function entry"; raise Terminate)
+                                                   | None -> error "Return statement not within a function"; raise Terminate in
+                                                   if expr_type <> function_return_type then
+                                                     (error "Return type mismatch: expected %s but got %s"
+                                                     (string_of_type function_return_type) (string_of_type expr_type);
+                                                     raise Terminate)
+                                                   else
+                                                   set_return_flag ();
                                                    ignore(build_ret expr_val builder)
                                         )
-# 746 "bin/Parser.ml"
+# 767 "bin/Parser.ml"
                : unit -> unit))
 ; (fun __caml_parser_env ->
     let _2 = (Parsing.peek_val __caml_parser_env 1 : unit -> (unit -> unit) list) in
     Obj.repr(
-# 271 "bin/Parser.mly"
+# 292 "bin/Parser.mly"
                                    ( _2 )
-# 753 "bin/Parser.ml"
+# 774 "bin/Parser.ml"
                : unit -> (unit -> unit) list))
 ; (fun __caml_parser_env ->
     Obj.repr(
-# 273 "bin/Parser.mly"
+# 294 "bin/Parser.mly"
                           ( fun _ -> [] )
-# 759 "bin/Parser.ml"
+# 780 "bin/Parser.ml"
                : unit -> (unit -> unit) list))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 1 : unit -> unit) in
     let _2 = (Parsing.peek_val __caml_parser_env 0 : unit -> (unit -> unit) list) in
     Obj.repr(
-# 274 "bin/Parser.mly"
+# 295 "bin/Parser.mly"
                           ( fun _ -> _1 :: _2 () )
-# 767 "bin/Parser.ml"
+# 788 "bin/Parser.ml"
                : unit -> (unit -> unit) list))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : string) in
     Obj.repr(
-# 276 "bin/Parser.mly"
+# 297 "bin/Parser.mly"
                                                   ( fun _ -> let func_name = _1 in
                                                              (func_name, [])
                                                   )
-# 776 "bin/Parser.ml"
+# 797 "bin/Parser.ml"
                : unit -> string * expr_type list))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 3 : string) in
     let _3 = (Parsing.peek_val __caml_parser_env 1 : unit -> expr_type list) in
     Obj.repr(
-# 279 "bin/Parser.mly"
+# 300 "bin/Parser.mly"
                                                   ( fun _ -> let func_name = _1 in
                                                              let args = _3 () in
                                                              (func_name, args)
                                                   )
-# 787 "bin/Parser.ml"
+# 808 "bin/Parser.ml"
                : unit -> string * expr_type list))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : unit -> expr_type) in
     Obj.repr(
-# 285 "bin/Parser.mly"
+# 306 "bin/Parser.mly"
                                               ( fun _ -> [_1 ()] )
-# 794 "bin/Parser.ml"
+# 815 "bin/Parser.ml"
                : unit -> expr_type list))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : unit -> expr_type) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : unit -> expr_type list) in
     Obj.repr(
-# 286 "bin/Parser.mly"
+# 307 "bin/Parser.mly"
                                               ( fun _ -> _1 () :: _3 () )
-# 802 "bin/Parser.ml"
+# 823 "bin/Parser.ml"
                : unit -> expr_type list))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : string) in
     Obj.repr(
-# 288 "bin/Parser.mly"
+# 309 "bin/Parser.mly"
                                         ( fun _ -> (Var _1, []) )
-# 809 "bin/Parser.ml"
+# 830 "bin/Parser.ml"
                : unit -> (lvalue * expr_type list)))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : string) in
     Obj.repr(
-# 289 "bin/Parser.mly"
+# 310 "bin/Parser.mly"
                                         ( fun _ -> (StrLit _1, []) )
-# 816 "bin/Parser.ml"
+# 837 "bin/Parser.ml"
                : unit -> (lvalue * expr_type list)))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 3 : unit -> (lvalue * expr_type list)) in
     let _3 = (Parsing.peek_val __caml_parser_env 1 : unit -> expr_type) in
     Obj.repr(
-# 290 "bin/Parser.mly"
+# 311 "bin/Parser.mly"
                                         ( fun _ -> let (id, l) = _1 () in
                                                    let e = l @ [_3 ()] in
                                                    (id, e)
                                         )
-# 827 "bin/Parser.ml"
+# 848 "bin/Parser.ml"
                : unit -> (lvalue * expr_type list)))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : int) in
     Obj.repr(
-# 296 "bin/Parser.mly"
-                             ( fun _ -> Expr (const_int int_type _1) )
-# 834 "bin/Parser.ml"
+# 317 "bin/Parser.mly"
+                             ( fun _ -> Expr ((const_int int_type _1), TYPE_int) )
+# 855 "bin/Parser.ml"
                : unit -> expr_type))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : char) in
     Obj.repr(
-# 297 "bin/Parser.mly"
-                             ( fun _ -> Expr (const_int char_type (Char.code _1)) )
-# 841 "bin/Parser.ml"
+# 318 "bin/Parser.mly"
+                             ( fun _ -> Expr ((const_int char_type (Char.code _1)), TYPE_char) )
+# 862 "bin/Parser.ml"
                : unit -> expr_type))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : unit -> (lvalue * expr_type list)) in
     Obj.repr(
-# 298 "bin/Parser.mly"
+# 319 "bin/Parser.mly"
                              ( fun _ -> let (lval, indices) = _1 () in
                                         let idx = List.map (fun e -> match e with
-                                          | Expr exp -> exp
-                                          | Str _ -> error "string cannot be an index"; raise Terminate
+                                          | Expr (exp, exp_type)   -> exp
+                                          | LValue (v, lv_type, i) -> let ll, _ = genVarRead v i "val" in ll
+                                          | Str _                  -> error "string cannot be an index"; raise Terminate
                                         ) indices in
                                         match lval with
-                                        | Var var_name -> Expr (genVarRead var_name idx)
+                                        | Var var_name -> (let var_entry = lookupEntry (id_make var_name) LOOKUP_ALL_SCOPES true in
+                                                          let var_type = match var_entry.entry_info with
+                                                          | ENTRY_variable info  -> info.variable_type
+                                                          | ENTRY_parameter info -> info.parameter_type
+                                                          | _ -> error "%s is not a variable" var_name; raise Terminate in
+                                                          let t = match var_type with
+                                                          | TYPE_array (t, _) -> t
+                                                          | t                 -> t in
+                                                          LValue (var_name, t, idx))
                                         | StrLit str -> if indices = [] then Str str else
                                                          (error "string literals cannot be indexed"; raise Terminate)
                              )
-# 857 "bin/Parser.ml"
+# 887 "bin/Parser.ml"
                : unit -> expr_type))
 ; (fun __caml_parser_env ->
     let _2 = (Parsing.peek_val __caml_parser_env 1 : unit -> expr_type) in
     Obj.repr(
-# 308 "bin/Parser.mly"
+# 338 "bin/Parser.mly"
                              ( _2 )
-# 864 "bin/Parser.ml"
+# 894 "bin/Parser.ml"
                : unit -> expr_type))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : unit -> string * expr_type list) in
     Obj.repr(
-# 309 "bin/Parser.mly"
+# 339 "bin/Parser.mly"
                              ( fun _ -> let (func_name, args) = _1 () in
-                                        Expr (genFuncCall func_name args)
+                                        let t = if List.mem func_name libs then (lib_ret_type func_name)
+                                        else begin
+                                          let e = lookupEntry (id_make func_name) LOOKUP_ALL_SCOPES true in
+                                          match e.entry_info with
+                                          | ENTRY_function info -> info.function_result
+                                          | _ -> (error "%s is not a function" func_name; raise Terminate) end in
+                                        Expr ((genFuncCall func_name args), t)
                              )
-# 873 "bin/Parser.ml"
+# 909 "bin/Parser.ml"
                : unit -> expr_type))
 ; (fun __caml_parser_env ->
     let _2 = (Parsing.peek_val __caml_parser_env 0 : unit -> expr_type) in
     Obj.repr(
-# 312 "bin/Parser.mly"
+# 348 "bin/Parser.mly"
                              ( fun _ -> _2 () )
-# 880 "bin/Parser.ml"
+# 916 "bin/Parser.ml"
                : unit -> expr_type))
 ; (fun __caml_parser_env ->
     let _2 = (Parsing.peek_val __caml_parser_env 0 : unit -> expr_type) in
     Obj.repr(
-# 313 "bin/Parser.mly"
-                             ( fun _ -> let e = match _2 () with
-                                        | Expr exp -> exp
-                                        | Str _ -> error "Cannot aquire negative of string"; raise Terminate in
-                                        Expr (build_neg e "negtmp" builder)
+# 349 "bin/Parser.mly"
+                             ( fun _ -> let e, t = match _2 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | Str _                -> error "Cannot aquire negative of string"; raise Terminate in
+                                        Expr ((build_neg e "negtmp" builder), t)
                              )
-# 891 "bin/Parser.ml"
+# 928 "bin/Parser.ml"
                : unit -> expr_type))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : unit -> expr_type) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : unit -> expr_type) in
     Obj.repr(
-# 318 "bin/Parser.mly"
-                             ( fun _ -> let (lhs, rhs) = match (_1 (), _3 ()) with
-                                        | (Expr exp1, Expr exp3) -> (exp1, exp3)
-                                        | (_, _) -> error "Cannot add to string"; raise Terminate in
-                                        Expr (build_add lhs rhs "addtmp" builder)
+# 355 "bin/Parser.mly"
+                             ( fun _ -> let lhs, lhs_type = match _1 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _                    -> error "Cannot add to string"; raise Terminate in
+                                        let rhs, rhs_type = match _3 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot multiply with string"; raise Terminate in
+                                        if semaBinOp lhs lhs_type rhs rhs_type "'+'" then
+                                          Expr ((build_add lhs rhs "addtmp" builder), lhs_type)
+                                        else raise Terminate
                              )
-# 903 "bin/Parser.ml"
+# 947 "bin/Parser.ml"
                : unit -> expr_type))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : unit -> expr_type) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : unit -> expr_type) in
     Obj.repr(
-# 323 "bin/Parser.mly"
-                             ( fun _ -> let (lhs, rhs) = match (_1 (), _3 ()) with
-                                        | (Expr exp1, Expr exp3) -> (exp1, exp3)
-                                        | (_, _) -> error "Cannot subtrackt to/from string"; raise Terminate in
-                                        Expr (build_sub lhs rhs "subtmp" builder)
+# 367 "bin/Parser.mly"
+                             ( fun _ -> let lhs, lhs_type = match _1 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot subtract to/from string"; raise Terminate in
+                                        let rhs, rhs_type = match _3 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot multiply with string"; raise Terminate in
+                                        if semaBinOp lhs lhs_type rhs rhs_type "'-'" then
+                                          Expr ((build_sub lhs rhs "subtmp" builder), lhs_type)
+                                        else raise Terminate
                              )
-# 915 "bin/Parser.ml"
+# 966 "bin/Parser.ml"
                : unit -> expr_type))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : unit -> expr_type) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : unit -> expr_type) in
     Obj.repr(
-# 328 "bin/Parser.mly"
-                             ( fun _ -> let (lhs, rhs) = match (_1 (), _3 ()) with
-                                        | (Expr exp1, Expr exp3) -> (exp1, exp3)
-                                        | (_, _) -> error "Cannot multiply with string"; raise Terminate in
-                                        Expr (build_mul lhs rhs "multmp" builder)
+# 379 "bin/Parser.mly"
+                             ( fun _ -> let lhs, lhs_type = match _1 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot multiply with string"; raise Terminate in
+                                        let rhs, rhs_type = match _3 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot multiply with string"; raise Terminate in
+                                        if semaBinOp lhs lhs_type rhs rhs_type "'*'" then
+                                          Expr ((build_mul lhs rhs "multmp" builder), lhs_type)
+                                        else raise Terminate
                              )
-# 927 "bin/Parser.ml"
+# 985 "bin/Parser.ml"
                : unit -> expr_type))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : unit -> expr_type) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : unit -> expr_type) in
     Obj.repr(
-# 333 "bin/Parser.mly"
-                             ( fun _ -> let (lhs, rhs) = match (_1 (), _3 ()) with
-                                        | (Expr exp1, Expr exp3) -> (exp1, exp3)
-                                        | (_, _) -> error "Cannot divide string"; raise Terminate in
-                                        Expr (build_sdiv lhs rhs "divtmp" builder)
+# 391 "bin/Parser.mly"
+                             ( fun _ -> let lhs, lhs_type = match _1 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot divide string"; raise Terminate in
+                                        let rhs, rhs_type = match _3 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot multiply with string"; raise Terminate in
+                                        if semaBinOp lhs lhs_type rhs rhs_type "'div'" then
+                                          Expr ((build_sdiv lhs rhs "divtmp" builder), lhs_type)
+                                        else raise Terminate
                              )
-# 939 "bin/Parser.ml"
+# 1004 "bin/Parser.ml"
                : unit -> expr_type))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : unit -> expr_type) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : unit -> expr_type) in
     Obj.repr(
-# 338 "bin/Parser.mly"
-                             ( fun _ -> let (lhs, rhs) = match (_1 (), _3 ()) with
-                                        | (Expr exp1, Expr exp3) -> (exp1, exp3)
-                                        | (_, _) -> error "Cannot divide string"; raise Terminate in
-                                        Expr (build_srem lhs rhs "modtmp" builder)
+# 403 "bin/Parser.mly"
+                             ( fun _ -> let lhs, lhs_type = match _1 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot divide string"; raise Terminate in
+                                        let rhs, rhs_type = match _3 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot multiply with string"; raise Terminate in
+                                        if semaBinOp lhs lhs_type rhs rhs_type "'mod'" then
+                                          Expr ((build_srem lhs rhs "modtmp" builder), lhs_type)
+                                        else raise Terminate
                              )
-# 951 "bin/Parser.ml"
+# 1023 "bin/Parser.ml"
                : unit -> expr_type))
 ; (fun __caml_parser_env ->
     let _2 = (Parsing.peek_val __caml_parser_env 1 : unit -> llvalue) in
     Obj.repr(
-# 344 "bin/Parser.mly"
+# 416 "bin/Parser.mly"
                              ( _2 )
-# 958 "bin/Parser.ml"
+# 1030 "bin/Parser.ml"
                : unit -> llvalue))
 ; (fun __caml_parser_env ->
     let _2 = (Parsing.peek_val __caml_parser_env 0 : unit -> llvalue) in
     Obj.repr(
-# 345 "bin/Parser.mly"
+# 417 "bin/Parser.mly"
                              ( fun _ -> let cond_val = _2 () in
                                         let false_val = const_int (i1_type context) 0 in
                                         build_icmp Icmp.Ne cond_val false_val "nottmp" builder
                              )
-# 968 "bin/Parser.ml"
+# 1040 "bin/Parser.ml"
                : unit -> llvalue))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : unit -> llvalue) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : unit -> llvalue) in
     Obj.repr(
-# 349 "bin/Parser.mly"
-                             ( fun _ -> let cond1 = _1 () in
-                                        let start_bb = insertion_block builder in
-                                        let the_function = block_parent start_bb in
-                                        let eval_sec_bb = append_block context "second-cond" the_function in
-                                        let merge_bb = append_block context "merge" the_function in
-                                        ignore(build_cond_br cond1 eval_sec_bb merge_bb builder);
-                                        position_at_end eval_sec_bb builder;
-                                        let cond2 = _3 () in
-                                        let new_eval_bb = insertion_block builder in
-                                        ignore(build_br merge_bb builder);
-                                        position_at_end merge_bb builder;
-                                        let op = const_int bool_type 1
-                                        in build_phi [(op, start_bb);(cond2, new_eval_bb)] "and_phi" builder
+# 421 "bin/Parser.mly"
+                             ( fun _ -> let lhs = _1 () in
+                                        let rhs = _3 () in
+                                        if semaCond lhs && semaCond rhs then
+                                          let start_bb = insertion_block builder in
+                                          let the_function = block_parent start_bb in
+                                          let eval_sec_bb = append_block context "second-cond" the_function in
+                                          let merge_bb = append_block context "merge" the_function in
+                                          ignore(build_cond_br lhs eval_sec_bb merge_bb builder);
+                                          position_at_end eval_sec_bb builder;
+                                          let new_eval_bb = insertion_block builder in
+                                          ignore(build_br merge_bb builder);
+                                          position_at_end merge_bb builder;
+                                          build_phi [(lhs, start_bb); (rhs, new_eval_bb)] "and_phi" builder
+                                        else raise Terminate
                              )
-# 989 "bin/Parser.ml"
+# 1062 "bin/Parser.ml"
                : unit -> llvalue))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : unit -> llvalue) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : unit -> llvalue) in
     Obj.repr(
-# 363 "bin/Parser.mly"
-                             ( fun _ -> let cond1 = _1 () in
-                                        let start_bb = insertion_block builder in
-                                        let the_function = block_parent start_bb in
-                                        let eval_sec_bb = append_block context "second-cond" the_function in
-                                        let merge_bb = append_block context "merge" the_function in
-                                        ignore(build_cond_br cond1 merge_bb eval_sec_bb builder);
-                                        position_at_end eval_sec_bb builder;
-                                        let cond2 = _3 () in
-                                        let new_eval_bb = insertion_block builder in
-                                        ignore(build_br merge_bb builder);
-                                        position_at_end merge_bb builder;
-                                        let op = const_int bool_type 0
-                                        in build_phi [(op, start_bb);(cond2, new_eval_bb)] "or_phi" builder
+# 436 "bin/Parser.mly"
+                             ( fun _ -> let lhs = _1 () in
+                                        let rhs = _3 () in
+                                        if semaCond lhs && semaCond rhs then
+                                          let start_bb = insertion_block builder in
+                                          let the_function = block_parent start_bb in
+                                          let eval_sec_bb = append_block context "second-cond" the_function in
+                                          let merge_bb = append_block context "merge" the_function in
+                                          ignore(build_cond_br lhs merge_bb eval_sec_bb builder);
+                                          position_at_end eval_sec_bb builder;
+                                          let new_eval_bb = insertion_block builder in
+                                          ignore(build_br merge_bb builder);
+                                          position_at_end merge_bb builder;
+                                          build_phi [(lhs, start_bb); (rhs, new_eval_bb)] "or_phi" builder
+                                        else raise Terminate
                              )
-# 1010 "bin/Parser.ml"
+# 1084 "bin/Parser.ml"
                : unit -> llvalue))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : unit -> expr_type) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : unit -> expr_type) in
     Obj.repr(
-# 377 "bin/Parser.mly"
-                             ( fun _ -> let (lhs, rhs) = match (_1 (), _3 ()) with
-                                        | (Expr exp1, Expr exp3) -> (exp1, exp3)
-                                        | (_, _) -> error "Cannot compare with string"; raise Terminate in
-                                        build_icmp Icmp.Eq lhs rhs "eqtmp" builder
+# 451 "bin/Parser.mly"
+                             ( fun _ -> let lhs, lhs_type = match _1 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot compare with string"; raise Terminate in
+                                        let rhs, rhs_type = match _3 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot compare with string"; raise Terminate in
+                                        if semaComp lhs rhs then
+                                          build_icmp Icmp.Eq lhs rhs "eqtmp" builder
+                                        else raise Terminate
                              )
-# 1022 "bin/Parser.ml"
+# 1103 "bin/Parser.ml"
                : unit -> llvalue))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : unit -> expr_type) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : unit -> expr_type) in
     Obj.repr(
-# 382 "bin/Parser.mly"
-                             ( fun _ -> let (lhs, rhs) = match (_1 (), _3 ()) with
-                                        | (Expr exp1, Expr exp3) -> (exp1, exp3)
-                                        | (_, _) -> error "Cannot compare with string"; raise Terminate in
-                                        build_icmp Icmp.Ne lhs rhs "eqtmp" builder
+# 463 "bin/Parser.mly"
+                             ( fun _ -> let lhs, lhs_type = match _1 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot compare with string"; raise Terminate  in
+                                        let rhs, rhs_type = match _3 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot compare with string"; raise Terminate in
+                                        if semaComp lhs rhs then
+                                          build_icmp Icmp.Ne lhs rhs "eqtmp" builder
+                                        else raise Terminate
                              )
-# 1034 "bin/Parser.ml"
+# 1122 "bin/Parser.ml"
                : unit -> llvalue))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : unit -> expr_type) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : unit -> expr_type) in
     Obj.repr(
-# 387 "bin/Parser.mly"
-                             ( fun _ -> let (lhs, rhs) = match (_1 (), _3 ()) with
-                                        | (Expr exp1, Expr exp3) -> (exp1, exp3)
-                                        | (_, _) -> error "Cannot compare with string"; raise Terminate in
-                                        build_icmp Icmp.Slt lhs rhs "lesstmp" builder
+# 475 "bin/Parser.mly"
+                             ( fun _ -> let lhs, lhs_type = match _1 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot compare with string"; raise Terminate  in
+                                        let rhs, rhs_type = match _3 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot compare with string"; raise Terminate in
+                                        if semaComp lhs rhs then
+                                          build_icmp Icmp.Slt lhs rhs "lesstmp" builder
+                                        else raise Terminate
                              )
-# 1046 "bin/Parser.ml"
+# 1141 "bin/Parser.ml"
                : unit -> llvalue))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : unit -> expr_type) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : unit -> expr_type) in
     Obj.repr(
-# 392 "bin/Parser.mly"
-                             ( fun _ -> let (lhs, rhs) = match (_1 (), _3 ()) with
-                                        | (Expr exp1, Expr exp3) -> (exp1, exp3)
-                                        | (_, _) -> error "Cannot compare with string"; raise Terminate in
-                                        build_icmp Icmp.Sgt lhs rhs "greatertmp" builder
+# 487 "bin/Parser.mly"
+                             ( fun _ -> let lhs, lhs_type = match _1 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot compare with string"; raise Terminate  in
+                                        let rhs, rhs_type = match _3 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot compare with string"; raise Terminate in
+                                        if semaComp lhs rhs then
+                                          build_icmp Icmp.Sgt lhs rhs "greatertmp" builder
+                                        else raise Terminate
                              )
-# 1058 "bin/Parser.ml"
+# 1160 "bin/Parser.ml"
                : unit -> llvalue))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : unit -> expr_type) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : unit -> expr_type) in
     Obj.repr(
-# 397 "bin/Parser.mly"
-                             ( fun _ -> let (lhs, rhs) = match (_1 (), _3 ()) with
-                                        | (Expr exp1, Expr exp3) -> (exp1, exp3)
-                                        | (_, _) -> error "Cannot compare with string"; raise Terminate in
-                                        build_icmp Icmp.Sle lhs rhs "leqtmp" builder
+# 499 "bin/Parser.mly"
+                             ( fun _ -> let lhs, lhs_type = match _1 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot compare with string"; raise Terminate  in
+                                        let rhs, rhs_type = match _3 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot compare with string"; raise Terminate in
+                                        if semaComp lhs rhs then
+                                          build_icmp Icmp.Sle lhs rhs "leqtmp" builder
+                                        else raise Terminate
                              )
-# 1070 "bin/Parser.ml"
+# 1179 "bin/Parser.ml"
                : unit -> llvalue))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : unit -> expr_type) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : unit -> expr_type) in
     Obj.repr(
-# 402 "bin/Parser.mly"
-                             ( fun _ -> let (lhs, rhs) = match (_1 (), _3 ()) with
-                                        | (Expr exp1, Expr exp3) -> (exp1, exp3)
-                                        | (_, _) -> error "Cannot compare with string"; raise Terminate in
-                                        build_icmp Icmp.Sge lhs rhs "geqtmp" builder
+# 511 "bin/Parser.mly"
+                             ( fun _ -> let lhs, lhs_type = match _1 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot compare with string"; raise Terminate  in
+                                        let rhs, rhs_type = match _3 () with
+                                        | Expr (exp, exp_type) -> (exp, exp_type)
+                                        | LValue (v, vt, i)    -> genVarRead v i "val"
+                                        | _             -> error "Cannot compare with string"; raise Terminate in
+                                        if semaComp lhs rhs then
+                                          build_icmp Icmp.Sge lhs rhs "geqtmp" builder
+                                        else raise Terminate
                              )
-# 1082 "bin/Parser.ml"
+# 1198 "bin/Parser.ml"
                : unit -> llvalue))
 (* Entry program *)
 ; (fun __caml_parser_env -> raise (Parsing.YYexit (Parsing.peek_val __caml_parser_env 0)))

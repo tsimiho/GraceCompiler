@@ -1,4 +1,5 @@
 open Lexing
+open Error
 
 let main =
   let lexbuf = Lexing.from_channel stdin in
@@ -6,5 +7,5 @@ let main =
     Parser.program Lexer.lexer lexbuf ();
     exit 0
   with Parsing.Parse_error ->
-    Printf.eprintf "syntax error\n";
+    error "Syntax error\n";
     exit 1

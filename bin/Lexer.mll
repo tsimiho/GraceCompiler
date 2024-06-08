@@ -1,7 +1,6 @@
 {
 open Parser
-
-let lines = ref 0
+open Error
 
 let escape1char scp = match scp with
     | 'n' -> '\n'
@@ -49,7 +48,7 @@ rule lexer = parse
 
   | letter (letter|digit|'_')* as id { T_id id }
 
-  | '\n'                   { Lexing.new_line lexbuf; lexer lexbuf }
+  | '\n'                   { lines := !lines + 1; Lexing.new_line lexbuf; lexer lexbuf }
   | (digit+  as num_string) { T_int_const (int_of_string num_string) }
   | "'" (chars as ch) "'" {T_char_const ch}
   | "'" (escape1 as scp1) "'" {T_char_const (escape1char scp1.[1])}
@@ -81,11 +80,12 @@ rule lexer = parse
   |  eof          { T_eof }
   |  _ as chr     { Printf.eprintf "Invalid character: '%c' (ascii: %d) on line %d \n"
                     chr (Char.code chr) !lines;
-                    lexer lexbuf }
+                    lexer lexbuf
+                  }
 
 and comment = parse
   | "$$" { lexer lexbuf }
-  | '\n' { Lexing.new_line lexbuf; comment lexbuf }
+  | '\n' { lines := !lines + 1; Lexing.new_line lexbuf; comment lexbuf }
   | _ {comment lexbuf}
 
 and str_lit acc = parse

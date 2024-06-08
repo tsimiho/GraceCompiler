@@ -32,24 +32,29 @@ and variable_value =
   | Unit
 
 and variable_info = {
-  variable_type   : Types.typ;
-  variable_offset : int;
-  variable_ptr    : llvalue;
+  variable_type         : Types.typ;
+  variable_offset       : int;
+  mutable variable_ptr  : llvalue;
+  mutable initialized   : bool;
+  mutable variable_name : string
 }
 
 and function_info = {
-  mutable function_isForward : bool;
-  mutable function_paramlist : entry list;
-  mutable function_redeflist : entry list;
-  mutable function_result    : Types.typ;
-  mutable function_pstatus   : param_status;
-  mutable function_initquad  : int;
+  mutable function_isForward     : bool;
+  mutable function_paramlist     : entry list;
+  mutable function_redeflist     : entry list;
+  mutable function_result        : Types.typ;
+  mutable function_pstatus       : param_status;
+  mutable function_initquad      : int;
+  mutable function_local_vars    : string list;
+  mutable function_actual_params : int;
 }
 
 and parameter_info = {
   mutable parameter_type   : Types.typ;
   mutable parameter_offset : int;
   parameter_mode           : pass_mode;
+  mutable parameter_name   : string;
   mutable parameter_ptr    : llvalue;
 }
 
@@ -73,9 +78,9 @@ and entry = {
 type lookup_type = LOOKUP_CURRENT_SCOPE | LOOKUP_ALL_SCOPES
 
 type param = {
-  id: string list;
-  mode: pass_mode;
-  param_type: typ
+  mutable id : string list;
+  mode       : pass_mode;
+  param_type : typ
 }
 
 let start_positive_offset = 8
@@ -176,10 +181,12 @@ let newVariable id typ ptr err =
     variable_type = typ;
     variable_offset = !currentScope.sco_negofs;
     variable_ptr = ptr;
+    initialized = false;
+    variable_name = id_name id;
   } in
   newEntry id (ENTRY_variable inf) err
 
-let newFunction id err =
+let newFunction id n err =
   try
     let e = lookupEntry id LOOKUP_CURRENT_SCOPE false in
     match e.entry_info with
@@ -200,6 +207,8 @@ let newFunction id err =
       function_result = TYPE_none;
       function_pstatus = PARDEF_DEFINE;
       function_initquad = 0;
+      function_local_vars = [];
+      function_actual_params = n;
     } in
     newEntry id (ENTRY_function inf) false
 
@@ -226,7 +235,8 @@ let newParameter id typ ptr mode f err =
             parameter_type = typ;
             parameter_offset = 0;
             parameter_mode = mode;
-            parameter_ptr = ptr
+            parameter_ptr = ptr;
+            parameter_name = id_name id
           } in
           let e = newEntry id (ENTRY_parameter inf_p) err in
           inf.function_paramlist <- e :: inf.function_paramlist;

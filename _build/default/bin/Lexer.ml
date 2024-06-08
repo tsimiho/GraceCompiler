@@ -1,8 +1,7 @@
 # 1 "bin/Lexer.mll"
  
 open Parser
-
-let lines = ref 0
+open Error
 
 let escape1char scp = match scp with
     | 'n' -> '\n'
@@ -14,7 +13,7 @@ let escape1char scp = match scp with
 let escape2char scp = Char.chr (int_of_string ("0x" ^(String.sub scp 2 (String.(length scp)-2))))
 
 
-# 18 "bin/Lexer.ml"
+# 17 "bin/Lexer.ml"
 let __ocaml_lex_tables = {
   Lexing.lex_base =
    "\000\000\208\255\209\255\001\000\006\000\213\255\214\255\215\255\
@@ -1218,275 +1217,276 @@ let rec lexer lexbuf =
 and __ocaml_lex_lexer_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
-# 29 "bin/Lexer.mll"
+# 28 "bin/Lexer.mll"
                 ( T_and )
-# 1224 "bin/Lexer.ml"
+# 1223 "bin/Lexer.ml"
 
   | 1 ->
-# 30 "bin/Lexer.mll"
+# 29 "bin/Lexer.mll"
                ( T_char )
-# 1229 "bin/Lexer.ml"
+# 1228 "bin/Lexer.ml"
 
   | 2 ->
-# 31 "bin/Lexer.mll"
+# 30 "bin/Lexer.mll"
                 ( T_div )
-# 1234 "bin/Lexer.ml"
+# 1233 "bin/Lexer.ml"
 
   | 3 ->
-# 32 "bin/Lexer.mll"
+# 31 "bin/Lexer.mll"
                 ( T_do )
-# 1239 "bin/Lexer.ml"
+# 1238 "bin/Lexer.ml"
 
   | 4 ->
-# 33 "bin/Lexer.mll"
+# 32 "bin/Lexer.mll"
                 ( T_else )
-# 1244 "bin/Lexer.ml"
+# 1243 "bin/Lexer.ml"
 
   | 5 ->
-# 34 "bin/Lexer.mll"
+# 33 "bin/Lexer.mll"
                 ( T_fun )
-# 1249 "bin/Lexer.ml"
+# 1248 "bin/Lexer.ml"
 
   | 6 ->
-# 35 "bin/Lexer.mll"
+# 34 "bin/Lexer.mll"
                 ( T_if )
-# 1254 "bin/Lexer.ml"
+# 1253 "bin/Lexer.ml"
 
   | 7 ->
-# 36 "bin/Lexer.mll"
+# 35 "bin/Lexer.mll"
                 ( T_int )
-# 1259 "bin/Lexer.ml"
+# 1258 "bin/Lexer.ml"
 
   | 8 ->
-# 37 "bin/Lexer.mll"
+# 36 "bin/Lexer.mll"
                 ( T_mod )
-# 1264 "bin/Lexer.ml"
+# 1263 "bin/Lexer.ml"
 
   | 9 ->
-# 38 "bin/Lexer.mll"
+# 37 "bin/Lexer.mll"
                 ( T_not )
-# 1269 "bin/Lexer.ml"
+# 1268 "bin/Lexer.ml"
 
   | 10 ->
-# 39 "bin/Lexer.mll"
+# 38 "bin/Lexer.mll"
                 ( T_nothing )
-# 1274 "bin/Lexer.ml"
+# 1273 "bin/Lexer.ml"
 
   | 11 ->
-# 40 "bin/Lexer.mll"
+# 39 "bin/Lexer.mll"
                 ( T_or )
-# 1279 "bin/Lexer.ml"
+# 1278 "bin/Lexer.ml"
 
   | 12 ->
-# 41 "bin/Lexer.mll"
+# 40 "bin/Lexer.mll"
                 ( T_ref )
-# 1284 "bin/Lexer.ml"
+# 1283 "bin/Lexer.ml"
 
   | 13 ->
-# 42 "bin/Lexer.mll"
+# 41 "bin/Lexer.mll"
                 ( T_return )
-# 1289 "bin/Lexer.ml"
+# 1288 "bin/Lexer.ml"
 
   | 14 ->
-# 43 "bin/Lexer.mll"
+# 42 "bin/Lexer.mll"
                 ( T_then )
-# 1294 "bin/Lexer.ml"
+# 1293 "bin/Lexer.ml"
 
   | 15 ->
-# 44 "bin/Lexer.mll"
+# 43 "bin/Lexer.mll"
                 ( T_var )
-# 1299 "bin/Lexer.ml"
+# 1298 "bin/Lexer.ml"
 
   | 16 ->
-# 45 "bin/Lexer.mll"
+# 44 "bin/Lexer.mll"
                 ( T_while )
-# 1304 "bin/Lexer.ml"
+# 1303 "bin/Lexer.ml"
 
   | 17 ->
-# 46 "bin/Lexer.mll"
+# 45 "bin/Lexer.mll"
                 ( T_leq )
-# 1309 "bin/Lexer.ml"
+# 1308 "bin/Lexer.ml"
 
   | 18 ->
-# 47 "bin/Lexer.mll"
+# 46 "bin/Lexer.mll"
                 ( T_geq )
-# 1314 "bin/Lexer.ml"
+# 1313 "bin/Lexer.ml"
 
   | 19 ->
-# 48 "bin/Lexer.mll"
+# 47 "bin/Lexer.mll"
                 ( T_assign )
-# 1319 "bin/Lexer.ml"
+# 1318 "bin/Lexer.ml"
 
   | 20 ->
 let
-# 50 "bin/Lexer.mll"
+# 49 "bin/Lexer.mll"
                                   id
-# 1325 "bin/Lexer.ml"
+# 1324 "bin/Lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
-# 50 "bin/Lexer.mll"
+# 49 "bin/Lexer.mll"
                                      ( T_id id )
-# 1329 "bin/Lexer.ml"
+# 1328 "bin/Lexer.ml"
 
   | 21 ->
-# 52 "bin/Lexer.mll"
-                           ( Lexing.new_line lexbuf; lexer lexbuf )
-# 1334 "bin/Lexer.ml"
+# 51 "bin/Lexer.mll"
+                           ( lines := !lines + 1; Lexing.new_line lexbuf; lexer lexbuf )
+# 1333 "bin/Lexer.ml"
 
   | 22 ->
 let
-# 53 "bin/Lexer.mll"
+# 52 "bin/Lexer.mll"
                 num_string
-# 1340 "bin/Lexer.ml"
+# 1339 "bin/Lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
-# 53 "bin/Lexer.mll"
+# 52 "bin/Lexer.mll"
                             ( T_int_const (int_of_string num_string) )
-# 1344 "bin/Lexer.ml"
+# 1343 "bin/Lexer.ml"
 
   | 23 ->
 let
-# 54 "bin/Lexer.mll"
+# 53 "bin/Lexer.mll"
                   ch
-# 1350 "bin/Lexer.ml"
+# 1349 "bin/Lexer.ml"
 = Lexing.sub_lexeme_char lexbuf (lexbuf.Lexing.lex_start_pos + 1) in
-# 54 "bin/Lexer.mll"
+# 53 "bin/Lexer.mll"
                           (T_char_const ch)
-# 1354 "bin/Lexer.ml"
+# 1353 "bin/Lexer.ml"
 
   | 24 ->
 let
-# 55 "bin/Lexer.mll"
+# 54 "bin/Lexer.mll"
                     scp1
-# 1360 "bin/Lexer.ml"
+# 1359 "bin/Lexer.ml"
 = Lexing.sub_lexeme lexbuf (lexbuf.Lexing.lex_start_pos + 1) (lexbuf.Lexing.lex_start_pos + 3) in
-# 55 "bin/Lexer.mll"
+# 54 "bin/Lexer.mll"
                               (T_char_const (escape1char scp1.[1]))
-# 1364 "bin/Lexer.ml"
+# 1363 "bin/Lexer.ml"
 
   | 25 ->
 let
-# 56 "bin/Lexer.mll"
+# 55 "bin/Lexer.mll"
                     scp2
-# 1370 "bin/Lexer.ml"
+# 1369 "bin/Lexer.ml"
 = Lexing.sub_lexeme lexbuf (lexbuf.Lexing.lex_start_pos + 1) (lexbuf.Lexing.lex_start_pos + 5) in
-# 56 "bin/Lexer.mll"
+# 55 "bin/Lexer.mll"
                               (T_char_const (escape2char scp2))
-# 1374 "bin/Lexer.ml"
+# 1373 "bin/Lexer.ml"
 
   | 26 ->
-# 57 "bin/Lexer.mll"
+# 56 "bin/Lexer.mll"
         (str_lit [] lexbuf)
-# 1379 "bin/Lexer.ml"
+# 1378 "bin/Lexer.ml"
 
   | 27 ->
-# 59 "bin/Lexer.mll"
+# 58 "bin/Lexer.mll"
               ( T_eq )
-# 1384 "bin/Lexer.ml"
+# 1383 "bin/Lexer.ml"
 
   | 28 ->
-# 60 "bin/Lexer.mll"
+# 59 "bin/Lexer.mll"
               ( T_lparen )
-# 1389 "bin/Lexer.ml"
+# 1388 "bin/Lexer.ml"
 
   | 29 ->
-# 61 "bin/Lexer.mll"
+# 60 "bin/Lexer.mll"
               ( T_rparen )
-# 1394 "bin/Lexer.ml"
+# 1393 "bin/Lexer.ml"
 
   | 30 ->
-# 62 "bin/Lexer.mll"
+# 61 "bin/Lexer.mll"
               ( T_plus )
-# 1399 "bin/Lexer.ml"
+# 1398 "bin/Lexer.ml"
 
   | 31 ->
-# 63 "bin/Lexer.mll"
+# 62 "bin/Lexer.mll"
               ( T_minus )
-# 1404 "bin/Lexer.ml"
+# 1403 "bin/Lexer.ml"
 
   | 32 ->
-# 64 "bin/Lexer.mll"
+# 63 "bin/Lexer.mll"
               ( T_times )
-# 1409 "bin/Lexer.ml"
+# 1408 "bin/Lexer.ml"
 
   | 33 ->
-# 65 "bin/Lexer.mll"
+# 64 "bin/Lexer.mll"
               ( T_less )
-# 1414 "bin/Lexer.ml"
+# 1413 "bin/Lexer.ml"
 
   | 34 ->
-# 66 "bin/Lexer.mll"
+# 65 "bin/Lexer.mll"
               ( T_more )
-# 1419 "bin/Lexer.ml"
+# 1418 "bin/Lexer.ml"
 
   | 35 ->
-# 67 "bin/Lexer.mll"
+# 66 "bin/Lexer.mll"
               ( T_lbrack )
-# 1424 "bin/Lexer.ml"
+# 1423 "bin/Lexer.ml"
 
   | 36 ->
-# 68 "bin/Lexer.mll"
+# 67 "bin/Lexer.mll"
               ( T_rbrack )
-# 1429 "bin/Lexer.ml"
+# 1428 "bin/Lexer.ml"
 
   | 37 ->
-# 69 "bin/Lexer.mll"
+# 68 "bin/Lexer.mll"
               ( T_lbrace )
-# 1434 "bin/Lexer.ml"
+# 1433 "bin/Lexer.ml"
 
   | 38 ->
-# 70 "bin/Lexer.mll"
+# 69 "bin/Lexer.mll"
               ( T_rbrace )
-# 1439 "bin/Lexer.ml"
+# 1438 "bin/Lexer.ml"
 
   | 39 ->
-# 71 "bin/Lexer.mll"
+# 70 "bin/Lexer.mll"
               ( T_hash)
-# 1444 "bin/Lexer.ml"
+# 1443 "bin/Lexer.ml"
 
   | 40 ->
-# 72 "bin/Lexer.mll"
+# 71 "bin/Lexer.mll"
               ( T_comma )
-# 1449 "bin/Lexer.ml"
+# 1448 "bin/Lexer.ml"
 
   | 41 ->
-# 73 "bin/Lexer.mll"
+# 72 "bin/Lexer.mll"
               ( T_semicolon )
-# 1454 "bin/Lexer.ml"
+# 1453 "bin/Lexer.ml"
 
   | 42 ->
-# 74 "bin/Lexer.mll"
+# 73 "bin/Lexer.mll"
               ( T_colon )
-# 1459 "bin/Lexer.ml"
+# 1458 "bin/Lexer.ml"
 
   | 43 ->
-# 76 "bin/Lexer.mll"
+# 75 "bin/Lexer.mll"
                        ( lexer lexbuf )
-# 1464 "bin/Lexer.ml"
+# 1463 "bin/Lexer.ml"
 
   | 44 ->
-# 77 "bin/Lexer.mll"
+# 76 "bin/Lexer.mll"
                        ( lexer lexbuf )
-# 1469 "bin/Lexer.ml"
+# 1468 "bin/Lexer.ml"
 
   | 45 ->
-# 78 "bin/Lexer.mll"
+# 77 "bin/Lexer.mll"
                        ( comment lexbuf )
-# 1474 "bin/Lexer.ml"
+# 1473 "bin/Lexer.ml"
 
   | 46 ->
-# 81 "bin/Lexer.mll"
+# 80 "bin/Lexer.mll"
                   ( T_eof )
-# 1479 "bin/Lexer.ml"
+# 1478 "bin/Lexer.ml"
 
   | 47 ->
 let
-# 82 "bin/Lexer.mll"
+# 81 "bin/Lexer.mll"
           chr
-# 1485 "bin/Lexer.ml"
+# 1484 "bin/Lexer.ml"
 = Lexing.sub_lexeme_char lexbuf lexbuf.Lexing.lex_start_pos in
-# 82 "bin/Lexer.mll"
+# 81 "bin/Lexer.mll"
                   ( Printf.eprintf "Invalid character: '%c' (ascii: %d) on line %d \n"
                     chr (Char.code chr) !lines;
-                    lexer lexbuf )
+                    lexer lexbuf
+                  )
 # 1491 "bin/Lexer.ml"
 
   | __ocaml_lex_state -> lexbuf.Lexing.refill_buff lexbuf;
@@ -1503,7 +1503,7 @@ and __ocaml_lex_comment_rec lexbuf __ocaml_lex_state =
 
   | 1 ->
 # 88 "bin/Lexer.mll"
-         ( Lexing.new_line lexbuf; comment lexbuf )
+         ( lines := !lines + 1; Lexing.new_line lexbuf; comment lexbuf )
 # 1508 "bin/Lexer.ml"
 
   | 2 ->

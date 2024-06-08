@@ -3,6 +3,8 @@ open Lexing
 
 exception Terminate
 
+let lines = ref 0
+
 type verbose = Vquiet | Vnormal | Vverbose
 
 let flagVerbose = ref Vnormal
@@ -75,15 +77,15 @@ and fatal fmt =
   kfprintf cont err_formatter fmt
 
 and error fmt =
-  let fmt = "@[<v 2>Error: " ^^ fmt ^^ "@]@;@?" in
   incr numErrors;
+  let fmt = "@[<v 2>Error at line %d: " ^^ fmt ^^ "@]@;@?" in
   if !numErrors >= !maxErrors then
     let cont ppf =
       eprintf "Too many errors, aborting...\n";
       raise Terminate in
-    kfprintf cont err_formatter fmt
+    kfprintf cont err_formatter fmt !lines
   else
-    eprintf fmt
+    eprintf fmt !lines
 
 and warning fmt =
   let fmt = "@[<v 2>Warning: " ^^ fmt ^^ "@]@;@?" in
@@ -104,3 +106,10 @@ and warning fmt =
 and message fmt =
   let fmt = "@[<v 2>" ^^ fmt ^^ "@]@;@?" in
   eprintf fmt
+
+
+let syntax_error lexbuf =
+  let pos = lexbuf.lex_curr_p in
+  let line = pos.pos_lnum in
+  let char = pos.pos_cnum - pos.pos_bol + 1 in
+  Printf.sprintf "Syntax error at line %d, character %d" line char

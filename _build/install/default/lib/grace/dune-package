@@ -1,1 +1,4 @@
-../../../../default/grace.dune-package
+(lang dune 3.13)
+(name grace)
+(sections (lib .) (bin ../../bin))
+(files (lib (META dune-package opam)) (bin (grace)))
