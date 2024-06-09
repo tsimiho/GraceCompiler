@@ -1,0 +1,50 @@
+(env
+ (_
+  (flags
+   (:standard -w -26-27-32-33-34-39))))
+
+(library
+ (name hashcons)
+ (modules Hashcons))
+
+(library
+ (name types)
+ (modules Types))
+
+(library
+ (name error)
+ (modules Error))
+
+(library
+ (name identifier)
+ (modules Identifier)
+ (libraries hashcons))
+
+(library
+ (name symbol)
+ (modules Symbol)
+ (libraries types error identifier llvm))
+
+(library
+ (name codegen)
+ (modules Codegen)
+ (libraries
+  llvm
+  llvm.scalar_opts
+  llvm.all_backends
+  llvm.target
+  llvm.analysis
+  symbol
+  error
+  identifier
+  types))
+
+(ocamllex Lexer)
+
+(ocamlyacc Parser)
+
+(executable
+ (name main)
+ (public_name grace)
+ (libraries llvm symbol types identifier error codegen)
+ (modules Lexer Parser Main))

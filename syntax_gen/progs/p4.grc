@@ -1,0 +1,6 @@
+fun k(ref main : char[16]; ref baz, x : int[][29]; x, x, y : int[3]) : nothing
+var e, b, bar : int[5][18];
+
+{
+
+}

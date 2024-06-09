@@ -1,0 +1,40 @@
+fun m() : char
+fun boo() : int
+fun f(main : int[25]; ref g, i : int[][2]) : nothing
+
+{
+  {
+  while 3 # '\n' do return;
+}
+}
+
+fun z(ref a, z : int) : int
+fun g(ref c, l, h : char; l, h, foo : char[]; ref d : int[]) : nothing
+
+{
+  "Route66"['7'] <- "foo";
+}
+
+
+{
+  while 10 = 7 do while 'a' < '\n' do ;
+}
+
+fun boo(ref z, bar, foo : char; a, n : char[][41][42]; ref l : int; ref z : char[25]) : nothing
+
+{
+  if 11 >= '\'' then return; else while '\n' <= '7' do return;
+}
+
+
+{
+  foo(((('a' * 11)) - n), + (((baz()) - (m()))), ((b(('\''))) - b));
+  x(n);
+  baz();
+  while '\'' <= 3 do ;
+}
+
+
+{
+
+}

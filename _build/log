@@ -1,0 +1,24 @@
+# dune exec grace
+# OCAMLPARAM: unset
+# Shared cache: disabled
+# Shared cache location: /Users/tsimiho/.cache/dune/db
+# Workspace root:
+# "/Users/tsimiho/Desktop/NTUA/ECE/Semester8/\206\156\206\181\207\132\206\177\206\179\206\187\207\137\207\132\207\132\206\185\207\131\207\132\206\181\204\129\207\130"
+# Auto-detected concurrency: 8
+# Dune context:
+#  { name = "default"
+#  ; kind = "default"
+#  ; profile = Dev
+#  ; merlin = true
+#  ; fdo_target_exe = None
+#  ; build_dir = In_build_dir "default"
+#  ; installed_env =
+#      map
+#        { "INSIDE_DUNE" :
+#            "/Users/tsimiho/Desktop/NTUA/ECE/Semester8/\206\156\206\181\207\132\206\177\206\179\206\187\207\137\207\132\207\132\206\185\207\131\207\132\206\181\204\129\207\130/_build/default"
+#        ; "OCAML_COLOR" : "always"
+#        ; "OPAMCOLOR" : "always"
+#        }
+#  ; instrument_with = []
+#  }
+$ /Users/tsimiho/.opam/default/bin/ocamlc.opt -config > /var/folders/st/cyh3v8ln22sdswp1s386w5vw0000gn/T/dune_80c1cc_output
