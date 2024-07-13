@@ -1,8 +1,0 @@
-lib: [
-  "_build/install/default/lib/grace/META"
-  "_build/install/default/lib/grace/dune-package"
-  "_build/install/default/lib/grace/opam"
-]
-bin: [
-  "_build/install/default/bin/grace"
-]
