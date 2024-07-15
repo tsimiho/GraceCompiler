@@ -172,6 +172,7 @@ let genVarDef name t =
   let lltype = typ_to_lltype t in
   match t with
   | TYPE_array (base_type, dimensions) ->
+    List.iter (fun a -> if (a <= 0) then error "Size of array %s must be a positive number" name) dimensions;
     let element_type = typ_to_lltype base_type in
     let array_type = array_type element_type (List.fold_left ( * ) 1 dimensions) in
     let array = build_alloca array_type name builder in
@@ -292,6 +293,7 @@ let genVarWrite name indices exp =
                 (match dimensions with
                 | -1 :: _ -> ()
                 | _ -> gen_bounds_check name indices dims);
+                List.iter (fun i -> if (type_of i) != int_type then error "Array index must be an integer (%s)" name) indices;
                 let index_val = calc_flat_index indices dims in
                 let element_ptr = build_gep base_ptr [| index_val |] "element_ptr" builder in
                 ignore (build_store expr element_ptr builder))
@@ -398,7 +400,7 @@ let rec genFuncDef fname fparams ret_type local_def_list block isOuter n =
         else p :: acc
       ) [] additional_params in
       let all_params = params @ new_additional_params in
-      genFuncDef func_name all_params ret_type nested_local_defs body false (List.length params)
+      genFuncDef func_name all_params ret_type nested_local_defs body false (List.length param_names)
     | FuncDecl (func_name, params, ret_type) ->
       let param_names = List.flatten (List.map (fun p -> p.id) params) in
       let additional_params = fparam_defs @ local_var_defs in
@@ -409,7 +411,7 @@ let rec genFuncDef fname fparams ret_type local_def_list block isOuter n =
         else p :: acc
       ) [] additional_params in
       let all_params = params @ new_additional_params in
-      genFuncDecl func_name all_params ret_type (List.length params)
+      genFuncDecl func_name all_params ret_type (List.length param_names)
     | VarDef _ -> ()
   ) local_def_list;
   let llvm_ret_type = typ_to_lltype ret_type in
@@ -482,6 +484,16 @@ let rec take n lst =
   | x :: xs -> x :: take (n - 1) xs
 
 
+let is_rvalue (instr : Llvm.llvalue) : bool =
+  match Llvm.classify_value instr with
+  | Llvm.ValueKind.Instruction _ ->
+    begin
+      match Llvm.instr_opcode instr with
+      | Llvm.Opcode.Load | Llvm.Opcode.Add | Llvm.Opcode.Sub | Llvm.Opcode.Mul -> true
+      | _ -> false
+    end
+  | _ -> false
+
 let rec genFuncCall fname fargs =
   let func = match lookup_function fname the_module with
     | Some fm -> fm
@@ -509,6 +521,11 @@ let rec genFuncCall fname fargs =
       | ENTRY_function info -> info.function_local_vars
       | _ -> error "Expected function entry"; raise Terminate
     in
+    (match e.entry_info with
+    | ENTRY_function f ->
+      if (f.function_isForward && (callee_nesting_level != current_nesting_level)) then (error "Function %a has not been defined" pretty_id (id_make fname); raise Terminate)
+      else if f.function_actual_params != (List.length fargs) then (error "Wrong number of parameters passed to function %s" fname; raise Terminate)
+    | _ -> error "Not a function");
     let pars_and_vars = param_names @ inner_func_vars in
     let outer_vars, outer_vars_names, outer_params, outer_params_names =
       let collected_vars = ref [] in
@@ -579,7 +596,9 @@ let rec genFuncCall fname fargs =
           let processed_arg, arg_type = match a with
             | Expr (exp, t) ->
               if fp.parameter_mode = PASS_BY_REFERENCE then
-                (exp, t)
+                (if (is_rvalue exp) then
+                  (error "Cannot pass an r-value by reference in function %s" fname; raise Terminate)
+                  else (exp, t))
               else
                 let exp_type = Llvm.type_of exp in
                 if Llvm.classify_type exp_type = Llvm.TypeKind.Pointer then

@@ -10,7 +10,7 @@ type verbose = Vquiet | Vnormal | Vverbose
 let flagVerbose = ref Vnormal
 
 let numErrors = ref 0
-let maxErrors = ref 10
+let maxErrors = ref 1
 let flagWarnings = ref true
 let numWarnings = ref 0
 let maxWarnings = ref 200
@@ -81,8 +81,8 @@ and error fmt =
   let fmt = "@[<v 2>Error at line %d: " ^^ fmt ^^ "@]@;@?" in
   if !numErrors >= !maxErrors then
     let cont ppf =
-      eprintf "Too many errors, aborting...\n";
-      raise Terminate in
+      (* eprintf "Too many errors, aborting...\n";*)
+      exit 1 in
     kfprintf cont err_formatter fmt !lines
   else
     eprintf fmt !lines

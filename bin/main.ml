@@ -6,6 +6,8 @@ let main =
   try
     Parser.program Lexer.lexer lexbuf ();
     exit 0
-  with Parsing.Parse_error ->
+  with
+  | Terminate -> exit 1
+  | Parsing.Parse_error ->
     error "Syntax error\n";
     exit 1
