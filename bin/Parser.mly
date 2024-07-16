@@ -419,34 +419,30 @@ cond: T_lparen cond T_rparen { $2 }
                                         build_icmp Icmp.Ne cond_val false_val "nottmp" builder
                              }
     | cond T_and cond        { fun _ -> let lhs = $1 () in
+                                        let start_bb = insertion_block builder in
+                                        let the_function = block_parent start_bb in
+                                        let eval_sec_bb = append_block context "second-cond" the_function in
+                                        let merge_bb = append_block context "merge" the_function in
+                                        ignore(build_cond_br lhs eval_sec_bb merge_bb builder);
+                                        position_at_end eval_sec_bb builder;
                                         let rhs = $3 () in
-                                        if semaCond lhs && semaCond rhs then
-                                          let start_bb = insertion_block builder in
-                                          let the_function = block_parent start_bb in
-                                          let eval_sec_bb = append_block context "second-cond" the_function in
-                                          let merge_bb = append_block context "merge" the_function in
-                                          ignore(build_cond_br lhs eval_sec_bb merge_bb builder);
-                                          position_at_end eval_sec_bb builder;
-                                          let new_eval_bb = insertion_block builder in
-                                          ignore(build_br merge_bb builder);
-                                          position_at_end merge_bb builder;
-                                          build_phi [(lhs, start_bb); (rhs, new_eval_bb)] "and_phi" builder
-                                        else raise Terminate
+                                        let sec_bb = insertion_block builder in
+                                        ignore(build_br merge_bb builder);
+                                        position_at_end merge_bb builder;
+                                        build_phi [(lhs, start_bb); (rhs, sec_bb)] "andtmp" builder
                              }
     | cond T_or cond         { fun _ -> let lhs = $1 () in
+                                        let start_bb = insertion_block builder in
+                                        let the_function = block_parent start_bb in
+                                        let eval_sec_bb = append_block context "second-cond" the_function in
+                                        let merge_bb = append_block context "merge" the_function in
+                                        ignore(build_cond_br lhs merge_bb eval_sec_bb builder);
+                                        position_at_end eval_sec_bb builder;
                                         let rhs = $3 () in
-                                        if semaCond lhs && semaCond rhs then
-                                          let start_bb = insertion_block builder in
-                                          let the_function = block_parent start_bb in
-                                          let eval_sec_bb = append_block context "second-cond" the_function in
-                                          let merge_bb = append_block context "merge" the_function in
-                                          ignore(build_cond_br lhs merge_bb eval_sec_bb builder);
-                                          position_at_end eval_sec_bb builder;
-                                          let new_eval_bb = insertion_block builder in
-                                          ignore(build_br merge_bb builder);
-                                          position_at_end merge_bb builder;
-                                          build_phi [(lhs, start_bb); (rhs, new_eval_bb)] "or_phi" builder
-                                        else raise Terminate
+                                        let sec_bb = insertion_block builder in
+                                        ignore(build_br merge_bb builder);
+                                        position_at_end merge_bb builder;
+                                        build_phi [(lhs, start_bb); (rhs, sec_bb)] "ortmp" builder
                              }
     | expr T_eq expr         { fun _ -> let lhs, lhs_type = match $1 () with
                                         | Expr (exp, exp_type) -> (exp, exp_type)
