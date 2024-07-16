@@ -390,7 +390,7 @@ let rec genFuncDef fname fparams ret_type local_def_list block isOuter n =
     ) fparams in
   let filtered_fparams = filter_params fparams local_var_names in
   List.iter (function
-    | FuncDef (func_name, params, ret_type, nested_local_defs, body) ->
+    | FuncDef (func_name, params, rt, nested_local_defs, body) ->
       let param_names = List.flatten (List.map (fun p -> p.id) params) in
       let additional_params = fparam_defs @ local_var_defs in
       let new_additional_params = List.fold_left (fun acc p ->
@@ -400,8 +400,8 @@ let rec genFuncDef fname fparams ret_type local_def_list block isOuter n =
         else p :: acc
       ) [] additional_params in
       let all_params = params @ new_additional_params in
-      genFuncDef func_name all_params ret_type nested_local_defs body false (List.length param_names)
-    | FuncDecl (func_name, params, ret_type) ->
+      genFuncDef func_name all_params rt nested_local_defs body false (List.length param_names)
+    | FuncDecl (func_name, params, rt) ->
       let param_names = List.flatten (List.map (fun p -> p.id) params) in
       let additional_params = fparam_defs @ local_var_defs in
       let new_additional_params = List.fold_left (fun acc p ->
@@ -411,7 +411,7 @@ let rec genFuncDef fname fparams ret_type local_def_list block isOuter n =
         else p :: acc
       ) [] additional_params in
       let all_params = params @ new_additional_params in
-      genFuncDecl func_name all_params ret_type (List.length param_names)
+      genFuncDecl func_name all_params rt (List.length param_names)
     | VarDef _ -> ()
   ) local_def_list;
   let llvm_ret_type = typ_to_lltype ret_type in
@@ -442,20 +442,20 @@ let rec genFuncDef fname fparams ret_type local_def_list block isOuter n =
       | _ -> error "Function %a returns invalid type" pretty_id (id_make fname); raise Terminate
   in
   iter_blocks ensure_terminator the_function;
-  if not (check_return_flag ()) && ret_type <> TYPE_proc then
+  if not (check_return_flag ()) && fname != "main" && ret_type <> TYPE_proc then
       error "Function %s does not return in all paths" fname;
   if isOuter then begin
     match lookup_function "main" the_module with
     | Some _ -> ()
     | None -> begin
-        let main_func = declare_function "main" function_type the_module in
+        let main_func = declare_function "main" int_type the_module in
         let main_bb = append_block context "entry" main_func in
         position_at_end main_bb builder;
         if (return_type function_type != void_type) then begin
           error "Main function %a must be a void" pretty_id (id_make fname); raise Terminate
         end else begin
           ignore(build_call the_function (params main_func) "" builder);
-          ignore(build_ret_void builder)
+          ignore(build_ret (const_int int_type 0) builder)
         end
     end
   end;
@@ -640,7 +640,7 @@ let codegen func do_opts =
       | FuncDef (func_name, params, return_type, local_defs, body) ->
         (match params with
         | [] -> (match return_type with
-          | TYPE_proc -> ignore (genFuncDef "main" params return_type local_defs body false 0)
+          | TYPE_proc -> ignore (genFuncDef "main" params TYPE_int local_defs body false 0)
           | _         -> error "The return type of main must be nothing"; raise Terminate)
         | _  -> error "Main cannot take arguments"; raise Terminate)
       | _ ->
